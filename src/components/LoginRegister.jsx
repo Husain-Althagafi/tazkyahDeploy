@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import './loginStylesJSX.css';
+import '../styles/loginRegister.css';
+//import end
 
 const LoginRegister = () => {
   const [active, setActive] = useState(false);
 
   return (
     <div className={active ? "container active" : "container"}>
-      {/* Login Form */}
       <div className="form-box login">
         <form action="#">
           <h1>Login</h1>
@@ -58,12 +58,11 @@ const LoginRegister = () => {
         </form>
       </div>
 
-      {/* Toggle Panels */}
       <div className="toggle-box">
         <div className="toggle-panel toggle-left">
           <h1>Hello, Welcome!</h1>
           <p>Don't have an account?</p>
-          <button 
+          <button
             className="btn register-btn" 
             onClick={() => setActive(true)}
           >
@@ -73,7 +72,7 @@ const LoginRegister = () => {
         <div className="toggle-panel toggle-right">
           <h1>Welcome Back!</h1>
           <p>Already have an account?</p>
-          <button 
+          <button
             className="btn login-btn" 
             onClick={() => setActive(false)}
           >
