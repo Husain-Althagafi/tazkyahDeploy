@@ -6,7 +6,7 @@ import '../styles/navbar.css';
 
 function Navbar() {
   return (
-    <nav>
+    <nav class="navbar">
       <img src={navbarLogo} alt="Tazkyah Logo" />
       <ul>
         <li><Link to="/">Home</Link></li>

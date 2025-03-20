@@ -12,7 +12,7 @@ body{
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(90deg, #e2e2e2, #c9d6ff);
+    background: whitesmoke;
 }
 
 .container{
@@ -82,7 +82,6 @@ form{
     font-weight: 500;
 }
 
-/* Note: corrected selector to target the input placeholder */
 .input-box input::placeholder{
     color: #888;
     font-weight: 400;
@@ -118,7 +117,6 @@ form{
     font-weight: 600;
 }
 
-/* Corrected class name from .scoail-icons to .social-icons */
 .social-icons{
     display: flex;
     justify-content: center;

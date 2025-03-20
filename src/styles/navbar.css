@@ -5,7 +5,7 @@ img {
 }
 
 
-nav {
+nav.navbar {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -15,9 +15,10 @@ nav {
     padding: 5px 20px;
     border: 2px solid rgb(255, 143, 0);
     border-radius: 16px;
+    background-color: #EAEEFF;
 }
 
-nav ul {
+nav.navbar ul {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -25,11 +26,11 @@ nav ul {
     gap: 30px;
 }
 
-nav ul li {
+nav.navbar ul li {
     position: relative;
 }
 
-nav ul li a {
+nav.navbar ul li a {
     text-decoration: none;
     color: #333;
     font-size: 1.1em;
@@ -37,7 +38,7 @@ nav ul li a {
     transition: color 0.3s ease;
 }
 
-nav ul li::after {
+nav.navbar ul li::after {
     content: '';
     position: absolute;
     width: 0;
@@ -48,6 +49,6 @@ nav ul li::after {
     transition: width 0.3s ease;
 }
 
-nav ul li:hover::after {
+nav.navbar ul li:hover::after {
     width: 100%;
 }
