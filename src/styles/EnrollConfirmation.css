@@ -1,0 +1,43 @@
+.confirmed-registration {
+    background-color: #f7f7f7; 
+    color: #495E57; 
+    padding: 40px 20px;
+    text-align: center;
+    min-height: 100vh; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.confirmed-registration h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.confirmed-registration h2 {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+}
+
+.confirmed-registration button {
+    padding: 15px 30px;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #f7f7f7; 
+    background-color: #495E57; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.confirmed-registration button:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+    transform: scale(1.05);
+}
+
+.confirmed-registration button:focus {
+    outline: 2px solid #F4CE14; 
+    outline-offset: 2px;
+}

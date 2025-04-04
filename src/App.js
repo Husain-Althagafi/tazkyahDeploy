@@ -1,14 +1,10 @@
 import React from 'react';
-
+import ConfirmedRegistration from './components/ConfirmedRegistration';
 import LoginRegister from './components/LoginRegister';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <LoginRegister />
-      </header>
-    </div>
+    <ConfirmedRegistration/>
   );
 }
 
