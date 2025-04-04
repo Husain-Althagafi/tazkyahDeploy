@@ -1,6 +1,6 @@
 .confirmed-registration {
     background-color: #f7f7f7; 
-    color: #495E57; 
+    color: #7494ec;
     padding: 40px 20px;
     text-align: center;
     min-height: 100vh; 
@@ -25,7 +25,7 @@
     font-size: 1.1em;
     font-weight: bold;
     color: #f7f7f7; 
-    background-color: #495E57; 
+    background-color: #7494ec; 
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -38,6 +38,6 @@
 }
 
 .confirmed-registration button:focus {
-    outline: 2px solid #F4CE14; 
+    outline: 2px solid rgb(255, 143,0); 
     outline-offset: 2px;
 }
