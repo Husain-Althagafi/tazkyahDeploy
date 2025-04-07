@@ -45,19 +45,19 @@ Follow these steps to set up the project locally (make sure you have Node.js and
 ## Team
 This project was developed by Team 12 for Course 363 at KFUPM University. Our team members and their responsibilities are as follows:
 
-Oukba Bouketir:
+**Oukba Bouketir**:
 NavBar, Footer, and Login/Register Page
 
-Marwan Khayat:
+**Marwan Khayat**:
 Home Page
 
-Hassan Alhassan:
+**Hassan Alhassan**:
 Courses Page
 
-Omar Abdalla:
+**Omar Abdalla**:
 Course Enrollment Form
 
-Husain Al Thagafi:
+**Husain Al Thagafi**:
 Course Enrollment Confirmation Page
 
 ## Contributing
