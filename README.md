@@ -30,17 +30,14 @@ Follow these steps to set up the project locally (make sure you have node js and
    git clone https://github.com/Elecwizer/tazkyah.git
    cd tazkyah
 
-1. **Install Dependencies:**
+2. **Install Dependencies:**
    ```terminal
    npm install
    npm install react-router-dom
 
-1. **Start the Development Server:**
+3. **Start the Development Server:**
    ```terminal
    npm start
-
-
-For the frontend, ensure you have Node.js installed. Then run:
 
 ## Team
 This project was developed by Team 12 for Course 363 at KFUPM University. Our team members and their responsibilities are as follows:
@@ -58,26 +55,23 @@ Omar Abdalla:
 Course Enrollment Form
 
 Husain Al Thagafi:
-Course Confirmation Page
+Course Enrollment Confirmation Page
 
 ## Contributing
 We welcome contributions from the community! If you'd like to contribute, please follow these steps:
 
-Fork the repository.
+1. **Fork the repository**
 
-Create your feature branch:
+2. **Create your feature branch:**
+   ```bash
+   git checkout -b feature/YourFeature
 
-bash
-Copy
-git checkout -b feature/YourFeature
-Commit your changes:
+3. **Commit your changes:**
+   ```bash
+   git commit -m 'Add some feature'
 
-bash
-Copy
-git commit -m 'Add some feature'
-Push to the branch:
+4. **Push to the branch:**
+   ```bash
+   git push origin feature/YourFeature
 
-bash
-Copy
-git push origin feature/YourFeature
-Open a Pull Request.
+5. **Open a Pull Request:**
