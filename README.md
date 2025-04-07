@@ -45,7 +45,7 @@ Copy
 npm start
 The app will run in development mode. Open http://localhost:3000 in your browser to view it.
 
-Usage
+## Usage
 Once the project is running locally, you can:
 
 Sign Up / Log In:
@@ -71,7 +71,7 @@ Click the Enroll button.
 
 A confirmation page will display your enrollment details.
 
-Team
+## Team
 This project was developed by Team 12 for Course 363 at KFUPM University. Our team members and their responsibilities are as follows:
 
 Oukba Bouketir:
@@ -89,7 +89,7 @@ Course Enrollment Form
 Husain Al Thagafi:
 Course Confirmation Page
 
-Contributing
+## Contributing
 We welcome contributions from the community! If you'd like to contribute, please follow these steps:
 
 Fork the repository.
