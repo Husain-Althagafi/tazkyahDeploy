@@ -18,58 +18,29 @@ Due to limitations with the previous website—which was built using online blog
 ## Table of Contents
 
 - [Installation](#installation)
-- [Usage](#usage)
 - [Team](#team)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## Installation
 
-Follow these steps to set up the project locally:
+Follow these steps to set up the project locally (make sure you have node js and git bash on your device):
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/yourusername/your-repo.git
-   cd your-repo
-Install Dependencies:
+   git clone https://github.com/Elecwizer/tazkyah.git
+   cd tazkyah
+
+1. **Install Dependencies:**
+   ```terminal
+   npm install
+   npm install react-router-dom
+
+1. **Start the Development Server:**
+   ```terminal
+   npm start
+
 
 For the frontend, ensure you have Node.js installed. Then run:
-
-bash
-Copy
-npm install
-Start the Development Server:
-
-bash
-Copy
-npm start
-The app will run in development mode. Open http://localhost:3000 in your browser to view it.
-
-## Usage
-Once the project is running locally, you can:
-
-Sign Up / Log In:
-Create an account or log in to access courses.
-
-Browse Courses:
-View and enroll in available courses. Each course includes lectures, materials, and interactive features.
-
-Instructor Portal:
-Instructors can add new courses, schedule online classes, and share resources with enrolled students.
-
-Admin Panel:
-Admins can update initiative details and manage the overall website content.
-
-Example
-To enroll in a course:
-
-Navigate to the Courses page.
-
-Select the desired course.
-
-Click the Enroll button.
-
-A confirmation page will display your enrollment details.
 
 ## Team
 This project was developed by Team 12 for Course 363 at KFUPM University. Our team members and their responsibilities are as follows:
