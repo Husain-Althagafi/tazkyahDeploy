@@ -23,21 +23,24 @@ Due to limitations with the previous website—which was built using online blog
 
 ## Installation
 
-Follow these steps to set up the project locally (make sure you have node js and git bash on your device):
+Follow these steps to set up the project locally (make sure you have Node.js and Git Bash on your device):
 
 1. **Clone the Repository:**
    ```bash
    git clone https://github.com/Elecwizer/tazkyah.git
    cd tazkyah
-
+   ```
+   
 2. **Install Dependencies:**
    ```terminal
    npm install
    npm install react-router-dom
+   ```
 
 3. **Start the Development Server:**
    ```terminal
    npm start
+   ```
 
 ## Team
 This project was developed by Team 12 for Course 363 at KFUPM University. Our team members and their responsibilities are as follows:
@@ -65,14 +68,17 @@ We welcome contributions from the community! If you'd like to contribute, please
 2. **Create your feature branch:**
    ```bash
    git checkout -b feature/YourFeature
+   ```
 
 3. **Commit your changes:**
    ```bash
    git commit -m 'Add some feature'
+   ```
 
 4. **Push to the branch:**
    ```bash
    git push origin feature/YourFeature
+   ```
 
 5. **Open a Pull Request:**
 
