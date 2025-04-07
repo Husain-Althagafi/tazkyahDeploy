@@ -75,3 +75,5 @@ We welcome contributions from the community! If you'd like to contribute, please
    git push origin feature/YourFeature
 
 5. **Open a Pull Request:**
+
+Please make sure to follow the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) standard when creating your commits.
