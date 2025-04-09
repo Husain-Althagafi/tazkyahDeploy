@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './loginStylesJSX.css';
+import '../styles/loginStylesJSX.css';
 
 const LoginRegister = () => {
   const [active, setActive] = useState(false);

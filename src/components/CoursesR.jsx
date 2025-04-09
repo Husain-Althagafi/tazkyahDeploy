@@ -1,4 +1,4 @@
-import './Courses.css';
+import '../styles/Courses.css';
 import React, { useState } from "react";
 
 // Main Header Section
