@@ -6,7 +6,7 @@ import LoginRegister from './components/LoginRegister';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CoursesPage from './components/CoursesPage';
-import ConfirmedRegisteration from './components/ConfirmedRegistration';
+import EnrollConfirmation from './components/EnrollConfirmation';
 //import end
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
             <Route path="/about" element={<></>} />
             <Route path="/courses" element={<><CoursesPage/></>} />
             <Route path="/core-values" element={<></>} />
-            <Route path="/join-us" element={<><ConfirmedRegisteration/></>} />
+            <Route path="/join-us" element={<><EnrollConfirmation/></>} />
             <Route path="/login-register" element={<LoginRegister/>} />
           </Routes>
           <Footer/>

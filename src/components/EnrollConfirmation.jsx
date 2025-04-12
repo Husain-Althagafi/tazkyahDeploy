@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/EnrollConfirmation.css';
+import '../styles/enrollconfirmation.css';
 
-function ConfirmedRegistration() {
-  
+function EnrollConfirmation() {
+
 
   return (
     <section className="confirmed-registration">
@@ -14,4 +14,4 @@ function ConfirmedRegistration() {
   );
 }
 
-export default ConfirmedRegistration;
+export default EnrollConfirmation;

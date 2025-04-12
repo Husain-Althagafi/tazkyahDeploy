@@ -31,9 +31,9 @@ export function FilterBar() {
   return (
     <>
       <div className="btn-container">
-        <button onClick={() => filterCourses('All')} className="btn">All</button>
-        <button onClick={() => filterCourses('Available')} className="btn">Available</button>
-        <button onClick={() => filterCourses('Unavailable')} className="btn">Unavailable</button>
+        <button onClick={() => filterCourses('All')} className="filter-btn">All</button>
+        <button onClick={() => filterCourses('Available')} className="filter-btn">Available</button>
+        <button onClick={() => filterCourses('Unavailable')} className="filter-btn">Unavailable</button>
         <input onKeyDown={handleSearch} type="text" id="searchBar" name="searchBar" />
       </div>
       <div className="cards-container">
