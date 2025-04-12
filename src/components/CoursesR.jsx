@@ -1,19 +1,6 @@
 import '../styles/Courses.css';
 import React, { useState } from "react";
 
-// Main Header Section
-export function MainHeader() {
-    return(
-        <div className='main-header-container'>
-            <p>Home</p>
-            <p>About</p>
-            <p>Courses</p>
-            <p>Our Values</p>
-            <p>Joing Us</p>
-            <p>Login</p>
-        </div>
-    );
-}
 
 export function NewCourses() {
     // Array of new courses images

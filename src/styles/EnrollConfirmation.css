@@ -1,9 +1,8 @@
 .confirmed-registration {
-    background-color: #f7f7f7; 
     color: #7494ec;
     padding: 40px 20px;
     text-align: center;
-    min-height: 100vh; 
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -24,8 +23,8 @@
     padding: 15px 30px;
     font-size: 1.1em;
     font-weight: bold;
-    color: #f7f7f7; 
-    background-color: #7494ec; 
+    color: #f7f7f7;
+    background-color: #7494ec;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -33,11 +32,11 @@
 }
 
 .confirmed-registration button:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     transform: scale(1.05);
 }
 
 .confirmed-registration button:focus {
-    outline: 2px solid rgb(255, 143,0); 
-    outline-offset: 2px;
+    outline: 2px solid rgb(255, 143,0);
+    outline-offset: 2px;
 }

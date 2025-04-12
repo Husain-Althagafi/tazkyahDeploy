@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
-<<<<<<< HEAD
-import '../styles/loginStylesJSX.css';
-=======
 import '../styles/loginRegister.css';
 //import end
->>>>>>> oukba
 
 const LoginRegister = () => {
   const [active, setActive] = useState(false);

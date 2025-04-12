@@ -1,19 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React from 'react';
-<<<<<<< HEAD
-import ConfirmedRegistration from './components/ConfirmedRegistration';
-import LoginRegister from './components/LoginRegister';
-import { FilterBar, NewCourses, MainHeader} from "./components/CoursesR";
 
-
-
-function App() {
-  return (
-    <ConfirmedRegistration/>
-=======
+//component import
 import LoginRegister from './components/LoginRegister';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import CoursesPage from './components/CoursesPage';
+import ConfirmedRegisteration from './components/ConfirmedRegistration';
 //import end
 
 function App() {
@@ -25,16 +18,15 @@ function App() {
           <Routes>
             <Route path="/" element={<></>} />
             <Route path="/about" element={<></>} />
-            <Route path="/courses" element={<></>} />
+            <Route path="/courses" element={<><CoursesPage/></>} />
             <Route path="/core-values" element={<></>} />
-            <Route path="/join-us" element={<></>} />
+            <Route path="/join-us" element={<><ConfirmedRegisteration/></>} />
             <Route path="/login-register" element={<LoginRegister/>} />
           </Routes>
           <Footer/>
         </Router>
       </header>
     </div>
->>>>>>> oukba
   );
 }
 

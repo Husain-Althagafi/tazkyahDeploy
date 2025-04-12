@@ -1,5 +1,4 @@
 import React from 'react';
-import GreenLittle from '../images/navbarLogo.png';
 import footerLogo from '../images/navbarLogo.png'
 import '../styles/footer.css'
 //import end
