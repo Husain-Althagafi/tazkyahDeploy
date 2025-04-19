@@ -1,12 +1,5 @@
-.course-card {
-  font-size: 18px;
-  font-weight: bold;
-  margin: 0;
-  width: 100%;
-}
-
 .course-card-container {
-  background-color: #fff;
+  background-color: #ffffff; /* Updated white color */
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -17,8 +10,8 @@
 }
 
 .course-card-container:hover {
-  background-color: aliceblue;
-  box-shadow: 0 0 10px rgba(0, 255, 247, 0.5);
+  background-color: #f0f8ff; /* Lighter blue for hover */
+  box-shadow: 0 0 10px rgba(116, 148, 236, 0.5); 
   transform: translateY(-15px);
 }
 

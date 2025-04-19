@@ -9,6 +9,9 @@ import Footer from './components/Footer';
 import CoursesPage from './components/CoursesPage';
 import EnrollConfirmation from './components/EnrollConfirmation';
 import Main from './components/Main';
+import CourseDetails from './components/CourseDetails';
+import Hero from './components/Hero';
+import About from './components/About';
 //component import end
 
 function App() {
@@ -18,10 +21,12 @@ function App() {
       <Navbar/>
       <Routes>
         <Route path="/" element={<><Main/></>} />
-        <Route path="/about" element={<></>} />
+        <Route path="/about" element={<><About/></>} />
         <Route path="/courses" element={<><CoursesPage/></>} />
-        <Route path="/core-values" element={<></>} />
-        <Route path="/join-us" element={<><EnrollConfirmation/></>} />
+        <Route path="/courses/course-details" element={<><CourseDetails/></>} />
+        <Route path="/courses/course-details/enrolled" element={<><EnrollConfirmation/></>} />
+        <Route path="/core-values" element={<><About/></>} />
+        <Route path="/join-us" element={<><Hero/></>} />
         <Route path="/login-register" element={<LoginRegister/>} />
       </Routes>
       <Footer/>
