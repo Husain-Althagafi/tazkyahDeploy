@@ -78,6 +78,8 @@ function CourseDetails() {
                             />
                         </div>
 
+
+
                         <div className="form-group">
                             <input
                                 type="text"
