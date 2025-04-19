@@ -1,0 +1,11 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0; /* Remove margin to use full width */
+    padding: 0; /* Remove padding to ensure full use of width */
+    display: flex;
+    flex-direction: column; /* Vertically stack sections */
+    gap: 20px; /* Space between sections */
+    min-height: 100vh; /* Ensures full viewport height */
+    box-sizing: border-box;
+    overflow: auto; /* Allows scrolling */
+}

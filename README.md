@@ -1,70 +1,85 @@
-# Getting Started with Create React App
+# Tazkhya.org
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Tazkhya.org** is a bilingual (Arabic & English) online platform dedicated to the Tazkyah initiative. Our mission is to nurture a generation of responsible and principled youth by offering high-quality, interactive courses that instill essential moral values in children.
 
-## Available Scripts
+## Motivation
 
-In the project directory, you can run:
+In today's fast-paced and ever-changing world, parents face increased challenges balancing work, technology, and raising children with strong moral values. Tazkyah aims to address this need by providing engaging courses taught by professional mentors. Our platform makes it easy for children to learn and grow, while also informing the public about the initiative's mission.
 
-### `npm start`
+## Summary
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Tazkhya.org serves as a course hosting and information platform where:
+- **Users** can sign up, enroll in courses, attend lectures, and access course materials.
+- **Instructors** can add courses, conduct online classes, and share resources.
+- **Admins** can update initiative details targeted at school-age children.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Due to limitations with the previous website—which was built using online blog tools without a dedicated backend—the owners reached out to us, a team of university students from KFUPM, to help reshape the platform into a fully functional and reliable online learning application.
 
-### `npm test`
+## Table of Contents
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- [Installation](#installation)
+- [Team](#team)
+- [Contributing](#contributing)
 
-### `npm run build`
+## Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Follow these steps to set up the project locally (make sure you have Node.js and Git Bash on your device):
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/Elecwizer/tazkyah.git
+   cd tazkyah
+   ```
+   
+2. **Install Dependencies:**
+   ```terminal
+   npm install
+   npm install react-router-dom
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. **Start the Development Server:**
+   ```terminal
+   npm start
+   ```
 
-### `npm run eject`
+## Team
+This project was developed by Team 12 for Course 363 at KFUPM University. Our team members and their responsibilities are as follows:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+**Oukba Bouketir**:
+NavBar, Footer, and Login/Register Page
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**Marwan Khayat**:
+Home Page
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+**Hassan Alhassan**:
+Courses Page
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+**Omar Abdalla**:
+Course Enrollment Form
 
-## Learn More
+**Husain Al Thagafi**:
+Course Enrollment Confirmation Page
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Contributing
+We welcome contributions from the community! If you'd like to contribute, please follow these steps:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. **Fork the repository**
 
-### Code Splitting
+2. **Create your feature branch:**
+   ```bash
+   git checkout -b feature/YourFeature
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+3. **Commit your changes:**
+   ```bash
+   git commit -m 'Add some feature'
+   ```
 
-### Analyzing the Bundle Size
+4. **Push to the branch:**
+   ```bash
+   git push origin feature/YourFeature
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+5. **Open a Pull Request:**
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Please make sure to follow the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) standard when creating your commits.
