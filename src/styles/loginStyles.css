@@ -12,7 +12,7 @@ body{
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: whitesmoke;
+    background: linear-gradient(90deg, #e2e2e2, #c9d6ff);
 }
 
 .container{
@@ -82,9 +82,9 @@ form{
     font-weight: 500;
 }
 
-.input-box input::placeholder{
+input-box input::placeholder{
     color: #888;
-    font-weight: 400;
+    font-weight: 40 0;
 }
 
 .input-box i{
@@ -117,7 +117,7 @@ form{
     font-weight: 600;
 }
 
-.social-icons{
+.scoail-icons{
     display: flex;
     justify-content: center;
 }
