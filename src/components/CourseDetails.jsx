@@ -35,10 +35,10 @@ function CourseDetails() {
     const handleSubmit = (e) => {
         e.preventDefault(); // essential to add our own behavior
         console.log('Form submitted:', formData);
-        
+
         // Sending Data to Backend occurs here.
         // After a successful submission, we need to redirect to enrollment confirmation page
-        navigate('/join-us');
+        navigate('/courses/course-details/enrolled');
     };
 
     // Going Back: Needs to be checked depending on the team's work
@@ -77,12 +77,12 @@ function CourseDetails() {
                                 required
                             />
                         </div>
-                        
+
                         <div className="form-group">
                             <input
                                 type="text"
                                 id="lastName"
-                                name="lastname"
+                                name="lastName"
                                 placeholder="Last Name"
                                 value={formData.lastName}
                                 onChange={handleChange}
