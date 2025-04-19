@@ -11,7 +11,7 @@ const app = express()
 //Database
 const mongoose = require('mongoose')
 
-mongoose.connect('mongodb://localhost:27107', {
+mongoose.connect('mongodb://localhost:27017', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
