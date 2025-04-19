@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles/hero.css';
 
 // Import the image from the images folder
-import navbarLogo from '../images/navbarLogo.png';
+import tazkyahBook from '../images/tazkyahBook.png';
 
 function Hero() {
   return (
@@ -15,7 +15,7 @@ function Hero() {
         </p>
         <button>Available Courses</button>
       </div>
-      <img src={navbarLogo} alt="Tazkyah logo" />
+      <img src={tazkyahBook} alt="Tazkyah book logo" />
     </section>
   );
 }
