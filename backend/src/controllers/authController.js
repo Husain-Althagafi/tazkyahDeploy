@@ -1,6 +1,6 @@
 const UserModel = require('../models/User.js')
 const asyncHandler = require('../middleware/asyncHandler.js')
-
+const jwt = require('jwt-token')
 
 //need to add role as an attribute
 exports.register = asyncHandler ( async(req, res, next) => {
