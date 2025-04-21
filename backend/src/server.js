@@ -1,17 +1,26 @@
+//Imports
 require('dotenv').config({path: './.env'})
+
+//middleware
 const express = require('express')
 const cors = require('cors')
-const authRoutes = require('./routes/auth.js')
 
+//routes
+const authRoutes = require('./routes/authRoutes.js')
+const adminRoutes = require('./routes/adminRoutes.js')
+
+
+
+//env
 const PORT = process.env.PORT
-const studentsPath = './models/students.json'
+
 //App
 const app = express()
 
 //Database
 const mongoose = require('mongoose')
 
-mongoose.connect('mongodb://localhost:27017', {
+mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
@@ -24,6 +33,7 @@ app.use(express.json())
 
 //Routes
 app.use('/api/auth', authRoutes)
+app.use('/api/admin', adminRoutes)
 
 //Listen
 app.listen(PORT, () => {
