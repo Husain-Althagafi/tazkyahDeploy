@@ -1,6 +1,9 @@
+//Imports
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs');
 
+
+//User Schema
 const UserSchema = new mongoose.Schema({
     username : {
         type: String, 
@@ -34,6 +37,8 @@ const UserSchema = new mongoose.Schema({
     //}
 })
 
+
+//When password is changed/added it is hashed before storing
 UserSchema.pre('save', async function(next) {
     if (!this.isModified('password')) {
         return next()
@@ -44,13 +49,11 @@ UserSchema.pre('save', async function(next) {
     next()
 })
 
+
+//Helper method to compare password
 UserSchema.methods.comparePassword = async function(candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
   };
-
-
-
-
 
 
 module.exports = mongoose.model('User', UserSchema)
