@@ -1,10 +1,13 @@
+require('dotenv').config({path: '../.env'})
+
+//Imports
 const UserModel = require('../models/User.js')
 const asyncHandler = require('../middleware/asyncHandler.js')
 const jwt = require('jsonwebtoken')
-const bcrypt = require('bcryptjs')
 
 
 //need to add role as an attribute
+//Register controller
 exports.register = asyncHandler ( async(req, res, next) => {
     const {username, email, password} = req.body
    
@@ -38,6 +41,8 @@ exports.register = asyncHandler ( async(req, res, next) => {
     })
 })
 
+
+//Login controller
 exports.login = asyncHandler (async (req, res, next) => {
     const {username, password} = req.body
 
