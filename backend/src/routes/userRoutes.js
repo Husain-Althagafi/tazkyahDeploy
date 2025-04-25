@@ -6,19 +6,25 @@ const router = express.Router()
 
 //Get all users with /api/users/
 //Get user with /api/users?email={email}
-router.get('/', verifyToken, requireRole('admin'), (req, res) => {
-    if (req.query.email){
+router.get('/:email?', verifyToken, requireRole('admin'), (req, res) => {
+    if (req.params.email) {
         return userController.getUserByEmail(req, res)
     }
-    return userController.getAllUsers
+    return userController.getAllUsers(req, res)
 })
 
 //Add a user
 router.post('/', verifyToken, requireRole('admin'), userController.addUser)
 
-// router.put('/:username')//update user
 
-// router.delete('/:username')//delete user
+//Update user
+router.put('/:email', verifyToken, requireRole('admin'), userController.updateUser)
+
+
+
+//Delete user
+router.delete('/:email', verifyToken, requireRole('admin'), userController.deleteUser)
+
 
 
 
