@@ -14,19 +14,19 @@ exports.getAllUsers = asyncHandler (async (req, res) => {
 
 
 exports.getUserByEmail = asyncHandler (async (req, res) => {
-    const email = req.query.email
+    const email = req.params.email
 
     if (!email) {
-        res.status(400).json({error: 'error fetching user'})
+        return res.status(400).json({error: 'error fetching user'})
     }
 
     const user = await UserModel.findOne({email: email}).select('-password -__v')
 
     if (!user) {
-        res.status(400).json({error: 'User not found'})
+        return res.status(400).json({error: 'User not found'})
     }
 
-    res.status(200).json(user)
+    return res.status(200).json(user)
     
 })
 
@@ -69,7 +69,7 @@ exports.updateUser = asyncHandler (async (req, res) => {
         return res.status(400).json({error: 'No email provided'})
     }
 
-    if (!updatedData || Object.keys(updateData).length === 0) {
+    if (!updatedData || Object.keys(updatedData).length === 0) {
         return res.status(400).json({error: 'No update data provided'})
     }
 
@@ -86,7 +86,7 @@ exports.updateUser = asyncHandler (async (req, res) => {
 
     const updatedUser = await UserModel.findOneAndUpdate(
         {email: email},
-        updateData,
+        updatedData,
         {
             new: true,
             runValidators: true
