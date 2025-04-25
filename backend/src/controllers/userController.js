@@ -10,3 +10,8 @@ exports.getAllUsers = asyncHandler (async (req, res) => {
         data:users
     })
 })
+
+
+exports.getUserById = asyncHandler (async (req, res) => {
+    const user = await UserModel.find().select('-password -__v')
+})
