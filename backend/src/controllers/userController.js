@@ -91,7 +91,9 @@ exports.updateUser = asyncHandler (async (req, res) => {
             new: true,
             runValidators: true
         }
-    )
+    ).select('-password -__v')
+
+    return res.status(200).json(updatedUser)
 })
 
 
@@ -107,10 +109,7 @@ exports.deleteUser = asyncHandler (async (req, res) => {
     }
 
     res.status(200).json({
-        message: 'user deleted successfully',
-        data: {
-            user
-        }
+        message: 'user deleted successfully' 
     })
 
 })
