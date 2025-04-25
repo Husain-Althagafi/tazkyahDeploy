@@ -2,11 +2,11 @@ require('dotenv').config({path: '../.env'})
 
 //Imports
 const jwt = require('jsonwebtoken')
-const User = require('../models/User.js')
+const UserModel = require('../models/User.js')
 const asyncHandler = require('./asyncHandler.js')
 
 //auth middleware
-const auth = asyncHandler( async (req, res, next) => {
+exports.verifyToken = asyncHandler( async (req, res, next) => {
     const token = req.header('Authorization')?.replace('Bearer ', '')
 
     if (!token) {
@@ -26,4 +26,14 @@ const auth = asyncHandler( async (req, res, next) => {
     next()
 })
 
-module.exports = auth
+
+exports.requireRole = (role) => {
+    return (req, res, next) => {
+        if (req.user?.role !== role) {
+            // console.log(req.user.role)
+            return res.status(400).json({error: 'Access denied'})
+        }
+        next()
+    }
+}
+

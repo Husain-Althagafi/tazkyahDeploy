@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken')
 //need to add role as an attribute
 //Register controller
 exports.register = asyncHandler ( async(req, res, next) => {
-    const {username, email, password} = req.body
+    const {username, email, password, role} = req.body
    
     if (!username || !email || !password){
         return res.status(400).json({message:'Please provide username, email, and password'})
@@ -22,7 +22,7 @@ exports.register = asyncHandler ( async(req, res, next) => {
     }
 
     const user = await UserModel.create({
-        username, email, password
+        username, email, password, role
     })
 
     const token = jwt.sign(
@@ -36,7 +36,8 @@ exports.register = asyncHandler ( async(req, res, next) => {
         user: {
             id: user._id,
             username: user.username,
-            email: user.email
+            email: user.email,
+            role: user.role
         }
     })
 })
@@ -73,7 +74,8 @@ exports.login = asyncHandler (async (req, res, next) => {
         user: {
             id: user._id,
             username: user.username,
-            email: user.email
+            email: user.email,
+            role: user.role
         }
     })    
 })
