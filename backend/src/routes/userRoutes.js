@@ -6,7 +6,13 @@ const router = express.Router()
 
 router.get('/', verifyToken, requireRole('admin'), userController.getAllUsers)// get all users
 
-router.get('/:id', verifyToken, requireRole('admin', userController.getUserById))
+router.get('/:username', verifyToken, requireRole('admin', userController.getUserById))//get user
+
+router.post('/')//create user
+
+router.put('/:username')//update user
+
+router.delete('/:username')//delete user
 
 
 

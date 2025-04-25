@@ -13,5 +13,8 @@ exports.getAllUsers = asyncHandler (async (req, res) => {
 
 
 exports.getUserById = asyncHandler (async (req, res) => {
-    const user = await UserModel.find().select('-password -__v')
+    const username = req.params.username
+    const user = await UserModel.find({username: username}).select('-password -__v')
 })
+
+
