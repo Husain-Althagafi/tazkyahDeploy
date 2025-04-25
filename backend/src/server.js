@@ -7,7 +7,7 @@ const cors = require('cors')
 
 //routes
 const authRoutes = require('./routes/authRoutes.js')
-const adminRoutes = require('./routes/adminRoutes.js')
+const userRoutes = require('./routes/userRoutes.js')
 
 
 
@@ -33,7 +33,7 @@ app.use(express.json())
 
 //Routes
 app.use('/api/auth', authRoutes)
-app.use('/api/admin', adminRoutes)
+app.use('/api/user', userRoutes)
 
 //Error handling
 app.use((err, req, res, next) => {
