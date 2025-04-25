@@ -20,5 +20,4 @@ router.put('/:email', verifyToken, requireRole('admin'), userController.updateUs
 router.delete('/:email', verifyToken, requireRole('admin'), userController.deleteUser)
 
 
-
 module.exports = router 
