@@ -4,15 +4,21 @@ const {verifyToken, requireRole} = require('../middleware/auth.js')
 
 const router = express.Router()
 
-router.get('/', verifyToken, requireRole('admin'), userController.getAllUsers)// get all users
+//Get all users with /api/users/
+//Get user with /api/users?email={email}
+router.get('/', verifyToken, requireRole('admin'), (req, res) => {
+    if (req.query.email){
+        return userController.getUserByEmail(req, res)
+    }
+    return userController.getAllUsers
+})
 
-router.get('/:username', verifyToken, requireRole('admin', userController.getUserById))//get user
+//Add a user
+router.post('/', verifyToken, requireRole('admin'), userController.addUser)
 
-router.post('/')//create user
+// router.put('/:username')//update user
 
-router.put('/:username')//update user
-
-router.delete('/:username')//delete user
+// router.delete('/:username')//delete user
 
 
 

@@ -4,7 +4,7 @@ const {verifyToken, requireRole} = require('../middleware/auth.js')
 
 const router = express.Router()
 
-router.get('/')
+// router.get('/')
 
 
 module.exports = router

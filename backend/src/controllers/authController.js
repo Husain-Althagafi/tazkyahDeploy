@@ -45,13 +45,13 @@ exports.register = asyncHandler ( async(req, res, next) => {
 
 //Login controller
 exports.login = asyncHandler (async (req, res, next) => {
-    const {username, password} = req.body
+    const {email, password} = req.body
 
-    if (!username || !password){
-        return res.status(400).json({message:'Please provide username and password'})
+    if (!email || !password){
+        return res.status(400).json({message:'Please provide email and password'})
     }
 
-    const user = await UserModel.findOne({username: username}).select('+password')
+    const user = await UserModel.findOne({email: email}).select('+password')
 
     if (!user) {
         return res.status(400).json({error: 'Invalid email or password'})
