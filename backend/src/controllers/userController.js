@@ -1,3 +1,6 @@
+// Handles user-related operations, such as fetching all users or a specific user by ID.
+// Uses the User model to query the database.
+
 const UserModel = require('../models/User.js')
 const asyncHandler = require('../middleware/asyncHandler.js')
 

@@ -1,3 +1,8 @@
+// Handles user authentication (registering and logging in).
+// Uses the User model to interact with the database.
+// Generates JSON Web Tokens (JWT) for authenticated users.
+
+
 require('dotenv').config({path: '../.env'})
 
 //Imports
@@ -8,6 +13,7 @@ const jwt = require('jsonwebtoken')
 
 //need to add role as an attribute
 //Register controller
+// exports is an object that contains all the functions that are exported from this file
 exports.register = asyncHandler ( async(req, res, next) => {
     const {username, email, password, role} = req.body
    

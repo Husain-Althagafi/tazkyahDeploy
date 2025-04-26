@@ -6,7 +6,7 @@ const UserModel = require('../models/User.js')
 const asyncHandler = require('./asyncHandler.js')
 
 //auth middleware
-exports.verifyToken = asyncHandler( async (req, res, next) => {
+exports.verifyToken = asyncHandler( async (req, res, next) => { // Middleware to verify JWT token
     const token = req.header('Authorization')?.replace('Bearer ', '')
 
     if (!token) {
@@ -26,8 +26,8 @@ exports.verifyToken = asyncHandler( async (req, res, next) => {
     next()
 })
 
-
-exports.requireRole = (role) => {
+// Ensures that the user has the required role to access a specific route
+exports.requireRole = (role) => { 
     return (req, res, next) => {
         if (req.user?.role !== role) {
             // console.log(req.user.role)
