@@ -1,5 +1,5 @@
 //Imports
-require('dotenv').config({path: './.env'})
+require('dotenv').config({path: './.env'}) // dotenv is a package that loads environment variables from a .env file into process.env
 
 //middleware
 const express = require('express')
@@ -13,20 +13,14 @@ const courseRoutes = require('./routes/courseRoutes');
 
 
 //env
-const PORT = process.env.PORT
+const PORT = process.env.PORT // process is a globale node vairable
 
 //App
 const app = express()
 
 //Database
-const mongoose = require('mongoose')
-
-mongoose.connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-.then(()=> console.log('Mongodb connected!'))
-.catch(err => console.log('Connection error:', err))
+const connectDB = require('./config/db'); // Import the reusable database connection function
+connectDB();
 
 //Middleware
 app.use(cors())
@@ -34,7 +28,7 @@ app.use(express.json())
 
 //Routes
 // .use() is a method in Express that mounts middleware functions to a specific path.
-app.use('/api/auth', authRoutes)
+app.use('/api/auth', authRoutes) 
 app.use('/api/user', userRoutes)
 app.use('/api/courses', courseRoutes);
 

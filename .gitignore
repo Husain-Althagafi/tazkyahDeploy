@@ -1,5 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# These files are ignored meaning that they will never be pushed to the repository.
+
 # dependencies
 **/node_modules/
 /.pnp
