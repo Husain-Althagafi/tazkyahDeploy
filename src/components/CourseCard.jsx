@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../styles/courseCard.css';
+import '../styles/coursecard.css';
 
 export function CourseCard({ id, imgPath, title, description }) {
   return (
