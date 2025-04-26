@@ -1,6 +1,5 @@
 const UserModel = require('../models/User.js')
 const asyncHandler = require('../middleware/asyncHandler.js')
-const User = require('../models/User.js')
 
 exports.getAllUsers = asyncHandler (async (req, res) => {
     const users = await UserModel.find().select('-password -__v')
