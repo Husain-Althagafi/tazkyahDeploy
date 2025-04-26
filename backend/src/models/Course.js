@@ -4,7 +4,8 @@ const mongoose = require('mongoose')
 const CourseSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
 
     description: String,
@@ -24,4 +25,4 @@ const CourseSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.Model('Course', CourseSchema)
+module.exports = mongoose.model('Course', CourseSchema)

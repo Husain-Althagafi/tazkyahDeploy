@@ -8,6 +8,7 @@ const cors = require('cors')
 //routes
 const authRoutes = require('./routes/authRoutes.js')
 const userRoutes = require('./routes/userRoutes.js')
+const courseRoutes = require('./routes/courseRoutes.js')
 
 
 
@@ -34,6 +35,7 @@ app.use(express.json())
 //Routes
 app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
+app.use('/api/courses', courseRoutes)
 
 //Error handling
 app.use((err, req, res, next) => {

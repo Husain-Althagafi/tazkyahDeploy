@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/EnrollConfirmation.css';
+import '../styles/enrollconfirmation.css';
 
 function EnrollConfirmation() {
   const navigate = useNavigate();
