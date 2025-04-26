@@ -10,6 +10,8 @@ const cors = require('cors')
 const authRoutes = require('./routes/authRoutes.js')
 const userRoutes = require('./routes/userRoutes.js')
 const courseRoutes = require('./routes/courseRoutes');
+const courseRegistrationRoutes = require('./routes/courseRegistrationRoutes');
+
 
 
 //env
@@ -31,6 +33,7 @@ app.use(express.json())
 app.use('/api/auth', authRoutes) 
 app.use('/api/user', userRoutes)
 app.use('/api/courses', courseRoutes);
+app.use('/api/course-registration', courseRegistrationRoutes);
 
 
 //Error handling

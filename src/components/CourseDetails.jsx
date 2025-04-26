@@ -32,13 +32,40 @@ function CourseDetails() {
     };
 
     // when submitting the form
-    const handleSubmit = (e) => {
-        e.preventDefault(); // essential to add our own behavior
-        console.log('Form submitted:', formData);
-
-        // Sending Data to Backend occurs here.
-        // After a successful submission, we need to redirect to enrollment confirmation page
-        navigate('/courses/course-details/enrolled');
+    const handleSubmit = async (e) => {
+        e.preventDefault(); // Prevent default form submission behavior
+    
+        try {
+            // Get the token from localStorage (or wherever it's stored)
+            const token = localStorage.getItem('token');
+    
+            if (!token) {
+                alert('You are not logged in');
+                return;
+            }
+    
+            // Send the registration request to the backend
+            const response = await fetch(`http://localhost:5000/api/course-registration/${courseId}/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`, // Include the JWT token
+                },
+                body: JSON.stringify(formData), // Send the form data
+            });
+    
+            const data = await response.json();
+    
+            if (response.ok) {
+                alert(data.message); // Show success message
+                navigate('/courses/course-details/enrolled'); // Redirect to enrollment confirmation page
+            } else {
+                alert(data.message); // Show error message
+            }
+        } catch (error) {
+            console.error('Error registering for course:', error.message);
+            alert('An error occurred while registering for the course');
+        }
     };
 
     // Going Back: Needs to be checked depending on the team's work

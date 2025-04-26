@@ -7,10 +7,8 @@ const asyncHandler = require('../middleware/asyncHandler.js')
 const getAllCourses = async (req, res) => {
     try {
         const courses = await Course.find(); // Fetch all courses from the database
-        console.log('Courses fetched:', courses); // Debug log
         res.status(200).json(courses);
     } catch (error) {
-        console.error('Error fetching courses:', error.message); // Debug log
         res.status(500).json({ error: 'Failed to fetch courses' });
     }
 };
