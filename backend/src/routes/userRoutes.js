@@ -4,10 +4,20 @@ const {verifyToken, requireRole} = require('../middleware/auth.js')
 
 const router = express.Router()
 
-router.get('/', verifyToken, requireRole('admin'), userController.getAllUsers)// get all users
+//Get all users with /api/users/
+router.get('/', verifyToken, requireRole('admin'), userController.getAllUsers);
 
-router.get('/:id', verifyToken, requireRole('admin', userController.getUserById))
+//Get user with /api/users?email={email}
+router.get('/:email', verifyToken, requireRole('admin'), userController.getUserByEmail);
 
+//Add a user
+router.post('/', verifyToken, requireRole('admin'), userController.addUser)
+
+//Update user
+router.put('/:email', verifyToken, requireRole('admin'), userController.updateUser)
+
+//Delete user
+router.delete('/:email', verifyToken, requireRole('admin'), userController.deleteUser)
 
 
 module.exports = router 

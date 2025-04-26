@@ -12,3 +12,7 @@ const getAllCourses = async (req, res) => {
 };
 
 module.exports = { getAllCourses };
+// Husain Code:
+const CourseModel = require('../models/Course.js')
+const asyncHandler = require('../middleware/asyncHandler.js')
+
