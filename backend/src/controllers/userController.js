@@ -31,9 +31,9 @@ exports.getUserByEmail = asyncHandler (async (req, res) => {
 
 
 exports.addUser = asyncHandler (async (req, res) => {
-    const {username, email, password, role} = req.body
+    const {firstName, lastName, email, password, role} = req.body
 
-    if (!username || !email || !password){
+    if (!firstName || !lastName || !email || !password){
         return res.status(400).json({message:'User info needed'})
     }
 
@@ -44,14 +44,15 @@ exports.addUser = asyncHandler (async (req, res) => {
     }
     
     const user = await UserModel.create({
-        username, email, password, role
+        firstName, lastName, email, password, role
     })
 
     return res.json({
         message: 'User created',
         user: {
             id: user._id,
-            username: user.username,
+            firstName: user.firstName,
+            lastName: user.lastName,
             email: user.email,
             role: user.role
         }
