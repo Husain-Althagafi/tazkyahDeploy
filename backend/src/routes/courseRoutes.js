@@ -1,17 +1,17 @@
 const express = require('express')
 const courseController = require('../controllers/courseController.js')
-const {verifyToken, requireRole} = require('../middleware/auth.js')
+const {verifyToken, requireRoles} = require('../middleware/auth.js')
 
 const router = express.Router()
 
 //Get all courses with /api/courses/
-router.get('/', verifyToken, requireRole('admin'), courseController.getAllCourses)
+router.get('/', verifyToken, requireRoles(['admin']), courseController.getAllCourses)
 
 //Get courses with /api/courses?id={id}
-router.get('/:code', verifyToken, requireRole('admin'), courseController.getCourseByCode);
+router.get('/:code', verifyToken, requireRoles(['admin']), courseController.getCourseByCode);
 
 //Add a course
-router.post('/', verifyToken, requireRole('admin'), courseController.addCourse)
+router.post('/', verifyToken, requireRoles(['admin']), courseController.addCourse)
 
 //Update course
 router.put('/:code', courseController.updateCourse)
