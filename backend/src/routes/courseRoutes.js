@@ -8,7 +8,7 @@ const router = express.Router()
 router.get('/', verifyToken, requireRole('admin'), courseController.getAllCourses)
 
 //Get courses with /api/courses?id={id}
-// router.get('/:id', courseController.getCourseById);
+router.get('/:code', verifyToken, requireRole('admin'), courseController.getCourseByCode);
 
 //Add a course
 router.post('/', verifyToken, requireRole('admin'), courseController.addCourse)

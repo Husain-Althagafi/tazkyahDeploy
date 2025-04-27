@@ -11,8 +11,25 @@ exports.getAllCourses = asyncHandler(async (req, res) => {
 })
 
 
+exports.getCourseByCode = asyncHandler (async (req, res) => {
+    const code = req.params.code
+
+    if (!code) {
+        return res.status(400).json({error: 'error fetching course'})
+    }
+
+    const course = await CourseModel.findOne({code: code})
+
+    if (!course) {
+        return res.status(400).json({error: 'Course not found'})
+    }
+
+    return res.status(200).json(course)
+    
+})
+
 exports.addCourse = asyncHandler(async (req, res) => {
-    const {title, description} = req.body
+    const {title, code, description} = req.body
 
     const courseExists = await CourseModel.findOne({title: title})
 
@@ -21,13 +38,14 @@ exports.addCourse = asyncHandler(async (req, res) => {
     }
 
     const course = await CourseModel.create({
-        title, description
+        title, code, description
     })
 
     return res.json({
         message: 'Course created',
         course: {
             id: course._id,
+            code: course.code,
             title: course.title,
             description: course.description
         }
