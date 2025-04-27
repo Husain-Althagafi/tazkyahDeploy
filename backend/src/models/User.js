@@ -40,7 +40,13 @@ const UserSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ['admin', 'student', 'instructor']
-    }
+    },
+
+    enrolledCourses: [{
+        type : mongoose.Schema.Types.ObjectId, ref: "Course"
+    }],
+
+    
 })
 
 
