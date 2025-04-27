@@ -14,10 +14,10 @@ router.get('/:code', verifyToken, requireRole('admin'), courseController.getCour
 router.post('/', verifyToken, requireRole('admin'), courseController.addCourse)
 
 //Update course
-// router.put('/:id', courseController.updateCourse)
+router.put('/:code', courseController.updateCourse)
 
 //Delete course
-// router.delete('/:id', courseController.deleteCourse)
+router.delete('/:id', courseController.deleteCourse)
 
 
 /////Everything below this might be changed, we might implement it within an enrollments.js route instead
