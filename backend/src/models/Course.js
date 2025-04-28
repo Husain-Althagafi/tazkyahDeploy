@@ -8,21 +8,34 @@ const CourseSchema = new mongoose.Schema({
         unique: true
     },
 
+    code: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+
     description: String,
+
     instructor: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
 
-    students: [{
+    enrolledStudents: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
+    }],
+
+    resources: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Resource'
     }],
 
     createdAt: {
         type: Date,
         default: Date.now
-    }
+    },
+
 })
 
 module.exports = mongoose.model('Course', CourseSchema)

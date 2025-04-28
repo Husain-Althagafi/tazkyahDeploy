@@ -27,13 +27,16 @@ exports.verifyToken = asyncHandler( async (req, res, next) => {
 })
 
 
-exports.requireRole = (role) => {
+exports.requireRoles = (roles) => {
     return (req, res, next) => {
-        if (req.user?.role !== role) {
-            // console.log(req.user.role)
-            return res.status(400).json({error: 'Access denied'})
+        if (req.user) {
+            if (!roles.includes(req.user.role)) {
+                // console.log(req.user.role)
+                return res.status(400).json({error: 'Access denied'})
+            }
+            next()
         }
-        next()
+        
     }
 }
 
