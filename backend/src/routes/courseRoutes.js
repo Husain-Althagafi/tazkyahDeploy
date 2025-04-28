@@ -22,8 +22,8 @@ router.delete('/:id', courseController.deleteCourse)
 
 /////Everything below this might be changed, we might implement it within an enrollments.js route instead
 
-
 //Register student for course
+router.post('/enroll/:code', courseController.enrollStudentInCourse)
 
 //Remove student from course
 
