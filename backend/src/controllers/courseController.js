@@ -1,4 +1,6 @@
 const CourseModel = require('../models/Course.js')
+const UserModel = require('../models/User.js')
+
 const asyncHandler = require('../middleware/asyncHandler.js')
 
 exports.getAllCourses = asyncHandler(async (req, res) => {
@@ -54,7 +56,7 @@ exports.addCourse = asyncHandler(async (req, res) => {
 
 
 exports.updateCourse = asyncHandler (async (req, res) => {
-    const {code} = req.params
+    const code = req.params.code
     const updatedData = req.body
 
     if (!code) {
@@ -90,7 +92,7 @@ exports.updateCourse = asyncHandler (async (req, res) => {
 
 
 exports.deleteCourse = asyncHandler (async (req, res) => {
-    const {code} = req.params
+    const code = req.params.code
         if (!code) {
             return res.status(400).json({error: 'Error deleting course'})
         }
@@ -103,4 +105,45 @@ exports.deleteCourse = asyncHandler (async (req, res) => {
         res.status(200).json({
             message: 'Course deleted successfully' 
         })
+})
+
+
+exports.enrollStudentInCourse = asyncHandler (async (req, res) => {
+    const code = req.params.code
+
+    if (!code) {
+        return res.status(400).json({error: 'No code supplied'})
+    }
+
+    const {firstName, lastName, email, phone} = req.body
+
+    const user = await UserModel.findOne({email: email}).select('-password -__v')
+    const course = await CourseModel.findOne({code: code})
+
+    if (!user) {
+        return res.status(400).json({error: "This email does not belong to a user"})
+    }
+
+    if (!course){
+        return res.status(400).json({error: 'This code doesnt correspond to an existing course'})
+    }
+
+    if (user.role != 'student') {
+        return res.status(400).json({error: 'Only students can enroll in courses'})
+    }
+
+    const alreadyEnrolled = course.enrolledStudents.includes(user._id)
+
+    if (alreadyEnrolled) {
+        return res.status(400).json({error: 'This student is already enrolled in this course'})
+    }
+
+    course.enrolledStudents.push(user._id)
+    await course.save()
+
+    user.enrolledCourses.push(course._id)
+    await user.save()
+
+    return res.status(200).json({message: 'Student enrolled in course successfully'})
+
 })
