@@ -38,12 +38,14 @@ export function FilterBar() {
       </div>
       <div className="cards-container">
         {filteredCourses.map(course => (
-          <CourseCard
-            key={course.id}
-            imgPath={course.imgPath}
-            title={course.title}
-            description={course.description}
-          />
+          <div className="card">
+            <CourseCard
+              key={course.id}
+              imgPath={course.imgPath}
+              title={course.title}
+              description={course.description}
+            />
+          </div>
         ))}
       </div>
     </>
