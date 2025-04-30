@@ -1,0 +1,43 @@
+.btn-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 30px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  background: #7494ec;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.cards-container {
+  width: fit-content;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  margin: 50px auto;
+}
+
+.card {
+  transition: 0.5 ease;
+  cursor: pointer;
+}
+
+.card:hover{
+  transform: scale(1.1);
+}
+
+.cards-container:has(.card:hover) > .card:not(:hover){
+  opacity: 0.3;
+}
