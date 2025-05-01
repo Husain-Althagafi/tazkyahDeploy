@@ -5,6 +5,11 @@ const bcrypt = require('bcryptjs');
 
 //User Schema
 const UserSchema = new mongoose.Schema({
+    username: {
+        type: String,
+        required: [true, 'Please provide a username'],
+    },
+
     firstName : {
         type: String, 
         required: true    
@@ -48,7 +53,20 @@ const UserSchema = new mongoose.Schema({
         type : mongoose.Schema.Types.ObjectId, ref: "Course"
     }],
 
+    phoneNumber: {
+        type: String
+    },
+
+    profile: {
+        bio: {
+            type: String,
+            maxLength: 500
+        },
     
+        birthDate: Date,
+
+        profilePic: String,
+    }
 })
 
 
@@ -69,5 +87,5 @@ UserSchema.methods.comparePassword = async function(candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
   };
 
-
+  
 module.exports = mongoose.model('User', UserSchema)

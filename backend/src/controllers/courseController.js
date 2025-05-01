@@ -12,7 +12,6 @@ exports.getAllCourses = asyncHandler(async (req, res) => {
     })
 })
 
-
 exports.getCourseByCode = asyncHandler (async (req, res) => {
     const code = req.params.code
 
