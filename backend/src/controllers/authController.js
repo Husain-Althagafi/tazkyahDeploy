@@ -8,11 +8,11 @@ const jwt = require('jsonwebtoken')
 
 //need to add role as an attribute
 //Register controller
-exports.register = asyncHandler ( async(req, res, next) => {
-    const {firstName, lastName, email, password, role} = req.body
+exports.register = asyncHandler ( async(req, res) => {
+    const {username, email, password, role} = req.body
    
-    if (!firstName || !lastName || !email || !password){
-        return res.status(400).json({message:'Please provide first and last name, email, and password'})
+    if (!username || !email || !password){
+        return res.status(400).json({message:'Please provide username, email, and password'})
     }
 
     const userExists = await UserModel.findOne({email: email})
@@ -22,7 +22,7 @@ exports.register = asyncHandler ( async(req, res, next) => {
     }
 
     const user = await UserModel.create({
-        firstName, lastName, email, password, role
+        username, email, password, role
     })
 
     const token = jwt.sign(
@@ -35,8 +35,7 @@ exports.register = asyncHandler ( async(req, res, next) => {
         token,
         user: {
             id: user._id,
-            firstName: user.firstName,
-            lastName: user.lastName,
+            username: user.username,
             email: user.email,
             role: user.role
         }
@@ -45,7 +44,7 @@ exports.register = asyncHandler ( async(req, res, next) => {
 
 
 //Login controller
-exports.login = asyncHandler (async (req, res, next) => {
+exports.login = asyncHandler (async (req, res) => {
     const {email, password} = req.body
 
     if (!email || !password){
@@ -74,8 +73,7 @@ exports.login = asyncHandler (async (req, res, next) => {
         token,
         user: {
             id: user._id,
-            firstName: user.firstName,
-            lastName: user.lastName,
+            username: user.username,
             email: user.email,
             role: user.role
         }

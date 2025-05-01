@@ -36,6 +36,10 @@ const CourseSchema = new mongoose.Schema({
         default: Date.now
     },
 
+    img: {
+        type: String
+    }
+
 })
 
 module.exports = mongoose.model('Course', CourseSchema)
