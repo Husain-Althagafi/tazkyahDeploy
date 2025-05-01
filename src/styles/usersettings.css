@@ -1,0 +1,187 @@
+.tzkset-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .tzkset-title {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    color: #333;
+    border-bottom: 1px solid #eaeaea;
+    padding-bottom: 1rem;
+  }
+  
+  .tzkset-section {
+    margin-bottom: 2rem;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+  
+  .tzkset-section h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+  
+  .tzkset-option {
+    display: flex;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #f5f5f5;
+  }
+  
+  .tzkset-option:last-child {
+    border-bottom: none;
+  }
+  
+  .tzkset-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+    margin-right: 1rem;
+  }
+  
+  .tzkset-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .tzkset-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 24px;
+  }
+  
+  .tzkset-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  
+  .tzkset-switch input:checked + .tzkset-slider {
+    background-color: #4CAF50;
+  }
+  
+  .tzkset-switch input:checked + .tzkset-slider:before {
+    transform: translateX(26px);
+  }
+  
+  .tzkset-label {
+    flex: 1;
+  }
+  
+  .tzkset-label h3 {
+    font-size: 1rem;
+    margin: 0 0 0.25rem 0;
+    color: #333;
+  }
+  
+  .tzkset-label p {
+    font-size: 0.85rem;
+    color: #666;
+    margin: 0;
+  }
+  
+  .tzkset-select-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .tzkset-select-container label {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+  
+  .tzkset-select-container select {
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 0.9rem;
+    max-width: 300px;
+  }
+  
+  .tzkset-button-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  
+  .tzkset-button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .tzkset-button.tzkset-primary {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .tzkset-button.tzkset-primary:hover {
+    background-color: #3e8e41;
+  }
+  
+  .tzkset-button.tzkset-secondary {
+    background-color: #f0f0f0;
+    color: #333;
+  }
+  
+  .tzkset-button.tzkset-secondary:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .tzkset-button.tzkset-danger {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .tzkset-button.tzkset-danger:hover {
+    background-color: #d32f2f;
+  }
+  
+  @media (max-width: 768px) {
+    .tzkset-container {
+      padding: 1rem;
+    }
+    
+    .tzkset-option {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .tzkset-switch {
+      margin-bottom: 0.5rem;
+    }
+    
+    .tzkset-button-group {
+      flex-direction: column;
+    }
+    
+    .tzkset-button {
+      width: 100%;
+    }
+  }
