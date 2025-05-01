@@ -97,9 +97,16 @@ exports.deleteCourse = asyncHandler (async (req, res) => {
         }
         const course = await CourseModel.findOneAndDelete({code : code})
     
-        if (!code) {
+        if (!course) {
             return res.status(400).json({error: 'Course doesnt exist'})
         }
+
+        //Handle deleting a course that has users enrolled
+        await UserModel.updateMany(
+            {enrolledCourses: code},
+            {$pull: {enrolledCourses: code}}
+        )
+    
     
         res.status(200).json({
             message: 'Course deleted successfully' 
