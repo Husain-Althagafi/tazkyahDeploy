@@ -128,5 +128,44 @@ exports.deleteUser = asyncHandler (async (req, res) => {
 })
 
 
+exports.updateUserProfile = asyncHandler( async(req, res) => {
+    const profile = req.body
+
+    if (!profile || Object.keys(profile).length === 0) {
+        return res.status(400).json({error: 'No changes provided'})
+    }
+
+    const user = await UserModel.findById(req.user._id)
+
+    if (!user) {
+        return res.status(404).json({error: 'User doesnt exist'})
+    }
+
+    const updates = {
+        username: profile.username,
+        firstName: profile.firstName,
+        lastName: profile.lastName,
+        phoneNumber: profile.phoneNumber,
+        'profile.bio': profile.bio,
+        'profile.birthDate': profile.birthDate,
+    }
+
+    Object.keys(updates).forEach(key => {
+        if (updates[key] === null) {
+            delete updates[key]
+        }
+    })
+
+    const updatedUser = await UserModel.findOneAndUpdate(
+        {_id: req.user._id},
+        {$set: updates},
+        {new: true, runValidators: true}
+    ).select('-password -__v')
+
+    return res.status(200).json({
+        message: 'Updated user profile',
+        data: updatedUser
+    })
+})
 
 
