@@ -18,6 +18,10 @@ import UserProfile from './components/UserProfile';
 import UserCourses from './components/UserCourses';
 import UserSettings from './components/UserSettings';
 import UserLayout from './components/UserLayout';
+import AdminLayout from './components/AdminLayout';
+import AdminCourses from './components/AdminCourses';
+import AdminSchools from './components/AdminSchools';
+import AdminStudents from './components/AdminStudents';
 //component import end
 
 function App() {
@@ -40,6 +44,15 @@ function App() {
           <Route path="/user-profile" element={<UserProfile />} />
           <Route path="/user-courses" element={<UserCourses />} />
           <Route path="/user-settings" element={<UserSettings />} />
+        </Route>
+
+        {/* Admin dashboard routes using the layout component */}
+        <Route element={<AdminLayout />}>
+          <Route path="/admin-profile" element={<UserProfile />} />
+          <Route path="/admin-courses" element={<AdminCourses />} />
+          <Route path="/admin-students" element={<AdminStudents />} />
+          <Route path="/admin-schools" element={<AdminSchools />} />
+          <Route path="/admin-settings" element={<UserSettings />} />
         </Route>
       </Routes>
       <Footer/>
