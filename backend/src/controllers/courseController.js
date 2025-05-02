@@ -157,14 +157,22 @@ exports.enrollStudentInCourse = asyncHandler (async (req, res) => {
 
 exports.unenrollStudentFromCourse = asyncHandler(async (req, res) => {
     const code = req.params.code
-    const user_id = req.user._id
+
+    if (req.user.role === 'student') {
+        const user_id = req.user._id
+        const user = await UserModel.findById(user_id)
+    }
+
+    else if (req.user.role === 'instructor' || req.user.role === 'admin'){
+        const user_id = req.body.email
+        const user = await UserModel.findOne({email: user_id})
+    }
 
     if (!code || !user_id) {
         return res.status(400).json({error: 'Missing params'})
     }
 
-    const user = await UserModel.findById(user_id)
-
+    
     if (user.role !== 'student') {
         return res.status(400).json({error: 'This user is not a student'})
     }
