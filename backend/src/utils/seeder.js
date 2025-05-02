@@ -58,7 +58,7 @@ const seedDB = async () => {
         const adminUser = new User({
             personId: adminPerson._id,
             role: 'admin',
-            passwordHash: 'admin123' // Will be hashed by pre-save middleware
+            password: 'admin123' // Will be hashed by pre-save middleware
         });
         await adminUser.save();
         
@@ -77,7 +77,7 @@ const seedDB = async () => {
         const instructorUser = new User({
             personId: instructorPerson._id,
             role: 'instructor',
-            passwordHash: 'instructor123' // Will be hashed by pre-save middleware
+            password: 'instructor123' // Will be hashed by pre-save middleware
         });
         await instructorUser.save();
         
@@ -96,7 +96,7 @@ const seedDB = async () => {
         const studentUser = new User({
             personId: studentPerson._id,
             role: 'student',
-            passwordHash: 'student123' // Will be hashed by pre-save middleware
+            password: 'student123' // Will be hashed by pre-save middleware
         });
         await studentUser.save();
         
