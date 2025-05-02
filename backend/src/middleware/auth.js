@@ -31,7 +31,7 @@ exports.requireRoles = (roles) => {
     return (req, res, next) => {
         if (req.user) {
             if (!roles.includes(req.user.role)) {
-                console.log(req.user.role)
+                // console.log(req.user.role)
                 return res.status(400).json({error: 'Access denied'})
             }
             next()

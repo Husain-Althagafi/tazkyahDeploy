@@ -42,7 +42,7 @@ const CourseSchema = new mongoose.Schema({
         default: 'Available'
 
     },
-    imgPath: {
+    img: {
         type: String,
         default: '../../src/images/React.png'
     },

@@ -78,8 +78,11 @@ function CourseDetails() {
         </div>
         <div className="course-image">
           <img className="img-format" src={imgPath} alt={courseData.title} />
-        </div> 
+        {/* </div>    ### Original code from main branch
+          <img src={courseData.image} alt={courseData.title} />
+        </div> */}
       </div>
+    </div>
 
       <div className="registration-section">
         <h2>Course Registration Form</h2>

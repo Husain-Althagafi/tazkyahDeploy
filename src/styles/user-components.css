@@ -1,0 +1,278 @@
+/* Shared styles for user dashboard components */
+
+/* Profile page styles */
+.user-profile-container,
+.user-courses-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.user-profile-container h1,
+.user-courses-container h1 {
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.profile-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 20px;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-info h2 {
+  margin: 0 0 5px 0;
+  color: #333;
+}
+
+.profile-info p {
+  margin: 5px 0;
+  color: #666;
+}
+
+.profile-stats {
+  display: flex;
+  justify-content: space-around;
+  margin: 30px 0;
+  text-align: center;
+}
+
+.stat-item h3 {
+  font-size: 28px;
+  margin: 0;
+  color: #0066cc;
+}
+
+.profile-bio {
+  margin: 30px 0;
+}
+
+.profile-actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.profile-button {
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  font-weight: 500;
+}
+
+.profile-button.primary {
+  background-color: #0066cc;
+  color: white;
+}
+
+.profile-button.secondary {
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+/* Courses page styles */
+.courses-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.stat-box {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  flex: 1;
+  margin: 0 10px;
+}
+
+.stat-box h3 {
+  font-size: 28px;
+  margin: 0 0 5px 0;
+  color: #0066cc;
+}
+
+.stat-box p {
+  margin: 0;
+  color: #666;
+}
+
+.enrolled-courses h2,
+.recommended-courses h2 {
+  margin: 30px 0 20px 0;
+  color: #333;
+}
+
+.course-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.course-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.course-card.completed {
+  border: 2px solid #28a745;
+}
+
+.course-image {
+  position: relative;
+  height: 180px;
+}
+
+.course-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.completed-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #28a745;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.course-details {
+  padding: 15px;
+}
+
+.course-details h3 {
+  margin: 0 0 5px 0;
+  color: #333;
+}
+
+.course-details p {
+  color: #666;
+  margin: 0 0 15px 0;
+}
+
+.progress-container {
+  height: 6px;
+  background-color: #e9ecef;
+  border-radius: 3px;
+  margin-bottom: 10px;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #0066cc;
+  border-radius: 3px;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #666;
+}
+
+.course-actions {
+  padding: 0 15px 15px 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.course-button {
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  font-size: 14px;
+}
+
+.course-button.primary {
+  background-color: #0066cc;
+  color: white;
+}
+
+.course-button.secondary {
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+.recommended-courses {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 30px 0;
+}
+
+.browse-button {
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-top: 15px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .profile-avatar {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+  
+  .profile-stats,
+  .courses-stats {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .stat-box {
+    margin: 0;
+  }
+  
+  .course-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .course-button {
+    width: 100%;
+  }
+}

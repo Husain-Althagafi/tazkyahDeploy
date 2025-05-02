@@ -1,0 +1,296 @@
+/* adminschools.css */
+
+.schools-container {
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .schools-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 32px;
+  }
+  
+  .schools-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  
+  @media (min-width: 768px) {
+    .schools-filters {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+  
+  .search-container {
+    position: relative;
+    width: 100%;
+  }
+  
+  @media (min-width: 768px) {
+    .search-container {
+      width: 320px;
+    }
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 8px 16px;
+    padding-right: 40px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .search-input:focus {
+    outline: none;
+    border-color: #7494ec;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+  }
+  
+  .search-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    color: #9ca3af;
+  }
+  
+  .type-filter {
+    width: 100%;
+  }
+  
+  @media (min-width: 768px) {
+    .type-filter {
+      width: 192px;
+    }
+  }
+  
+  .type-select {
+    width: 100%;
+    padding: 8px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    font-size: 16px;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 16px;
+  }
+  
+  .type-select:focus {
+    outline: none;
+    border-color: #7494ec;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+  }
+  
+  .schools-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  @media (min-width: 640px) {
+    .schools-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .schools-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  .school-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .school-image-container {
+    position: relative;
+  }
+  
+  .school-image {
+    width: 100%;
+    height: 192px;
+    object-fit: cover;
+  }
+  
+  .school-type {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: #7494ec;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .school-content {
+    padding: 16px;
+  }
+  
+  .school-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  
+  .school-principal {
+    color: #4b5563;
+    margin-bottom: 12px;
+  }
+  
+  .school-rating-container {
+    margin-bottom: 12px;
+  }
+  
+  .rating-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+  
+  .rating-label {
+    font-size: 14px;
+    color: #4b5563;
+  }
+  
+  .rating-value {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  .rating-bar-background {
+    width: 100%;
+    height: 8px;
+    background-color: #e5e7eb;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .rating-bar-fill {
+    height: 100%;
+    background-color: #7494ec;
+    border-radius: 4px;
+  }
+  
+  .school-last-updated {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 16px;
+  }
+  
+  .school-actions {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .delete-btn {
+    background-color: #ef4444;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .delete-btn:hover {
+    background-color: #dc2626;
+  }
+  
+  .edit-btn {
+    color: #3b82f6;
+    background: none;
+    border: 1px solid #3b82f6;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .edit-btn:hover {
+    background-color: #eff6ff;
+  }
+  
+  .no-schools {
+    text-align: center;
+    padding: 48px 0;
+  }
+  
+  .no-schools-message {
+    font-size: 20px;
+    color: #4b5563;
+    margin-bottom: 16px;
+  }
+  
+  .clear-filters-btn {
+    color: #7494ec;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .clear-filters-btn:hover {
+    color: #2563eb;
+    text-decoration: underline;
+  }
+  
+  .register-section {
+    text-align: center;
+    margin-top: 48px;
+  }
+  
+  .register-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+  
+  .register-description {
+    color: #4b5563;
+    margin-bottom: 24px;
+  }
+  
+  .register-btn {
+    background-color: #7494ec;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 4px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 12px;
+  }
+  
+  .register-btn:hover {
+    background-color: #2563eb;
+  }
+  
+  .add-school-btn {
+    background-color: #10b981;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 4px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 16px;
+    display: inline-block;
+  }
+  
+  .add-school-btn:hover {
+    background-color: #059669;
+  }

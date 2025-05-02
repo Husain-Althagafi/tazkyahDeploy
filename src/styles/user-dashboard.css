@@ -1,0 +1,27 @@
+/* User dashboard layout styles */
+.user-dashboard-container {
+    display: flex;
+    min-height: calc(100vh - 64px); /* Account for navbar/footer */
+    position: relative;
+  }
+  
+  .user-dashboard-content {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+    margin-left: 250px; /* Width of expanded sidebar */
+    transition: margin-left 0.3s ease;
+  }
+  
+  /* When sidebar is closed */
+  #tzk-sidebar.tzk-sidebar-close + .user-dashboard-content {
+    margin-left: 80px; /* Width of collapsed sidebar */
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .user-dashboard-content {
+      margin-left: 80px;
+      padding: 1rem;
+    }
+  }
