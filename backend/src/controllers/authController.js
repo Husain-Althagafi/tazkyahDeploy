@@ -46,6 +46,7 @@ exports.register = asyncHandler ( async(req, res, next) => {
 
 //Login controller
 exports.login = asyncHandler (async (req, res, next) => {
+    console.log("Login request received")
     const {email, password} = req.body
 
     if (!email || !password){
@@ -63,23 +64,20 @@ exports.login = asyncHandler (async (req, res, next) => {
     if (!validPass) {
         return res.status(400).json({error: 'Invalid email or password'})
     }
-
-    const token = jwt.sign(
-        {id: user._id},
-        process.env.JWT_SECRET,
-        {expiresIn: '1h'}   //add role later
+    // Generating JWT token
+    const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: '1h'}   //add role later
     )
 
     return res.json({
-        token,
-        user: {
+        token, // Send token back to client
+        user: { // Send user data back to client
             id: user._id,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
             role: user.role
         }
-    })    
+    }) // After user receives token, he request anything and token is sent in the header: Authorization: Bearer token
 })
 
 

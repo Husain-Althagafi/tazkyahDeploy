@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import '../styles/courseDetails.css'
+import imgPath from '../images/image.png';
+import { useEffect } from 'react';
 
 function CourseDetails() {
   const { courseId } = useParams()
@@ -19,6 +21,33 @@ function CourseDetails() {
     image: 'https://placehold.co/400x400'
   }
 
+    useEffect(() => {
+      async function fetchCourses() {
+        try {
+          const response = await fetch('http://localhost:5000/api/courses/', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          });
+  
+          if (!response.ok) {
+            throw new Error('Failed to fetch courses');
+          }
+  
+          const result = await response.json();
+          console.log(result); // Just for debugging
+  
+         // setAllCourses(result.data); // Store the fetched courses
+          //setFilteredCourses(result.data); // Show all courses initially
+        } catch (error) {
+          console.error('Error fetching courses:', error.message);
+        }
+      }
+  
+      fetchCourses();
+    }, []);
+
   const handleChange = e => {
     const { name, value } = e.target
     setFormData({
@@ -36,7 +65,7 @@ function CourseDetails() {
   const handleGoBack = () => {
     navigate('/courses')
   }
-
+// Replace imgPath with courseData.imagePath later
   return (
     <div className="course-details-container">
       <div className="course-info">
@@ -48,8 +77,8 @@ function CourseDetails() {
           </button>
         </div>
         <div className="course-image">
-          <img src={courseData.image} alt={courseData.title} />
-        </div>
+          <img className="img-format" src={imgPath} alt={courseData.title} />
+        </div> 
       </div>
 
       <div className="registration-section">

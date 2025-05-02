@@ -9,7 +9,7 @@ export function CourseCard({ id, imgPath, title, description }) {
       className="course-card-container"
       style={{ textDecoration: 'none', color: 'inherit' }}
     >
-      <img src={imgPath} alt={title} />
+      <img className="card-img" src={imgPath} alt={title} />
       <h3 className="course-card">{title}</h3>
       <p className="course-card">{description}</p>
     </Link>

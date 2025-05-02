@@ -47,6 +47,12 @@ const CourseSchema = new mongoose.Schema({
         default: '../../src/images/React.png'
     },
 
+    courseModernity: {
+        type: String,
+        enum: ['New', 'Old'],
+        default: 'New'
+    },
+    
 })
 
 module.exports = mongoose.model('Course', CourseSchema)

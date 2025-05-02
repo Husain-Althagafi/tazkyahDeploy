@@ -13,22 +13,31 @@ exports.getAllCourses = asyncHandler(async (req, res) => {
 })
 
 
-exports.getCourseByCode = asyncHandler (async (req, res) => {
-    const code = req.params.code
+exports.getCourseByCode = asyncHandler(async (req, res) => {
+  try {
+    const code = req.params.code;
+    console.log("Requested code:", code);
 
     if (!code) {
-        return res.status(400).json({error: 'error fetching course'})
+      console.log("Code is missing!");
+      return res.status(400).json({ error: "Error fetching course" });
     }
 
-    const course = await CourseModel.findOne({code: code}).select('-__v')
+    const course = await CourseModel.findOne({ code: code }); // .select("-__v");
+    console.log("Found course:", course);
 
     if (!course) {
-        return res.status(400).json({error: 'Course not found'})
+      console.log("Course not found for code:", code);
+      return res.status(404).json({ error: "Course not found" });
     }
 
-    return res.status(200).json(course)
-    
-})
+    return res.status(200).json(course);
+  } catch (error) {
+    console.error("Error inside controller:", error.message);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 
 exports.addCourse = asyncHandler(async (req, res) => {
     const {title, code, description} = req.body
