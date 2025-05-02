@@ -1,25 +1,33 @@
-const express = require('express')
-const userController = require('../controllers/userController.js')
-const {verifyToken, requireRoles} = require('../middleware/auth.js')
+const express = require("express");
+const router = express.Router();
+const userController = require("../controllers/userController");
+const { verifyToken, requireRoles } = require("../middleware/auth");
 
-const router = express.Router()
+// Apply authentication middleware to all routes
+router.use(verifyToken);
 
-//Get all users with /api/users/
-router.get('/', verifyToken, requireRoles(['admin']), userController.getAllUsers);
+// Admin routes
+router.get("/", requireRoles(["admin"]), userController.getAllUsers);
+router.get(
+  "/email/:email",
+  requireRoles(["admin"]),
+  userController.getUserByEmail
+);
+router.get(
+  "/role/:role",
+  requireRoles(["admin"]),
+  userController.getUsersByRole
+);
+router.post("/", requireRoles(["admin"]), userController.addUser);
+router.delete("/:id", requireRoles(["admin"]), userController.deleteUser);
 
-//Get user with /api/users?email={email}
-router.get('/email/:email', verifyToken, requireRoles(['admin']), userController.getUserByEmail);
+// User routes
+router.get("/me", userController.getCurrentUser);
+router.put("/profile", userController.updateUserProfile);
+router.put("/password", userController.changePassword);
 
-//Add a user
-router.post('/', verifyToken, requireRoles(['admin']), userController.addUser)
+// Mixed access routes (Self or Admin)
+router.get("/:id", userController.getUserById);
+router.put("/:id", userController.updateUser);
 
-//Update user
-router.put('email/:email', verifyToken, requireRoles(['admin']), userController.updateUser)
-
-//Delete user
-router.delete('/email/:email', verifyToken, requireRoles(['admin']), userController.deleteUser)
-
-//Update user profile
-router.put('/profile', verifyToken, userController.updateUserProfile)
-
-module.exports = router 
+module.exports = router;
