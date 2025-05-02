@@ -117,6 +117,7 @@ export default function UserSettings() {
               id="profileVisibility" 
               value={settings.privacy.profileVisibility}
               onChange={(e) => handlePrivacyChange('profileVisibility', e.target.value)}
+              className="settings-select"
             >
               <option value="public">Public</option>
               <option value="friends">Friends Only</option>
@@ -165,6 +166,7 @@ export default function UserSettings() {
               id="theme" 
               value={settings.theme}
               onChange={handleThemeChange}
+              className="settings-select"
             >
               <option value="light">Light</option>
               <option value="dark">Dark</option>
@@ -180,6 +182,7 @@ export default function UserSettings() {
               id="language" 
               value={settings.language}
               onChange={handleLanguageChange}
+              className="settings-select"
             >
               <option value="english">English</option>
               <option value="spanish">Español</option>

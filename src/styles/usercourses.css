@@ -49,7 +49,7 @@
   
   .search-input:focus {
     outline: none;
-    border-color: #3b82f6;
+    border-color: #7494ec;
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
   }
   
@@ -88,7 +88,7 @@
   
   .category-select:focus {
     outline: none;
-    border-color: #3b82f6;
+    border-color: #7494ec;
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
   }
   
@@ -131,7 +131,7 @@
     position: absolute;
     top: 8px;
     right: 8px;
-    background-color: #3b82f6;
+    background-color: #7494ec;
     color: white;
     padding: 4px 8px;
     border-radius: 4px;
@@ -183,7 +183,7 @@
   
   .progress-bar-fill {
     height: 100%;
-    background-color: #3b82f6;
+    background-color: #7494ec;
     border-radius: 4px;
   }
   
@@ -199,7 +199,7 @@
   }
   
   .continue-btn {
-    background-color: #3b82f6;
+    background-color: #7494ec;
     color: white;
     padding: 8px 16px;
     border-radius: 4px;
@@ -235,7 +235,7 @@
   }
   
   .clear-filters-btn {
-    color: #3b82f6;
+    color: #7494ec;
     background: none;
     border: none;
     cursor: pointer;
@@ -264,7 +264,7 @@
   }
   
   .explore-btn {
-    background-color: #3b82f6;
+    background-color: #7494ec;
     color: white;
     padding: 12px 24px;
     border-radius: 4px;
