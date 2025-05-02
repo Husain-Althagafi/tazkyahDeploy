@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import "../styles/loginRegister.css";
+import "../styles/loginRegister.css"
+import RegisterHandler from "../integration/registerHandler";
 //import end
 
 const LoginRegister = () => {
@@ -9,7 +10,7 @@ const LoginRegister = () => {
     <div className="login-register-wrapper">
       <div className={active ? "container active" : "container"}>
         <div className="form-box login">
-          <form action="#">
+          <form>
             <h1>Login</h1>
             <div className="input-box">
               <input type="text" placeholder="Username" required />
@@ -44,18 +45,18 @@ const LoginRegister = () => {
         </div>
 
         <div className="form-box register">
-          <form action="#">
+          <form action="#" id="registerForm">
             <h1>Registration</h1>
             <div className="input-box">
-              <input type="text" placeholder="Username" required />
+              <input type="text" id="r-username" placeholder="Username" required />
               <i className="bx bxs-envelope"></i>
             </div>
             <div className="input-box">
-              <input type="email" placeholder="Email" required />
+              <input type="email" id="r-email" placeholder="Email" required />
               <i className="bx bxs-envelope"></i>
             </div>
             <div className="input-box">
-              <input type="password" placeholder="Password" required />
+              <input type="password" id="r-password" placeholder="Password" required />
               <i className="bx bxs-lock-alt"></i>
             </div>
             <button type="submit" className="btn">
@@ -99,6 +100,7 @@ const LoginRegister = () => {
           </div>
         </div>
       </div>
+      <RegisterHandler/>
     </div>
   );
 };
