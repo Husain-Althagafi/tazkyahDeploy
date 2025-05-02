@@ -13,12 +13,12 @@ router.get(
   personController.getPersonByEmail
 );
 
+// User routes 
+router.get("/me", personController.getCurrentPerson);
+
 // Mixed access routes (Self or Admin)
 router.get("/:id", personController.getPersonById);
 router.put("/:id", personController.updatePerson);
-router.put("/:id/profile-picture", personController.updateProfilePicture);
-
-// User routes
-router.get("/me", personController.getCurrentPerson);
+router.put("/:id/profile-picture", personController.updateProfilePicture);;
 
 module.exports = router;
