@@ -1,35 +1,24 @@
-const express = require('express')
-const courseController = require('../controllers/courseController.js')
-const {verifyToken, requireRoles} = require('../middleware/auth.js')
+const express = require('express');
+const router = express.Router();
+const courseController = require('../controllers/courseController');
+const { verifyToken, requireRoles } = require('../middleware/auth');
 
-const router = express.Router()
+// Public routes
+router.get('/', courseController.getAllCourses);
+router.get('/:code', courseController.getCourseByCode);
 
-//Get all courses
-router.get('/', courseController.getAllCourses)
+// Protected routes
+router.use(verifyToken);
 
-//Get a course from its code
-router.get('/courses/:code', courseController.getCourseByCode);
+// Instructor/Admin routes
+router.post('/', requireRoles(['instructor', 'admin']), courseController.addCourse);
+router.put('/:code', requireRoles(['instructor', 'admin']), courseController.updateCourse);
+router.delete('/:code', requireRoles(['instructor', 'admin']), courseController.deleteCourse);
+router.get('/:code/students', requireRoles(['instructor', 'admin']), courseController.getEnrolledStudents);
 
-//Add a course
-router.post('/', verifyToken, requireRoles(['admin', 'instructor']), courseController.addCourse)
+// Student routes
+router.post('/:code/enroll', requireRoles(['student']), courseController.enrollStudentInCourse);
+router.delete('/:code/enroll', requireRoles(['student']), courseController.unenrollStudentFromCourse);
+router.get('/enrolled', requireRoles(['student']), courseController.getStudentCourses);
 
-//Update course based on its code
-router.put('/courses/:code', verifyToken, requireRoles(['admin', 'instructor']),courseController.updateCourse)
-
-//Delete course based on its code
-router.delete('/courses/:id', verifyToken, requireRoles(['admin', 'instructor']), courseController.deleteCourse)
-
-//Can be moved to an enrollments route if needed
-
-//Register student for course based on its code
-router.post('/enrollments/:code', courseController.enrollStudentInCourse)
-
-//Remove student from course based on its code
-router.delete('/enrollments/:code', courseController.unenrollStudentFromCourse)
-
-//Add intructor to course
-
-//Remove instructor from course
-
-
-module.exports = router 
+module.exports = router;
