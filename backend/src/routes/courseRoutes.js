@@ -5,19 +5,19 @@ const {verifyToken, requireRoles} = require('../middleware/auth.js')
 const router = express.Router()
 
 //Get all courses with /api/courses/
-router.get('/', verifyToken, requireRoles(['admin']), courseController.getAllCourses)
+router.get('/', courseController.getAllCourses)
 
 //Get courses with /api/courses?id={id}
-router.get('/:code', verifyToken, requireRoles(['admin']), courseController.getCourseByCode);
+router.get('/:code', courseController.getCourseByCode);
 
 //Add a course
-router.post('/', verifyToken, requireRoles(['admin']), courseController.addCourse)
+router.post('/', verifyToken, requireRoles(['admin', 'instructor']), courseController.addCourse)
 
 //Update course
-router.put('/:code', courseController.updateCourse)
+router.put('/:code', verifyToken, requireRoles(['admin', 'instructor']),courseController.updateCourse)
 
 //Delete course
-router.delete('/:id', courseController.deleteCourse)
+router.delete('/:id', verifyToken, requireRoles(['admin', 'instructor']), courseController.deleteCourse)
 
 
 /////Everything below this might be changed, we might implement it within an enrollments.js route instead
