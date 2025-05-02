@@ -4,28 +4,28 @@ const {verifyToken, requireRoles} = require('../middleware/auth.js')
 
 const router = express.Router()
 
-//Get all courses with /api/courses/
+//Get all courses
 router.get('/', courseController.getAllCourses)
 
-//Get courses with /api/courses?id={id}
-router.get('/:code', courseController.getCourseByCode);
+//Get a course from its code
+router.get('/courses/:code', courseController.getCourseByCode);
 
 //Add a course
 router.post('/', verifyToken, requireRoles(['admin', 'instructor']), courseController.addCourse)
 
-//Update course
-router.put('/:code', verifyToken, requireRoles(['admin', 'instructor']),courseController.updateCourse)
+//Update course based on its code
+router.put('/courses/:code', verifyToken, requireRoles(['admin', 'instructor']),courseController.updateCourse)
 
-//Delete course
-router.delete('/:id', verifyToken, requireRoles(['admin', 'instructor']), courseController.deleteCourse)
+//Delete course based on its code
+router.delete('/courses/:id', verifyToken, requireRoles(['admin', 'instructor']), courseController.deleteCourse)
 
+//Can be moved to an enrollments route if needed
 
-/////Everything below this might be changed, we might implement it within an enrollments.js route instead
+//Register student for course based on its code
+router.post('/enrollments/:code', courseController.enrollStudentInCourse)
 
-//Register student for course
-router.post('/enroll/:code', courseController.enrollStudentInCourse)
-
-//Remove student from course
+//Remove student from course based on its code
+router.delete('/enrollments/:code', courseController.unenrollStudentFromCourse)
 
 //Add intructor to course
 
