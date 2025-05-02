@@ -184,7 +184,6 @@
     .course-info {
         flex-direction: column;
     }
-
     .form-row {
         flex-direction: column;
         gap: 10px;
