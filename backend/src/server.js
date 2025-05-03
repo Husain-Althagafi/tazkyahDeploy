@@ -14,7 +14,7 @@ const resourceRoutes = require('./routes/resourceRoutes.js')
 const personRoutes = require("./routes/personRoutes.js")
 
 //env
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.BACKEND_PORT || 5005;
 
 //App
 const app = express()

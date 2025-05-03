@@ -22,40 +22,103 @@ import AdminLayout from './components/AdminLayout';
 import AdminCourses from './components/AdminCourses';
 import AdminSchools from './components/AdminSchools';
 import AdminStudents from './components/AdminStudents';
+import StudentResourcesContainer from './containers/StudentResourcesContainer';
+import InstructorResourcesContainer from './containers/InstructorResourcesContainer';
 //component import end
 
 function App() {
   return (
     <div className="app">
       <Router>
-      <Navbar/>
-      <Routes>
-        <Route path="/" element={<><Main/></>} />
-        <Route path="/about" element={<><About/></>} />
-        <Route path="/courses" element={<><CoursesPage/></>} />
-        <Route path="/courses/course-details" element={<><CourseDetails/></>} />
-        <Route path="/courses/course-details/enrolled" element={<><EnrollConfirmation/></>} />
-        <Route path="/core-values" element={<><About/></>} />
-        <Route path="/join-us" element={<><Hero/></>} />
-        <Route path="/login-register" element={<LoginRegister/>} />
+        <Navbar />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <Main />
+              </>
+            }
+          />
+          <Route
+            path="/about"
+            element={
+              <>
+                <About />
+              </>
+            }
+          />
+          <Route
+            path="/courses"
+            element={
+              <>
+                <CoursesPage />
+              </>
+            }
+          />
+          <Route
+            path="/courses/course-details"
+            element={
+              <>
+                <CourseDetails />
+              </>
+            }
+          />
+          <Route
+            path="/courses/course-details/enrolled"
+            element={
+              <>
+                <EnrollConfirmation />
+              </>
+            }
+          />
+          <Route
+            path="/core-values"
+            element={
+              <>
+                <About />
+              </>
+            }
+          />
+          <Route
+            path="/join-us"
+            element={
+              <>
+                <Hero />
+              </>
+            }
+          />
+          <Route path="/login-register" element={<LoginRegister />} />
 
-        {/* User dashboard routes using the layout component */}
-        <Route element={<UserLayout />}>
-          <Route path="/user-profile" element={<UserProfile />} />
-          <Route path="/user-courses" element={<UserCourses />} />
-          <Route path="/user-settings" element={<UserSettings />} />
-        </Route>
+          {/* User dashboard routes using the layout component */}
+          <Route element={<UserLayout />}>
+            <Route path="/user-profile" element={<UserProfile />} />
+            <Route path="/user-courses" element={<UserCourses />} />
+            <Route path="/user-settings" element={<UserSettings />} />
+          </Route>
 
-        {/* Admin dashboard routes using the layout component */}
-        <Route element={<AdminLayout />}>
-          <Route path="/admin-profile" element={<UserProfile />} />
-          <Route path="/admin-courses" element={<AdminCourses />} />
-          <Route path="/admin-students" element={<AdminStudents />} />
-          <Route path="/admin-schools" element={<AdminSchools />} />
-          <Route path="/admin-settings" element={<UserSettings />} />
-        </Route>
-      </Routes>
-      <Footer/>
+          {/* Admin dashboard routes using the layout component */}
+          <Route element={<AdminLayout />}>
+            <Route path="/admin-profile" element={<UserProfile />} />
+            <Route path="/admin-courses" element={<AdminCourses />} />
+            <Route path="/admin-students" element={<AdminStudents />} />
+            <Route path="/admin-schools" element={<AdminSchools />} />
+            <Route path="/admin-settings" element={<UserSettings />} />
+
+            {/* Student resource routes */}
+            <Route
+              path="/courses/:courseId/resources"
+              element={<StudentResourcesContainer />}
+            />
+
+            {/* Instructor resource routes */}
+            <Route
+              path="/instructor/courses/:courseId/resources"
+              element={<InstructorResourcesContainer />}
+            />
+          </Route>
+        </Routes>
+        <Footer />
       </Router>
     </div>
   );
