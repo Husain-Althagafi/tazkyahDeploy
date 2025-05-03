@@ -1,23 +1,24 @@
 import { useEffect } from "react"
 import { useNavigate } from 'react-router-dom'
 
-//connecting UI to the function
 function LoginHandler() {
     const navigate = useNavigate()
+
     useEffect(() => {
         const form = document.getElementById("loginForm")
-        if(!form) return;
+        if (!form) return;
 
-        form.addEventListener("submit", async(e) => {
+        const handleSubmit = async (e) => {
             e.preventDefault()
 
             const email = document.getElementById("l-email").value
             const password = document.getElementById("l-password").value
+
             try {
                 const res = await fetch("http://localhost:5005/api/auth/login", {
                     method: "POST",
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({email, password}),
+                    body: JSON.stringify({ email, password }),
                 })
 
                 const data = await res.json()
@@ -27,14 +28,21 @@ function LoginHandler() {
                     console.log('Login successful!')
                     navigate('/')
                 } else {
-                alert(data.message || data.error)
+                    alert(data.message || data.error)
                 }
             } catch (err) {
                 console.error(err)
                 alert('Something went wrong.')
             }
-        })
-    })
+        }
+
+        form.addEventListener("submit", handleSubmit)
+
+        return () => {
+            form.removeEventListener("submit", handleSubmit)
+        }
+    }, [navigate])
+
     return null
 }
 
