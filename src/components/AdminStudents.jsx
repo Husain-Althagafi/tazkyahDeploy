@@ -64,8 +64,11 @@ export default function AdminStudents() {
     .then((res) => {
       setStudents(res.data.data)
     })
+    .catch(err => {
+      console.error('Error fetching students', err)
+    })
     
-  })
+  }, [])
  
  
  

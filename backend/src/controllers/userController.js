@@ -276,6 +276,7 @@ exports.getUsersByRole = asyncHandler(async (req, res) => {
     
     // Get users by role using repository
     const users = await userRepository.findByRole(role);
+    console.log(users)
     
     res.status(200).json({
         success: true,

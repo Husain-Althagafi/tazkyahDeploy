@@ -21,6 +21,7 @@ const UserSchema = new mongoose.Schema({
     },
 });
 
+
 // Create virtual for full name
 UserSchema.virtual('person', {
     ref: 'Person',
@@ -28,6 +29,8 @@ UserSchema.virtual('person', {
     foreignField: '_id',
     justOne: true
 });
+UserSchema.set('toObject', { virtuals: true });
+UserSchema.set('toJSON', { virtuals: true });
 
 //When password is changed/added it is hashed before storing
 UserSchema.pre('save', async function (next) {
