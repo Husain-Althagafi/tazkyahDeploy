@@ -117,7 +117,7 @@ export default function AdminCourses() {
 
   //Function for adding a course
   const handleAdd = (courseData) => {
-    axios.post('http://localhost:5000/api/courses/', courseData, {
+    axios.post('http://localhost:5005/api/courses/', courseData, {
       headers: {
         Authorization: `Bearer ${token}`
       }
