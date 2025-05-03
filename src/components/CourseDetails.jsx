@@ -51,11 +51,34 @@ function CourseDetails() {
     })
   }
 
-  const handleSubmit = e => {
-    e.preventDefault()
-    console.log('Form submitted:', formData)
-    navigate('/courses/course-details/enrolled')
+  const handleSubmit = async e => {
+    e.preventDefault();
+    
+    try {
+      const token = localStorage.getItem('token'); 
+  
+      const response = await fetch(`http://localhost:5000/api/courses/${code}/enroll`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(formData)
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to enroll');
+      }
+  
+      const result = await response.json();
+      console.log('Enrollment successful:', result);
+  
+      navigate('/courses/course-details/enrolled');
+    } catch (error) {
+      console.error('Error during enrollment:', error.message);
+    }
   }
+  
 
   const handleGoBack = () => {
     navigate('/courses')
