@@ -2,17 +2,17 @@ import { useEffect, useState } from 'react';
 import '../styles/adminstudents.css';
 import axios from 'axios'
 // StudentCard component for displaying individual students
-function StudentCard({ student }) {
+function StudentCard({ student, handleDelete, handleEdit}) {
   const { firstName, lastName, email, phoneNumber, lastLogin, profilePicture} = student;
   
   
-  const handleDelete = () => {
-    alert('Student deleted');
-  };
+  // const handleDelete = () => {
+  //   alert('Student deleted');
+  // };
   
-  const handleEdit = () => {
-    alert('Student is being edited');
-  };
+  // const handleEdit = () => {
+  //   alert('Student is being edited');
+  // };
   
   return (
     <div className="student-card">
@@ -64,7 +64,7 @@ export default function AdminStudents() {
       }
     })
     .then((res) => {
-      setStudents(res.data.data.map(item => item.person));
+      setStudents(res.data.data)
     })
     .catch(err => {
       console.error('Error fetching students', err)
@@ -89,9 +89,35 @@ export default function AdminStudents() {
     return matchesSearch && matchesProgram;
   });
 
+  // Add student function
   const handleAddStudent = () => {
     alert('Student added');
   };
+
+
+  // Edit Student function
+
+
+  // Delete Student function
+  const handleDelete = (id) => {
+
+    const deleteConfirm = window.confirm('Are you sure you want to delete this student?')
+    if (!deleteConfirm) {
+      return 
+    }
+
+    axios.delete(`http://localhost:5000/api/users/${id}`,{
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }) 
+    .then(() => {
+      setStudents(prev => prev.filter(student => student._id !== id))
+    })
+    .catch(err => {
+      console.error(err)
+    })
+  }
 
   return (
   
@@ -136,7 +162,7 @@ export default function AdminStudents() {
       {students.length > 0 ? (
         <div className="students-grid">
           {students.map(student => (
-            <StudentCard key={student.id} student={student} />
+            <StudentCard key={student.id} student={student.person} />
           ))}
         </div>
       ) : (
