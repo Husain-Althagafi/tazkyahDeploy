@@ -13,7 +13,9 @@ function Hero() {
         <p>
           The growth and purity of goodness in the souls of our children. A generation is being built - a country is rising
         </p>
+        <a href="/courses">
         <button>Available Courses</button>
+        </a>
       </div>
       <img src={tazkyahBook} alt="Tazkyah book logo" />
     </section>
