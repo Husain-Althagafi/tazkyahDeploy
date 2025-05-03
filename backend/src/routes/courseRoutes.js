@@ -18,7 +18,7 @@ router.get('/enrolled', requireRoles(['student']), courseController.getStudentCo
 // router.get('/:code', courseController.getCourseByCode);
 
 // Instructor/Admin routes
-router.post('/', requireRoles(['instructor', 'admin']), courseController.addCourse);
+router.post('/', courseController.addCourse);
 router.put('/:code', requireRoles(['instructor', 'admin']), courseController.updateCourse);
 router.delete('/:code', requireRoles(['instructor', 'admin']), courseController.deleteCourse);
 router.get('/:code/students', requireRoles(['instructor', 'admin']), courseController.getEnrolledStudents);

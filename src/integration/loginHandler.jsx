@@ -15,7 +15,7 @@ function LoginHandler() {
             const password = document.getElementById("l-password").value
 
             try {
-                const res = await fetch("http://localhost:5005/api/auth/login", {
+                const res = await fetch("http://localhost:5000/api/auth/login", {
                     method: "POST",
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password }),
@@ -32,7 +32,7 @@ function LoginHandler() {
                 }
             } catch (err) {
                 console.error(err)
-                alert('Something went wrong.')
+                alert(err)
             }
         }
 

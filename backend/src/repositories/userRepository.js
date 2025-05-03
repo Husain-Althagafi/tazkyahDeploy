@@ -128,7 +128,8 @@ class UserRepository {
    */
   async findByRole(role) {
     try {
-      const users = await User.find({ role }).populate("person");
+      const users = await User.find({ role }).populate("person").exec();
+      console.log(users)
       return users;
     } catch (error) {
       throw new Error(`Error finding users by role: ${error.message}`);

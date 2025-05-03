@@ -1,18 +1,31 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../styles/userprofile.css';
+import axios from 'axios'
 
 export default function UserProfile() {
-  const [profileData, setProfileData] = useState({
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john.doe@example.com',
-    phone: '+1 (555) 123-4567',
-    bio: 'Frontend developer passionate about creating user-friendly interfaces.',
-    profilePicture: '/api/placeholder/150/150' // Placeholder for profile picture
-  });
+  const [profileData, setProfileData] = useState(null);
+  const token = localStorage.getItem('token');
 
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({...profileData});
+  const [formData, setFormData] = useState({});
+
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/persons/me', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then((res) => {
+      setProfileData(res.data.data)
+      setFormData(res.data)
+    })
+    .catch((error) => {
+      console.error('Error fetching profile data:',error)
+    })
+  }, [])
+
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,6 +40,7 @@ export default function UserProfile() {
     setProfileData({...formData});
     setIsEditing(false);
     // Here you would typically make an API call to update the user profile
+    axios.put('http://localhost:5000/api/users/profile', profileData)
     alert('Profile updated successfully!');
   };
 
@@ -35,6 +49,9 @@ export default function UserProfile() {
     setIsEditing(false);
   };
 
+  if (!profileData) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className="profile-container">
       <h1 className="profile-title">User Profile</h1>
@@ -42,10 +59,10 @@ export default function UserProfile() {
       <div className="profile-card">
         <div className="profile-layout">
           {/* Profile Picture Section */}
-          <div className="profile-picture-section">
+          {/* <div className="profile-picture-section">
             <div className="profile-picture-container">
               <img 
-                src={profileData.profilePicture} 
+                src={profileData.profilePicture || ''} 
                 alt="Profile" 
                 className="profile-picture"
               />
@@ -69,7 +86,7 @@ export default function UserProfile() {
                 Edit Profile
               </button>
             )}
-          </div>
+          </div> */}
 
           {/* Profile Details Section */}
           <div className="profile-details">
