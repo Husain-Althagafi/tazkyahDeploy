@@ -15,10 +15,10 @@ function RegisterHandler() {
             const email = document.getElementById("r-email").value
             const password = document.getElementById("r-password").value
             try {
-                const res = await fetch("http://localhost:5000/register", {
+                const res = await fetch("http://localhost:5005/api/auth/register", {
                     method: "POST",
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, email, password, role: 'user' }),
+                    body: JSON.stringify({ username, email, password}),
                 })
 
                 const data = await res.json()
