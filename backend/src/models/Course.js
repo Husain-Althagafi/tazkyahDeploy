@@ -53,7 +53,7 @@ const CourseSchema = new mongoose.Schema({
     },
     img: {
         type: String,
-        default: '../../src/images/React.png'
+        default: '/images/React.png'
     },
 
     courseModernity: {

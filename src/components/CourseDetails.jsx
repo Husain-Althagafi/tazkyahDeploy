@@ -15,13 +15,6 @@ function CourseDetails() {
   })
   const [courseDetails, setCourseDetails] = useState({})
 
-  const courseData = {
-    title: 'SWE 363',
-    description:
-      'Web Development Course using HTML, CSS, and JS. Building upon those fundamentals, you learn react, and then tie it all together with a brief discussion about full-stack development.',
-    image: 'https://placehold.co/400x400'
-  }
-
 // Finally working on the displaying the course by code!
   useEffect(() => {
     async function fetchCourses() {

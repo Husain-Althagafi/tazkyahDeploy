@@ -2,7 +2,6 @@ import '../styles/filterbar.css';
 import React, { useState } from 'react';
 import { CourseCard } from './CourseCard';
 import { useEffect } from 'react';
-import imgPath from '../images/image.png';
 
 export function FilterBar() {
   const [allCourses, setAllCourses] = useState([]); // Start with an empty array
@@ -11,18 +10,10 @@ export function FilterBar() {
   useEffect(() => {
     async function fetchCourses() {
       try {
-        // const token = localStorage.getItem('token');
-        // console.log('Token:', token);
-        // if (!token) {
-        //   console.error('No token found');
-        //   return;
-        // }
-  
         const response = await fetch('http://localhost:5000/api/courses/', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            // 'Authorization': `Bearer ${token}`
           }
         });
 
@@ -72,7 +63,7 @@ export function FilterBar() {
             <CourseCard
               key={course.id} // Using id in params
               code={course.code}
-              imgPath={imgPath} // Should be replaced with course.imagePath later
+              imgPath={course.img}
               // title={course.title} These are not needed. More info about courses is inside the course
               // description={course.description}
             />
