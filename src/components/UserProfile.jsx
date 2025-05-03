@@ -6,19 +6,21 @@ export default function UserProfile() {
   const [profileData, setProfileData] = useState(null);
 
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({...profileData});
+  const [formData, setFormData] = useState({});
 
 
   useEffect(() => {
     axios.get('http://localhost:5000/api/users/me')
     .then((res) => {
+      console.log(res.data)
       setProfileData(res.data)
       setFormData(res.data)
     })
     .catch((error) => {
       console.error('Error fetching profile data:',error)
     })
-  })
+  }, [])
+
 
 
   const handleChange = (e) => {
@@ -43,6 +45,9 @@ export default function UserProfile() {
     setIsEditing(false);
   };
 
+  if (!profileData) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className="profile-container">
       <h1 className="profile-title">User Profile</h1>
@@ -50,10 +55,10 @@ export default function UserProfile() {
       <div className="profile-card">
         <div className="profile-layout">
           {/* Profile Picture Section */}
-          <div className="profile-picture-section">
+          {/* <div className="profile-picture-section">
             <div className="profile-picture-container">
               <img 
-                src={profileData.profilePicture} 
+                src={profileData.profilePicture || ''} 
                 alt="Profile" 
                 className="profile-picture"
               />
@@ -77,7 +82,7 @@ export default function UserProfile() {
                 Edit Profile
               </button>
             )}
-          </div>
+          </div> */}
 
           {/* Profile Details Section */}
           <div className="profile-details">
