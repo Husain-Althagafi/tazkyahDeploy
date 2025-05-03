@@ -12,7 +12,7 @@ function LoginHandler() {
             e.preventDefault()
 
             const email = document.getElementById("l-email").value
-            const password = document.getElementById("l-password").value
+            const password = document.getElementById("ol-password").value
 
             try {
                 const res = await fetch("http://localhost:5000/api/auth/login", {

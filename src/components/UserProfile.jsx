@@ -4,17 +4,21 @@ import axios from 'axios'
 
 export default function UserProfile() {
   const [profileData, setProfileData] = useState(null);
+  const token = localStorage.getItem('token');
 
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({});
 
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/users/me')
+    axios.get('http://localhost:5000/api/persons/me', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
     .then((res) => {
-      console.log(res.data)
-      setProfileData(res.data)
-      setFormData(res.data)
+      setProfileData(res.data.data)
+      setFormData(res.data.data)
     })
     .catch((error) => {
       console.error('Error fetching profile data:',error)
