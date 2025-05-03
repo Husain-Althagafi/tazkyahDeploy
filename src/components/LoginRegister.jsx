@@ -15,7 +15,7 @@ const LoginRegister = () => {
             <h1>Login</h1>
             <div className="input-box">
               <input type="text" id="l-email" placeholder="Email" required />
-              <i className="bx bxs-user"></i>
+              <i className="bx bxs-envelope"></i>
             </div>
             <div className="input-box">
               <input type="password" id="l-password" placeholder="Password" required />
@@ -49,8 +49,12 @@ const LoginRegister = () => {
           <form action="#" id="registerForm">
             <h1>Registration</h1>
             <div className="input-box">
-              <input type="text" id="r-username" placeholder="Username" required />
-              <i className="bx bxs-envelope"></i>
+              <input type="text" id="r-fname" placeholder="First name" required />
+              <i className="bx bxs-user"></i>
+            </div>
+            <div className="input-box">
+              <input type="text" id="r-lname" placeholder="Last name" required />
+              <i className="bx bxs-user"></i>
             </div>
             <div className="input-box">
               <input type="email" id="r-email" placeholder="Email" required />

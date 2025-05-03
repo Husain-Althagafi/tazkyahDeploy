@@ -11,15 +11,18 @@ function RegisterHandler() {
         const handleSubmit = async (e) => {
             e.preventDefault()
 
-            const username = document.getElementById("r-username").value
+            const firstName = document.getElementById("r-fname").value
+            const lastName = document.getElementById("r-lname").value            
             const email = document.getElementById("r-email").value
             const password = document.getElementById("r-password").value
+
+            console.log(JSON.stringify({ firstName, lastName, email, password }))
 
             try {
                 const res = await fetch("http://localhost:5005/api/auth/register", {
                     method: "POST",
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, email, password }),
+                    body: JSON.stringify({ firstName, lastName, email, password }),
                 })
 
                 const data = await res.json()
