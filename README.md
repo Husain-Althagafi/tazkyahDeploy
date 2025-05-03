@@ -16,33 +16,105 @@ Tazkhya.org serves as a course hosting and information platform where:
 Due to limitations with the previous website—which was built using online blog tools without a dedicated backend—the owners reached out to us, a team of university students from KFUPM, to help reshape the platform into a fully functional and reliable online learning application.
 
 ## Table of Contents
-
+- [Project Overview](#project-overview)
 - [Installation](#installation)
+  - [Frontend Setup](#frontend-setup)
+  - [Backend Setup](#backend-setup)
+- [Environment Variables](#environment-variables)
+- [API Documentation](#api-documentation)
+  - [Authentication Routes](#authentication-routes)
+  - [User Routes](#user-routes)
+  - [Person Routes](#person-routes)
+  - [Course Routes](#course-routes)
+  - [Resource Routes](#resource-routes)
+- [Database Models](#database-models)
 - [Team](#team)
 - [Contributing](#contributing)
 
 ## Installation
 
-Follow these steps to set up the project locally (make sure you have Node.js and Git Bash on your device):
+### Frontend Setup
 
-1. **Clone the Repository:**
-   ```bash
+Follow these steps to set up the frontend:
+
+1. *Clone the Repository:*
+   bash
    git clone https://github.com/Elecwizer/tazkyah.git
    cd tazkyah
-   ```
    
-2. **Install Dependencies:**
-   ```terminal
+
+2. *Install Dependencies:*
+   bash
    npm install
    npm install react-router-dom
-   ```
+   
 
-3. **Start the Development Server:**
-   ```terminal
+3. *Start the Development Server:*
+   bash
    npm start
-   ```
+   
 
-   ## API Documentation
+### Backend Setup
+
+Follow these steps to set up the backend server:
+
+1. *Navigate to the Backend Directory:*
+   bash
+   cd backend
+   
+
+2. *Install Dependencies:*
+   bash
+   npm install
+   
+
+3. *Set Up Environment Variables:*
+   Create a .env file in the backend directory with the required environment variables (see [Environment Variables](#environment-variables) section).
+
+4. *Initialize the Database:*
+   bash
+   node src/utils/seeder.js
+   
+   This will create sample data including admin, instructor, and student accounts, along with some courses.
+
+5. *Start the Backend Server:*
+   bash
+   npm start
+   
+   or for development with auto-restart:
+   bash
+   npm run dev
+   
+
+## Environment Variables
+
+Create a .env file in the backend directory with the following variables:
+
+
+# Server Configuration
+BACKEND_PORT=5005
+NODE_ENV=development
+
+# MongoDB Connection
+MONGO_URL=mongodb://localhost:27017/tazkyah
+# or with authentication:
+# MONGO_URL=mongodb+srv://<username>:<password>@<cluster-url>/tazkyah?retryWrites=true&w=majority
+
+# JWT Configuration
+JWT_SECRET=your_jwt_secret_key
+JWT_EXPIRE=1h
+
+# File Upload Configuration
+MAX_FILE_SIZE=10485760  # 10MB in bytes
+UPLOAD_PATH=uploads
+
+
+Notes:
+- JWT_SECRET should be a long, random string for security purposes
+- MONGO_URL depends on your MongoDB setup (local or cloud-based like MongoDB Atlas)
+- Make sure to create the uploads directory in the backend root if it doesn't exist
+
+## API Documentation
 
 The backend API is organized into several modules. All protected routes require a valid JWT token in the Authorization header:
 
