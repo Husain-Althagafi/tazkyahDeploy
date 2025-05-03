@@ -58,7 +58,7 @@ export default function AdminStudents() {
   const [students, setStudents] = useState([])
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/users/role/student', {
+    axios.get('http://localhost:5005/api/users/role/student', {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -106,7 +106,7 @@ export default function AdminStudents() {
       return 
     }
 
-    axios.delete(`http://localhost:5000/api/users/${id}`,{
+    axios.delete(`http://localhost:5005/api/users/${id}`,{
       headers: {
         Authorization: `Bearer ${token}`
       }

@@ -11,7 +11,7 @@ export default function UserProfile() {
 
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/persons/me', {
+    axios.get('http://localhost:5005/api/persons/me', {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -40,7 +40,7 @@ export default function UserProfile() {
     setProfileData({...formData});
     setIsEditing(false);
     // Here you would typically make an API call to update the user profile
-    axios.put('http://localhost:5000/api/users/profile', profileData)
+    axios.put('http://localhost:5005/api/users/profile', profileData)
     alert('Profile updated successfully!');
   };
 
