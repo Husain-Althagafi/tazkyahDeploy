@@ -133,9 +133,9 @@ export default function AdminStudents() {
       </div>
       
       {/* Student Grid */}
-      {filteredStudents.length > 0 ? (
+      {students.length > 0 ? (
         <div className="students-grid">
-          {filteredStudents.map(student => (
+          {students.map(student => (
             <StudentCard key={student.id} student={student} />
           ))}
         </div>
