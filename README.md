@@ -98,7 +98,7 @@ NODE_ENV=development
 # MongoDB Connection
 MONGO_URL=mongodb://localhost:27017/tazkyah
 # or with authentication:
-# MONGO_URL=mongodb+srv://<username>:<password>@<cluster-url>/tazkyah?retryWrites=true&w=majority
+MONGO_URL=mongodb+srv://<username>:<password>@<cluster-url>/tazkyah?retryWrites=true&w=majority
 
 # JWT Configuration
 JWT_SECRET=your_jwt_secret_key
