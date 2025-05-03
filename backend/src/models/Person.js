@@ -30,6 +30,7 @@ const PersonSchema = new mongoose.Schema({
   },
   profilePicture: {
     type: String,
+    default: ''
   },
   createdAt: {
     type: Date,
