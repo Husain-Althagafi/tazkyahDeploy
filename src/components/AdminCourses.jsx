@@ -46,13 +46,18 @@ function CourseCard({ course, onDelete, onEdit }) {
 }
 
 export default function AdminCourses() {
+
+  // Token
+  const token = localStorage.getItem('token');
+
   // Courses data
   const [courses, setCourses] = useState([]);
 
   // States for forms
   const [showAddForm, setShowAddForm] = useState(false)
- 
 
+
+ 
   // Get all courses via api
   useEffect(() => {
     axios.get('http://localhost:5000/api/courses/')
@@ -86,7 +91,11 @@ export default function AdminCourses() {
       return 
     }
 
-    axios.delete(`http://localhost:5000/api/courses/${code}`) 
+    axios.delete(`http://localhost:5000/api/courses/${code}`,{
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }) 
     .then(() => {
       setCourses(prev => prev.filter(course => course.code !== code))
     })
@@ -103,7 +112,11 @@ export default function AdminCourses() {
 
   //Function for adding a course
   const handleAdd = (courseData) => {
-    axios.post('http://localhost:5000/api/courses/', courseData)
+    axios.post('http://localhost:5000/api/courses/', courseData, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
     .then(res => {
       setCourses(prev => [...prev, res.data.data])
       setShowAddForm(false)
