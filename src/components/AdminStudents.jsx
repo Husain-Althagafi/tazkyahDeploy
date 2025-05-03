@@ -3,7 +3,7 @@ import '../styles/adminstudents.css';
 import axios from 'axios'
 // StudentCard component for displaying individual students
 function StudentCard({ student }) {
-  const { name, grade, attendance, image, program, lastActive } = student;
+  const { firstName, lastName, email, phoneNumber, lastLogin, profilePicture} = student;
   
   
   const handleDelete = () => {
@@ -18,16 +18,18 @@ function StudentCard({ student }) {
     <div className="student-card">
       <div className="student-image-container">
         <img 
-          src={image} 
-          alt={name} 
+          src={profilePicture} 
+          alt={firstName} 
           className="student-image"
         />
-        <div className="student-program">{program}</div>
       </div>
       <div className="student-content">
-        <h3 className="student-name">{name}</h3>
-        <p className="student-grade">Grade: {grade}</p>
-        <div className="student-attendance-container">
+        <h3 className="student-firstName">{firstName}</h3>
+        <h3 className="student-lastName">{lastName}</h3>
+        <h3 className="student-email">{email}</h3>
+        <h3 className="student-phone number">{phoneNumber}</h3>
+
+        {/* <div className="student-attendance-container">
           <div className="attendance-header">
             <span className="attendance-label">Attendance</span>
             <span className="attendance-percentage">{attendance}%</span>
@@ -38,8 +40,8 @@ function StudentCard({ student }) {
               style={{ width: `${attendance}%` }}
             ></div>
           </div>
-        </div>
-        <p className="student-last-active">Last active: {lastActive}</p>
+        </div> */}
+        <p className="student-last-active">Last active: {lastLogin}</p>
         <div className="student-actions">
           <button className="delete-btn" onClick={handleDelete}>Delete</button>
           <button className="edit-btn" onClick={handleEdit}>Edit</button>
@@ -62,82 +64,15 @@ export default function AdminStudents() {
       }
     })
     .then((res) => {
-      setStudents(res.data.data)
+      setStudents(res.data.data.map(item => item.person));
     })
     .catch(err => {
       console.error('Error fetching students', err)
     })
     
   }, [])
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-  // Sample student data
+
   
-  
-  // const [students] = useState([
-  //   {
-  //     id: 1,
-  //     name: "Emma Thompson",
-  //     grade: "10th",
-  //     attendance: 95,
-  //     image: "/api/placeholder/400/300",
-  //     program: "Advanced Placement",
-  //     lastActive: "May 1, 2025"
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Alex Rivera",
-  //     grade: "12th",
-  //     attendance: 88,
-  //     image: "/api/placeholder/400/300",
-  //     program: "STEM",
-  //     lastActive: "April 30, 2025"
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Jordan Smith",
-  //     grade: "9th",
-  //     attendance: 92,
-  //     image: "/api/placeholder/400/300",
-  //     program: "Arts",
-  //     lastActive: "April 29, 2025"
-  //   },
-  //   {
-  //     id: 4,
-  //     name: "Taylor Johnson",
-  //     grade: "11th",
-  //     attendance: 78,
-  //     image: "/api/placeholder/400/300",
-  //     program: "General Education",
-  //     lastActive: "April 28, 2025"
-  //   },
-  //   {
-  //     id: 5,
-  //     name: "Morgan Lee",
-  //     grade: "10th",
-  //     attendance: 97,
-  //     image: "/api/placeholder/400/300",
-  //     program: "Honors",
-  //     lastActive: "May 1, 2025"
-  //   },
-  //   {
-  //     id: 6,
-  //     name: "Casey Williams",
-  //     grade: "12th",
-  //     attendance: 85,
-  //     image: "/api/placeholder/400/300",
-  //     program: "International Baccalaureate",
-  //     lastActive: "April 30, 2025"
-  //   }
-  // ]);
 
   // Filter states
   const [searchTerm, setSearchTerm] = useState('');
@@ -159,6 +94,7 @@ export default function AdminStudents() {
   };
 
   return (
+  
     <div className="students-container">
       <h1 className="students-title">Manage Students</h1>
       
@@ -196,7 +132,7 @@ export default function AdminStudents() {
         </div>
       </div>
       
-      {/* Student Grid
+      {/* Student Grid */}
       {filteredStudents.length > 0 ? (
         <div className="students-grid">
           {filteredStudents.map(student => (
@@ -213,7 +149,7 @@ export default function AdminStudents() {
             Clear filters
           </button>
         </div>
-      )} */}
+      )}
       
       {/* Student Enrollment CTA */}
       <div className="enrollment-section">
