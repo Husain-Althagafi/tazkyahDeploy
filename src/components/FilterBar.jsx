@@ -71,6 +71,7 @@ export function FilterBar() {
           <div className="card">
             <CourseCard
               key={course.id} // Using id in params
+              code={course.code}
               imgPath={imgPath} // Should be replaced with course.imagePath later
               // title={course.title} These are not needed. More info about courses is inside the course
               // description={course.description}
