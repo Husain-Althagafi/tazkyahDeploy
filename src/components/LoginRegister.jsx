@@ -7,6 +7,7 @@ import LoginHandler from "../integration/loginHandler";
 const LoginRegister = () => {
   const [active, setActive] = useState(false);
 
+  
   return (
     <div className="login-register-wrapper">
       <div className={active ? "container active" : "container"}>

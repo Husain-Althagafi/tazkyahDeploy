@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import '../styles/courseDetails.css'
+import imgPath from '../images/image.png';
+import { useEffect } from 'react';
 
 function CourseDetails() {
-  const { courseId } = useParams()
+  const { code } = useParams()
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
     firstName: '',
@@ -11,13 +13,35 @@ function CourseDetails() {
     email: '',
     phoneNumber: ''
   })
+  const [courseDetails, setCourseDetails] = useState({})
 
-  const courseData = {
-    title: 'SWE 363',
-    description:
-      'Web Development Course using HTML, CSS, and JS. Building upon those fundamentals, you learn react, and then tie it all together with a brief discussion about full-stack development.',
-    image: 'https://placehold.co/400x400'
-  }
+// Finally working on the displaying the course by code!
+  useEffect(() => {
+    async function fetchCourses() {
+      try {
+        const response = await fetch(`http://localhost:5000/api/courses/${code}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch courses');
+        }
+
+        const result = await response.json();
+        console.log(result); // Just for debugging
+
+        setCourseDetails(result.data);
+      } catch (error) {
+        console.error('Error fetching courses:', error.message);
+      }
+    }
+
+    fetchCourses();
+  }, [code]);
+  
 
   const handleChange = e => {
     const { name, value } = e.target
@@ -27,31 +51,54 @@ function CourseDetails() {
     })
   }
 
-  const handleSubmit = e => {
-    e.preventDefault()
-    console.log('Form submitted:', formData)
-    navigate('/courses/course-details/enrolled')
+  const handleSubmit = async e => {
+    e.preventDefault();
+    
+    try {
+      const token = localStorage.getItem('token'); 
+  
+      const response = await fetch(`http://localhost:5000/api/courses/${code}/enroll`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(formData)
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to enroll');
+      }
+  
+      const result = await response.json();
+      console.log('Enrollment successful:', result);
+  
+      navigate('/courses/course-details/enrolled');
+    } catch (error) {
+      console.error('Error during enrollment:', error.message);
+    }
   }
+  
 
   const handleGoBack = () => {
     navigate('/courses')
   }
-
+// Replace imgPath with courseData.imagePath later
   return (
     <div className="course-details-container">
       <div className="course-info">
         <div className="course-text">
-          <h1>{courseData.title}</h1>
-          <p>{courseData.description}</p>
+          <h1>{courseDetails?.title || 'Loading title...'}</h1>
+          <p>{courseDetails?.description || 'Loading description...'}</p>
           <button className="go-back-btn" onClick={handleGoBack}>
             Go back
           </button>
         </div>
         <div className="course-image">
-          <img src={courseData.image} alt={courseData.title} />
+        <img src={courseDetails.img || 'https://placehold.co/400x400'} alt={courseDetails.title} />
         </div>
       </div>
-
+  
       <div className="registration-section">
         <h2>Course Registration Form</h2>
         <form onSubmit={handleSubmit} className="registration-form">
@@ -120,4 +167,4 @@ function CourseDetails() {
   )
 }
 
-export default CourseDetails
+export default CourseDetails;

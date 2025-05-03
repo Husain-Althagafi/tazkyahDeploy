@@ -41,6 +41,13 @@
   transform: scale(1.1);
 }
 
+.course-img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover; 
+  border-radius: 8px; 
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .new-courses-imgs-container {

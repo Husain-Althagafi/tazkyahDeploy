@@ -30,65 +30,16 @@ function App() {
   return (
     <div className="app">
       <Router>
-        <Navbar />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <Main />
-              </>
-            }
-          />
-          <Route
-            path="/about"
-            element={
-              <>
-                <About />
-              </>
-            }
-          />
-          <Route
-            path="/courses"
-            element={
-              <>
-                <CoursesPage />
-              </>
-            }
-          />
-          <Route
-            path="/courses/course-details"
-            element={
-              <>
-                <CourseDetails />
-              </>
-            }
-          />
-          <Route
-            path="/courses/course-details/enrolled"
-            element={
-              <>
-                <EnrollConfirmation />
-              </>
-            }
-          />
-          <Route
-            path="/core-values"
-            element={
-              <>
-                <About />
-              </>
-            }
-          />
-          <Route
-            path="/join-us"
-            element={
-              <>
-                <Hero />
-              </>
-            }
-          />
-          <Route path="/login-register" element={<LoginRegister />} />
+      <Navbar/>
+      <Routes>
+        <Route path="/" element={<><Main/></>} />
+        <Route path="/about" element={<><About/></>} />
+        <Route path="/courses" element={<><CoursesPage/></>} />
+        <Route path="/courses/course-details/:code" element={<><CourseDetails/></>} />
+        <Route path="/courses/course-details/enrolled" element={<><EnrollConfirmation/></>} />
+        <Route path="/core-values" element={<><About/></>} />
+        <Route path="/join-us" element={<><Hero/></>} />
+        <Route path="/login-register" element={<LoginRegister/>} />
 
           {/* User dashboard routes using the layout component */}
           <Route element={<UserLayout />}>

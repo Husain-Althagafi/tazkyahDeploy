@@ -1,17 +1,38 @@
 import '../styles/filterbar.css';
 import React, { useState } from 'react';
 import { CourseCard } from './CourseCard';
+import { useEffect } from 'react';
 
 export function FilterBar() {
-  const allCourses = [
-    { id: 1, imgPath: 'https://placehold.co/200x200?text=Available+1', title: 'Course 1', description: 'Course Description', courseStatus: 'Available' },
-    { id: 2, imgPath: 'https://placehold.co/200x200?text=Unavailable+1', title: 'Course 2', description: 'Course Description', courseStatus: 'Unavailable' },
-    { id: 3, imgPath: 'https://placehold.co/200x200?text=Available+2', title: 'Course 3', description: 'Course Description', courseStatus: 'Available' },
-    { id: 4, imgPath: 'https://placehold.co/200x200?text=Unavailable+2', title: 'Course 4', description: 'Course Description', courseStatus: 'Unavailable' },
-    { id: 5, imgPath: 'https://placehold.co/200x200?text=Unavailable+3', title: 'Course 5', description: 'Course Description', courseStatus: 'Unavailable' }
-  ];
+  const [allCourses, setAllCourses] = useState([]); // Start with an empty array
+  const [filteredCourses, setFilteredCourses] = useState([]);
 
-  const [filteredCourses, setFilteredCourses] = useState(allCourses);
+  useEffect(() => {
+    async function fetchCourses() {
+      try {
+        const response = await fetch('http://localhost:5000/api/courses/', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch courses');
+        }
+
+        const result = await response.json();
+        console.log(result); // Just for debugging
+
+        setAllCourses(result.data); // Store the fetched courses
+        setFilteredCourses(result.data); // Show all courses initially
+      } catch (error) {
+        console.error('Error fetching courses:', error.message);
+      }
+    }
+
+    fetchCourses();
+  }, []);
 
   const filterCourses = (status) => {
     if (status === 'All') {
@@ -40,10 +61,11 @@ export function FilterBar() {
         {filteredCourses.map(course => (
           <div className="card">
             <CourseCard
-              key={course.id}
-              imgPath={course.imgPath}
-              title={course.title}
-              description={course.description}
+              key={course.id} // Using id in params
+              code={course.code}
+              imgPath={course.img}
+              // title={course.title} These are not needed. More info about courses is inside the course
+              // description={course.description}
             />
           </div>
         ))}

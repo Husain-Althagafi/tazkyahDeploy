@@ -194,7 +194,7 @@ exports.enrollStudentInCourse = asyncHandler(async (req, res) => {
     
     // Enroll student in course using repository
     try {
-        await courseRepository.enrollStudent(req.user.id, course._id);
+        await courseRepository.enrollStudent(req.user.id, code);
         
         res.status(200).json({
             success: true,

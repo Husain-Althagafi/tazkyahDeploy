@@ -30,6 +30,11 @@ const CourseSchema = new mongoose.Schema({
         type: Number,
         default: 30
     },
+    enrolledStudents: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+      }],
+      
     startDate: {
         type: Date
     },
@@ -44,10 +49,26 @@ const CourseSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    imageUrl: {
-        type: String
-    }
-});
+
+    courseStatus: {
+        type: String,
+        enum: ['Available', 'Unavailable'],
+        default: 'Available'
+
+    },
+    img: {
+        type: String,
+        default: '/images/React.png'
+    },
+
+    courseModernity: {
+        type: String,
+        enum: ['New', 'Old'],
+        default: 'New'
+    },
+    
+})
+
 
 // Create Indexes
 CourseSchema.index({ code: 1 });

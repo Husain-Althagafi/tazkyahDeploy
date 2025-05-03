@@ -179,16 +179,16 @@ class CourseRepository {
      * @param {string} courseId - Course ID
      * @returns {Promise<Object>} Enrollment record
      */
-    async enrollStudent(userId, courseId) {
+    async enrollStudent(userId, courseCode) {
         try {
             // Check if already enrolled
-            const existingEnrollment = await Enrollment.findOne({ userId, courseId });
+            const existingEnrollment = await Enrollment.findOne({ userId, courseCode });
             if (existingEnrollment) {
                 return existingEnrollment;
             }
             
             // Check if course exists
-            const course = await Course.findById(courseId);
+            const course = await Course.findById(courseCode);
             if (!course) {
                 throw new Error('Course not found');
             }
@@ -196,13 +196,19 @@ class CourseRepository {
             // Create enrollment
             const enrollment = new Enrollment({
                 userId,
-                courseId,
+                courseCode,
                 status: 'active',
                 progress: 0,
                 enrollmentDate: new Date()
             });
             
             await enrollment.save();
+            
+            // Adding enrolled studnets to the array
+            if (!course.enrolledStudents.includes(userId)) {
+                course.enrolledStudents.push(userId);
+                await course.save(); // Save the updated course
+            }
             return enrollment;
         } catch (error) {
             throw new Error(`Error enrolling student: ${error.message}`);
