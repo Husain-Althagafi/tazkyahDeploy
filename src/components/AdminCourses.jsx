@@ -60,7 +60,7 @@ export default function AdminCourses() {
  
   // Get all courses via api
   useEffect(() => {
-    axios.get('http://localhost:5000/api/courses/')
+    axios.get('http://localhost:5005/api/courses/')
       .then(res => {
         setCourses(res.data.data)
   })
@@ -91,7 +91,7 @@ export default function AdminCourses() {
       return 
     }
 
-    axios.delete(`http://localhost:5000/api/courses/${code}`,{
+    axios.delete(`http://localhost:5005/api/courses/${code}`,{
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -117,7 +117,7 @@ export default function AdminCourses() {
 
   //Function for adding a course
   const handleAdd = (courseData) => {
-    axios.post('http://localhost:5000/api/courses/', courseData, {
+    axios.post('http://localhost:5005/api/courses/', courseData, {
       headers: {
         Authorization: `Bearer ${token}`
       }

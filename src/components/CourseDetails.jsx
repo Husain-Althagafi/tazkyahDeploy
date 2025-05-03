@@ -19,7 +19,7 @@ function CourseDetails() {
   useEffect(() => {
     async function fetchCourses() {
       try {
-        const response = await fetch(`http://localhost:5000/api/courses/${code}`, {
+        const response = await fetch(`http://localhost:5005/api/courses/${code}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ function CourseDetails() {
     try {
       const token = localStorage.getItem('token'); 
   
-      const response = await fetch(`http://localhost:5000/api/courses/${code}/enroll`, {
+      const response = await fetch(`http://localhost:5005/api/courses/${code}/enroll`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
