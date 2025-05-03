@@ -71,8 +71,8 @@ export default function AdminCourses() {
 
   // Filter courses based on search term and category
   const filteredCourses = courses.filter(course => {
-    const matchesSearch = course.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          course.instructor.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = course.title?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          course.instructor?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = filterCategory === 'All' || course.category === filterCategory;
     
     return matchesSearch && matchesCategory;
@@ -118,9 +118,6 @@ export default function AdminCourses() {
   if (showAddForm) {
     return <CourseAddForm onSubmit={handleAdd} onClose={() => setShowAddForm(false)}/>
   }
-
-  
-
 
   return (
     <div className="courses-container">
