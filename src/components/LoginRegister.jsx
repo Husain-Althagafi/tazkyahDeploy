@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../styles/loginRegister.css"
 import RegisterHandler from "../integration/registerHandler";
+import LoginHandler from "../integration/loginHandler";
 //import end
 
 const LoginRegister = () => {
@@ -10,14 +11,14 @@ const LoginRegister = () => {
     <div className="login-register-wrapper">
       <div className={active ? "container active" : "container"}>
         <div className="form-box login">
-          <form>
+          <form id="loginForm">
             <h1>Login</h1>
             <div className="input-box">
-              <input type="text" placeholder="Username" required />
+              <input type="text" id="l-email" placeholder="Email" required />
               <i className="bx bxs-user"></i>
             </div>
             <div className="input-box">
-              <input type="password" placeholder="Password" required />
+              <input type="password" id="l-password" placeholder="Password" required />
               <i className="bx bxs-lock-alt"></i>
             </div>
             <div className="forgot-link">
@@ -100,6 +101,7 @@ const LoginRegister = () => {
           </div>
         </div>
       </div>
+      <LoginHandler/>
       <RegisterHandler/>
     </div>
   );
