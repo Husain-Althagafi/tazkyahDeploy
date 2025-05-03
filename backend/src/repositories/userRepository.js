@@ -28,7 +28,7 @@ class UserRepository {
       const user = new User({
         personId: person._id,
         role: userData.role || "student",
-        passwordHash: userData.password, // Will be hashed by pre-save middleware
+        password: userData.password, // Will be hashed by pre-save middleware
       });
 
       await user.save();
@@ -157,7 +157,7 @@ class UserRepository {
         personData.profilePicture = updateData.profilePicture;
 
       if (updateData.role) userData.role = updateData.role;
-      if (updateData.password) userData.passwordHash = updateData.password;
+      if (updateData.password) userData.password = updateData.password;
 
       // Get user with person reference
       const user = await User.findById(id);
@@ -251,7 +251,7 @@ class UserRepository {
       if (!isMatch) return false;
 
       // Update password
-      user.passwordHash = newPassword; // Will be hashed by pre-save middleware
+      user.password = newPassword; // Will be hashed by pre-save middleware
       await user.save();
 
       return true;

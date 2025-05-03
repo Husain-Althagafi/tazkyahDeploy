@@ -66,7 +66,6 @@ const CourseSchema = new mongoose.Schema({
 
 
 // Create Indexes
-// Why this?
 CourseSchema.index({ code: 1 });
 CourseSchema.index({ status: 1 });
 CourseSchema.index({ instructorId: 1 });
