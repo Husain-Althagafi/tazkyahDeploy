@@ -1,7 +1,9 @@
 import {useEffect, useState } from 'react';
 import '../styles/admincourses.css';
 import axios from 'axios'
-import CourseAddForm from './AddCourseForm'
+import CourseAddForm from './CourseAddForm'
+
+
 
 // CourseCard component for displaying individual courses
 function CourseCard({ course, onDelete, onEdit }) {
@@ -49,6 +51,7 @@ export default function AdminCourses() {
 
   // States for forms
   const [showAddForm, setShowAddForm] = useState(false)
+ 
 
   // Get all courses via api
   useEffect(() => {
@@ -93,13 +96,13 @@ export default function AdminCourses() {
   }
 
   // Function for editing a course
-  const handleEdit = (course) => {
-    alert('Course editing');
-    // axios.put(`http://localhost:5000/api/courses/${code}`)  
+  const handleEdit = (code) => {
+    alert('editing course')
   }
 
+
   //Function for adding a course
-  const handleAddCourse = (courseData) => {
+  const handleAdd = (courseData) => {
     axios.post('http://localhost:5000/api/courses/', courseData)
     .then(res => {
       setCourses(prev => [...prev, res.data.data])
@@ -107,14 +110,16 @@ export default function AdminCourses() {
     })
     .catch(err => {
       console.error(err)
-    });
+    })
     alert('Course added');
 
   };
   
   if (showAddForm) {
-    return <CourseAddForm onSubmit={handleAddCourse} onClose={() => setShowAddForm(false)}/>
+    return <CourseAddForm onSubmit={handleAdd} onClose={() => setShowAddForm(false)}/>
   }
+
+  
 
 
   return (

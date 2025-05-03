@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import '../styles/courseform.css'; // make sure to create or reuse your form styles
+import '../styles/courseform.css'
 
 export default function AddCourseForm({ onSubmit, onClose, initialData = null }) {
   const [formData, setFormData] = useState({
