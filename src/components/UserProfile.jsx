@@ -1,51 +1,49 @@
-import { useState, useEffect } from 'react';
-import '../styles/userprofile.css';
-import axios from 'axios'
+import axios from "axios";
+import { useEffect, useState } from "react";
+import "../styles/userprofile.css";
 
 export default function UserProfile() {
   const [profileData, setProfileData] = useState(null);
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
 
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({});
 
-
   useEffect(() => {
-    axios.get('http://localhost:5000/api/persons/me', {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-    .then((res) => {
-      setProfileData(res.data.data)
-      setFormData(res.data)
-    })
-    .catch((error) => {
-      console.error('Error fetching profile data:',error)
-    })
-  }, [])
-
-
+    axios
+      .get("http://localhost:5005/api/persons/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setProfileData(res.data.data);
+        setFormData(res.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching profile data:", error);
+      });
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setProfileData({...formData});
+    setProfileData({ ...formData });
     setIsEditing(false);
     // Here you would typically make an API call to update the user profile
-    axios.put('http://localhost:5000/api/users/profile', profileData)
-    alert('Profile updated successfully!');
+    axios.put("http://localhost:5005/api/users/profile", profileData);
+    alert("Profile updated successfully!");
   };
 
   const handleCancel = () => {
-    setFormData({...profileData});
+    setFormData({ ...profileData });
     setIsEditing(false);
   };
 
@@ -55,7 +53,7 @@ export default function UserProfile() {
   return (
     <div className="profile-container">
       <h1 className="profile-title">User Profile</h1>
-      
+
       <div className="profile-card">
         <div className="profile-layout">
           {/* Profile Picture Section */}
@@ -155,10 +153,7 @@ export default function UserProfile() {
                   >
                     Cancel
                   </button>
-                  <button
-                    type="submit"
-                    className="save-btn"
-                  >
+                  <button type="submit" className="save-btn">
                     Save Changes
                   </button>
                 </div>

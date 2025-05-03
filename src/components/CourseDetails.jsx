@@ -1,33 +1,34 @@
-import React, { useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import '../styles/courseDetails.css'
-import imgPath from '../images/image.png';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import "../styles/courseDetails.css";
 
 function CourseDetails() {
-  const { code } = useParams()
-  const navigate = useNavigate()
+  const { code } = useParams();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phoneNumber: ''
-  })
-  const [courseDetails, setCourseDetails] = useState({})
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+  });
+  const [courseDetails, setCourseDetails] = useState({});
 
-// Finally working on the displaying the course by code!
+  // Finally working on the displaying the course by code!
   useEffect(() => {
     async function fetchCourses() {
       try {
-        const response = await fetch(`http://localhost:5000/api/courses/${code}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
+        const response = await fetch(
+          `http://localhost:5005/api/courses/${code}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
           }
-        });
+        );
 
         if (!response.ok) {
-          throw new Error('Failed to fetch courses');
+          throw new Error("Failed to fetch courses");
         }
 
         const result = await response.json();
@@ -35,70 +36,74 @@ function CourseDetails() {
 
         setCourseDetails(result.data);
       } catch (error) {
-        console.error('Error fetching courses:', error.message);
+        console.error("Error fetching courses:", error.message);
       }
     }
 
     fetchCourses();
   }, [code]);
-  
 
-  const handleChange = e => {
-    const { name, value } = e.target
+  const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
-    })
-  }
+      [name]: value,
+    });
+  };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
-      const token = localStorage.getItem('token'); 
-  
-      const response = await fetch(`http://localhost:5000/api/courses/${code}/enroll`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(formData)
-      });
-  
+      const token = localStorage.getItem("token");
+
+      const response = await fetch(
+        `http://localhost:5005/api/courses/${code}/enroll`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
       if (!response.ok) {
-        throw new Error('Failed to enroll');
+        throw new Error("Failed to enroll");
       }
-  
+
       const result = await response.json();
-      console.log('Enrollment successful:', result);
-  
-      navigate('/courses/course-details/enrolled');
+      console.log("Enrollment successful:", result);
+
+      navigate("/courses/course-details/enrolled");
     } catch (error) {
-      console.error('Error during enrollment:', error.message);
+      console.error("Error during enrollment:", error.message);
     }
-  }
-  
+  };
 
   const handleGoBack = () => {
-    navigate('/courses')
-  }
-// Replace imgPath with courseData.imagePath later
+    navigate("/courses");
+  };
+  // Replace imgPath with courseData.imagePath later
   return (
     <div className="course-details-container">
       <div className="course-info">
         <div className="course-text">
-          <h1>{courseDetails?.title || 'Loading title...'}</h1>
-          <p>{courseDetails?.description || 'Loading description...'}</p>
+          <h1>{courseDetails?.title || "Loading title..."}</h1>
+          <p>{courseDetails?.description || "Loading description..."}</p>
           <button className="go-back-btn" onClick={handleGoBack}>
             Go back
           </button>
         </div>
         <div className="course-image">
-        <img src={courseDetails.img || 'https://placehold.co/400x400'} alt={courseDetails.title} />
+          <img
+            src={courseDetails.img || "https://placehold.co/400x400"}
+            alt={courseDetails.title}
+          />
         </div>
       </div>
-  
+
       <div className="registration-section">
         <h2>Course Registration Form</h2>
         <form onSubmit={handleSubmit} className="registration-form">
@@ -164,7 +169,7 @@ function CourseDetails() {
         </form>
       </div>
     </div>
-  )
+  );
 }
 
 export default CourseDetails;

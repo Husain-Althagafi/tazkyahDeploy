@@ -1,5 +1,5 @@
-import '../styles/newcourses.css';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from "react";
+import "../styles/newcourses.css";
 
 export function NewCourses() {
   const [newCourses, setNewCourses] = useState([]);
@@ -8,24 +8,24 @@ export function NewCourses() {
   useEffect(() => {
     async function fetchCourses() {
       try {
-        const response = await fetch('http://localhost:5000/api/courses/', {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
+        const response = await fetch("http://localhost:5005/api/courses/", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
         });
 
         if (!response.ok) {
-          throw new Error('Failed to fetch courses');
+          throw new Error("Failed to fetch courses");
         }
-        
+
         const result = await response.json();
 
         const onlyNewCourses = result.data.filter(
-          (course) => course.courseModernity === 'New'
+          (course) => course.courseModernity === "New"
         );
 
         setNewCourses(onlyNewCourses);
       } catch (error) {
-        console.error('Error fetching courses:', error.message);
+        console.error("Error fetching courses:", error.message);
       }
     }
 
@@ -49,18 +49,24 @@ export function NewCourses() {
   const displayedCourses = [
     newCourses[startIndex],
     newCourses[(startIndex + 1) % totalCourses],
-    newCourses[(startIndex + 2) % totalCourses]
+    newCourses[(startIndex + 2) % totalCourses],
   ];
 
   return (
     <div className="new-courses-container">
       <button onClick={prevCourses}>◀</button>
       <div className="new-courses-imgs-container">
-        {displayedCourses.map((course, index) => (
-          course && (
-            <img className = "course-img" key={course.id || index} src={course.img} alt={`Course ${course.id}`} />
-          )
-        ))}
+        {displayedCourses.map(
+          (course, index) =>
+            course && (
+              <img
+                className="course-img"
+                key={course.id || index}
+                src={course.img}
+                alt={`Course ${course.id}`}
+              />
+            )
+        )}
       </div>
       <button onClick={nextCourses}>▶</button>
     </div>
