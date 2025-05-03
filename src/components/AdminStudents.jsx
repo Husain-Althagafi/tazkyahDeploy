@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../styles/adminstudents.css';
-
+import axios from 'axios'
 // StudentCard component for displaying individual students
 function StudentCard({ student }) {
   const { name, grade, attendance, image, program, lastActive } = student;
+  
   
   const handleDelete = () => {
     alert('Student deleted');
@@ -49,63 +50,91 @@ function StudentCard({ student }) {
 }
 
 export default function AdminStudents() {
+ 
+  const token = localStorage.getItem('token');
+
+  const [students, setStudents] = useState([])
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/users/role/student', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then((res) => {
+      setStudents(res.data.data)
+    })
+    
+  })
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
   // Sample student data
-  const [students] = useState([
-    {
-      id: 1,
-      name: "Emma Thompson",
-      grade: "10th",
-      attendance: 95,
-      image: "/api/placeholder/400/300",
-      program: "Advanced Placement",
-      lastActive: "May 1, 2025"
-    },
-    {
-      id: 2,
-      name: "Alex Rivera",
-      grade: "12th",
-      attendance: 88,
-      image: "/api/placeholder/400/300",
-      program: "STEM",
-      lastActive: "April 30, 2025"
-    },
-    {
-      id: 3,
-      name: "Jordan Smith",
-      grade: "9th",
-      attendance: 92,
-      image: "/api/placeholder/400/300",
-      program: "Arts",
-      lastActive: "April 29, 2025"
-    },
-    {
-      id: 4,
-      name: "Taylor Johnson",
-      grade: "11th",
-      attendance: 78,
-      image: "/api/placeholder/400/300",
-      program: "General Education",
-      lastActive: "April 28, 2025"
-    },
-    {
-      id: 5,
-      name: "Morgan Lee",
-      grade: "10th",
-      attendance: 97,
-      image: "/api/placeholder/400/300",
-      program: "Honors",
-      lastActive: "May 1, 2025"
-    },
-    {
-      id: 6,
-      name: "Casey Williams",
-      grade: "12th",
-      attendance: 85,
-      image: "/api/placeholder/400/300",
-      program: "International Baccalaureate",
-      lastActive: "April 30, 2025"
-    }
-  ]);
+  
+  
+  // const [students] = useState([
+  //   {
+  //     id: 1,
+  //     name: "Emma Thompson",
+  //     grade: "10th",
+  //     attendance: 95,
+  //     image: "/api/placeholder/400/300",
+  //     program: "Advanced Placement",
+  //     lastActive: "May 1, 2025"
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Alex Rivera",
+  //     grade: "12th",
+  //     attendance: 88,
+  //     image: "/api/placeholder/400/300",
+  //     program: "STEM",
+  //     lastActive: "April 30, 2025"
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Jordan Smith",
+  //     grade: "9th",
+  //     attendance: 92,
+  //     image: "/api/placeholder/400/300",
+  //     program: "Arts",
+  //     lastActive: "April 29, 2025"
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "Taylor Johnson",
+  //     grade: "11th",
+  //     attendance: 78,
+  //     image: "/api/placeholder/400/300",
+  //     program: "General Education",
+  //     lastActive: "April 28, 2025"
+  //   },
+  //   {
+  //     id: 5,
+  //     name: "Morgan Lee",
+  //     grade: "10th",
+  //     attendance: 97,
+  //     image: "/api/placeholder/400/300",
+  //     program: "Honors",
+  //     lastActive: "May 1, 2025"
+  //   },
+  //   {
+  //     id: 6,
+  //     name: "Casey Williams",
+  //     grade: "12th",
+  //     attendance: 85,
+  //     image: "/api/placeholder/400/300",
+  //     program: "International Baccalaureate",
+  //     lastActive: "April 30, 2025"
+  //   }
+  // ]);
 
   // Filter states
   const [searchTerm, setSearchTerm] = useState('');
@@ -115,8 +144,8 @@ export default function AdminStudents() {
 
   // Filter students based on search term and program
   const filteredStudents = students.filter(student => {
-    const matchesSearch = student.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          student.grade.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = student.name?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          student.grade?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesProgram = filterProgram === 'All' || student.program === filterProgram;
     
     return matchesSearch && matchesProgram;
@@ -164,7 +193,7 @@ export default function AdminStudents() {
         </div>
       </div>
       
-      {/* Student Grid */}
+      {/* Student Grid
       {filteredStudents.length > 0 ? (
         <div className="students-grid">
           {filteredStudents.map(student => (
@@ -181,7 +210,7 @@ export default function AdminStudents() {
             Clear filters
           </button>
         </div>
-      )}
+      )} */}
       
       {/* Student Enrollment CTA */}
       <div className="enrollment-section">

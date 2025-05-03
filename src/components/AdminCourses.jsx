@@ -106,6 +106,11 @@ export default function AdminCourses() {
 
   // Function for editing a course
   const handleEdit = (code) => {
+    
+
+
+
+
     alert('editing course')
   }
 

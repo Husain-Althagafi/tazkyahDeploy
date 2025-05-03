@@ -18,7 +18,7 @@ export default function UserProfile() {
     })
     .then((res) => {
       setProfileData(res.data.data)
-      setFormData(res.data.data)
+      setFormData(res.data)
     })
     .catch((error) => {
       console.error('Error fetching profile data:',error)
