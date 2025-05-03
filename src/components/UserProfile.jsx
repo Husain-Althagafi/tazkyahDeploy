@@ -1,18 +1,25 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../styles/userprofile.css';
+import axios from 'axios'
 
 export default function UserProfile() {
-  const [profileData, setProfileData] = useState({
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john.doe@example.com',
-    phone: '+1 (555) 123-4567',
-    bio: 'Frontend developer passionate about creating user-friendly interfaces.',
-    profilePicture: '/api/placeholder/150/150' // Placeholder for profile picture
-  });
+  const [profileData, setProfileData] = useState(null);
 
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({...profileData});
+
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/users/me')
+    .then((res) => {
+      setProfileData(res.data)
+      setFormData(res.data)
+    })
+    .catch((error) => {
+      console.error('Error fetching profile data:',error)
+    })
+  })
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,6 +34,7 @@ export default function UserProfile() {
     setProfileData({...formData});
     setIsEditing(false);
     // Here you would typically make an API call to update the user profile
+    axios.put('http://localhost:5000/api/users/profile', profileData)
     alert('Profile updated successfully!');
   };
 
