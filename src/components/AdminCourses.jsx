@@ -1,17 +1,12 @@
-import { useState } from 'react';
+import {useEffect, useState } from 'react';
 import '../styles/admincourses.css';
+import axios from 'axios'
+import CourseAddForm from './AddCourseForm'
 
 // CourseCard component for displaying individual courses
-function CourseCard({ course }) {
+function CourseCard({ course, onDelete, onEdit }) {
+  
   const { title, instructor, completion, image, category, lastAccessed } = course;
-  
-  const handleDelete = () => {
-    alert('Course deleted');
-  };
-  
-  const handleEdit = () => {
-    alert('Course is being edited');
-  };
   
   return (
     <div className="course-card">
@@ -40,8 +35,8 @@ function CourseCard({ course }) {
         </div>
         <p className="course-last-accessed">Last accessed: {lastAccessed}</p>
         <div className="course-actions">
-          <button className="delete-btn" onClick={handleDelete}>Delete</button>
-          <button className="edit-btn" onClick={handleEdit}>Edit</button>
+          <button className="delete-btn" onClick={onDelete}>Delete</button>
+          <button className="edit-btn" onClick={onEdit}>Edit</button>
         </div>
       </div>
     </div>
@@ -49,69 +44,27 @@ function CourseCard({ course }) {
 }
 
 export default function AdminCourses() {
-  // Sample course data
-  const [courses] = useState([
-    {
-      id: 1,
-      title: "Introduction to Web Development",
-      instructor: "Sarah Johnson",
-      completion: 75,
-      image: "/api/placeholder/400/300",
-      category: "Web Development",
-      lastAccessed: "April 28, 2025"
-    },
-    {
-      id: 2,
-      title: "Advanced React Patterns",
-      instructor: "Michael Chen",
-      completion: 45,
-      image: "/api/placeholder/400/300",
-      category: "JavaScript",
-      lastAccessed: "April 30, 2025"
-    },
-    {
-      id: 3,
-      title: "UI/UX Design Fundamentals",
-      instructor: "Emily Williams",
-      completion: 90,
-      image: "/api/placeholder/400/300",
-      category: "Design",
-      lastAccessed: "April 29, 2025"
-    },
-    {
-      id: 4,
-      title: "Data Structures and Algorithms",
-      instructor: "Robert Brown",
-      completion: 30,
-      image: "/api/placeholder/400/300",
-      category: "Computer Science",
-      lastAccessed: "April 25, 2025"
-    },
-    {
-      id: 5,
-      title: "Mobile App Development with React Native",
-      instructor: "Jessica Lee",
-      completion: 60,
-      image: "/api/placeholder/400/300",
-      category: "Mobile Development",
-      lastAccessed: "April 27, 2025"
-    },
-    {
-      id: 6,
-      title: "Database Design and Management",
-      instructor: "David Miller",
-      completion: 15,
-      image: "/api/placeholder/400/300",
-      category: "Databases",
-      lastAccessed: "April 20, 2025"
-    }
-  ]);
+  // Courses data
+  const [courses, setCourses] = useState([]);
 
-  // Filter states
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterCategory, setFilterCategory] = useState('All');
-  
-  const categories = ['All', 'Web Development', 'JavaScript', 'Design', 'Computer Science', 'Mobile Development', 'Databases'];
+  // States for forms
+  const [showAddForm, setShowAddForm] = useState(false)
+
+  // Get all courses via api
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/courses/')
+      .then(res => {
+        setCourses(res.data.data)
+  })
+      .catch(err => console.error(err));
+  }, []); 
+
+
+   // Filter states
+   const [searchTerm, setSearchTerm] = useState('');
+   const [filterCategory, setFilterCategory] = useState('All');
+   
+   const categories = ['All', 'Web Development', 'JavaScript', 'Design', 'Computer Science', 'Mobile Development', 'Databases'];
 
   // Filter courses based on search term and category
   const filteredCourses = courses.filter(course => {
@@ -122,12 +75,53 @@ export default function AdminCourses() {
     return matchesSearch && matchesCategory;
   });
 
-  const handleAddCourse = () => {
+  // Function for deleting a course
+  const handleDelete = (code) => {
+
+    const deleteConfirm = window.confirm('Are you sure you want to delete this course?')
+    if (!deleteConfirm) {
+      return 
+    }
+
+    axios.delete(`http://localhost:5000/api/courses/${code}`) 
+    .then(() => {
+      setCourses(prev => prev.filter(course => course.code !== code))
+    })
+    .catch(err => {
+      console.error(err)
+    })
+  }
+
+  // Function for editing a course
+  const handleEdit = (course) => {
+    alert('Course editing');
+    // axios.put(`http://localhost:5000/api/courses/${code}`)  
+  }
+
+  //Function for adding a course
+  const handleAddCourse = (courseData) => {
+    axios.post('http://localhost:5000/api/courses/', courseData)
+    .then(res => {
+      setCourses(prev => [...prev, res.data.data])
+      setShowAddForm(false)
+    })
+    .catch(err => {
+      console.error(err)
+    });
     alert('Course added');
+
   };
+  
+  if (showAddForm) {
+    return <CourseAddForm onSubmit={handleAddCourse} onClose={() => setShowAddForm(false)}/>
+  }
+
 
   return (
     <div className="courses-container">
+      {/* {showAddForm && (
+        <CourseAddForm onSubmit={handleAddCourse} onClose={() => setShowAddForm(false)}/>
+      )} */}
       <h1 className="courses-title">Manage Courses</h1>
       
       {/* Filters and Search */}
@@ -163,12 +157,19 @@ export default function AdminCourses() {
           </select>
         </div>
       </div>
+
+      
       
       {/* Course Grid */}
       {filteredCourses.length > 0 ? (
         <div className="courses-grid">
           {filteredCourses.map(course => (
-            <CourseCard key={course.id} course={course} />
+            <CourseCard 
+              key={course.code} 
+              course={course} 
+              onDelete={() => handleDelete(course.code)}
+              onEdit={() => handleEdit(course.code)}
+            />
           ))}
         </div>
       ) : (
@@ -190,7 +191,7 @@ export default function AdminCourses() {
         <button className="explore-btn">
           Explore Course Catalog
         </button>
-        <button className="add-course-btn" onClick={handleAddCourse}>
+        <button className="add-course-btn" onClick={() => setShowAddForm(true)}>
           + Add Course
         </button>
       </div>

@@ -1,0 +1,102 @@
+.course-form-overlay {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 700px;
+    margin: 2rem auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .course-form-overlay h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    color: #333;
+  }
+  
+  .registration-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .form-group {
+    flex: 1;
+    position: relative;
+  }
+  
+  .form-group.floating input {
+    width: 100%;
+    padding: 1rem 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    background: none;
+    transition: border-color 0.2s;
+  }
+  
+  .form-group.floating input:focus {
+    border-color: #0077cc;
+  }
+  
+  .form-group.floating label {
+    position: absolute;
+    top: 1rem;
+    left: 0.75rem;
+    color: #999;
+    font-size: 0.95rem;
+    pointer-events: none;
+    transition: all 0.2s;
+    background-color: #fff;
+    padding: 0 4px;
+  }
+  
+  .form-group.floating input:not(:placeholder-shown) + label,
+  .form-group.floating input:focus + label {
+    top: -0.6rem;
+    left: 0.6rem;
+    font-size: 0.75rem;
+    color: #0077cc;
+  }
+  
+  .submit-group {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .enroll-btn,
+  .cancel-btn {
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .enroll-btn {
+    background-color: #0077cc;
+    color: white;
+  }
+  
+  .enroll-btn:hover {
+    background-color: #005fa3;
+  }
+  
+  .cancel-btn {
+    background-color: #eee;
+    color: #333;
+  }
+  
+  .cancel-btn:hover {
+    background-color: #ddd;
+  }
+  

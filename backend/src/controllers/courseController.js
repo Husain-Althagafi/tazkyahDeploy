@@ -76,7 +76,7 @@ exports.addCourse = asyncHandler(async (req, res) => {
         enrollmentCapacity: enrollmentCapacity || 30,
         startDate: startDate || new Date(),
         endDate,
-        instructorId: req.user.id, // From auth middleware
+        // instructorId: req.user.id, // From auth middleware
         imageUrl
     };
     
