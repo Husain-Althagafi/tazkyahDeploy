@@ -5,41 +5,53 @@ const CourseSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        trim: true,
     },
 
     code: {
         type: String,
         required: true,
         unique: true,
+        trim: true,
     },
 
-    description: String,
+    description: {
+        type: String,
+        trim: true,
+    },
 
-    instructor: {
+    status: {
+        type: String,
+        enum: ['active', 'inactive', 'upcoming'],
+        default: 'upcoming'
+    },
+    enrollmentCapacity: {
+        type: Number,
+        default: 30
+    },
+    startDate: {
+        type: Date
+    },
+    endDate: {
+        type: Date
+    },
+    instructorId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-
-    enrolledStudents: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }],
-
-    resources: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Resource'
-    }],
-
     createdAt: {
         type: Date,
         default: Date.now
     },
-
-    img: {
+    imageUrl: {
         type: String
     }
+});
 
-})
+// Create Indexes
+CourseSchema.index({ code: 1 });
+CourseSchema.index({ status: 1 });
+CourseSchema.index({ instructorId: 1 });
 
-module.exports = mongoose.model('Course', CourseSchema)
+module.exports = mongoose.model('Course', CourseSchema);
