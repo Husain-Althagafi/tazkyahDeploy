@@ -55,20 +55,17 @@ function CourseDetails() {
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem("token");
-
-      const response = await fetch(
-        `http://localhost:5005/api/courses/${code}/enroll`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(formData),
-        }
-      );
-
+      const token = localStorage.getItem('token'); 
+  
+      const response = await fetch(`http://localhost:5005/api/courses/${code}/enroll`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(formData)
+      });
+  
       if (!response.ok) {
         throw new Error("Failed to enroll");
       }

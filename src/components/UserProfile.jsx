@@ -10,20 +10,21 @@ export default function UserProfile() {
   const [formData, setFormData] = useState({});
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5005/api/persons/me", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setProfileData(res.data.data);
-        setFormData(res.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching profile data:", error);
-      });
-  }, []);
+    axios.get('http://localhost:5005/api/persons/me', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then((res) => {
+      setProfileData(res.data.data)
+      setFormData(res.data)
+    })
+    .catch((error) => {
+      console.error('Error fetching profile data:',error)
+    })
+  }, [])
+
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,8 +39,8 @@ export default function UserProfile() {
     setProfileData({ ...formData });
     setIsEditing(false);
     // Here you would typically make an API call to update the user profile
-    axios.put("http://localhost:5005/api/users/profile", profileData);
-    alert("Profile updated successfully!");
+    axios.put('http://localhost:5005/api/users/profile', profileData)
+    alert('Profile updated successfully!');
   };
 
   const handleCancel = () => {

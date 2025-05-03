@@ -8,9 +8,9 @@ export function NewCourses() {
   useEffect(() => {
     async function fetchCourses() {
       try {
-        const response = await fetch("http://localhost:5005/api/courses/", {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
+        const response = await fetch('http://localhost:5005/api/courses/', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
         });
 
         if (!response.ok) {

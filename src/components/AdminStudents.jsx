@@ -57,19 +57,21 @@ export default function AdminStudents() {
   const [students, setStudents] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5005/api/users/role/student", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setStudents(res.data.data);
-      })
-      .catch((err) => {
-        console.error("Error fetching students", err);
-      });
-  }, []);
+    axios.get('http://localhost:5005/api/users/role/student', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then((res) => {
+      setStudents(res.data.data)
+    })
+    .catch(err => {
+      console.error('Error fetching students', err)
+    })
+    
+  }, [])
+
+  
 
   // Filter states
   const [searchTerm, setSearchTerm] = useState("");
@@ -112,19 +114,18 @@ export default function AdminStudents() {
       return;
     }
 
-    axios
-      .delete(`http://localhost:5005/api/users/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(() => {
-        setStudents((prev) => prev.filter((student) => student._id !== id));
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
+    axios.delete(`http://localhost:5005/api/users/${id}`,{
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }) 
+    .then(() => {
+      setStudents(prev => prev.filter(student => student._id !== id))
+    })
+    .catch(err => {
+      console.error(err)
+    })
+  }
 
   return (
     <div className="students-container">
