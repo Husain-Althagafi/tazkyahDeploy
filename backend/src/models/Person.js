@@ -39,6 +39,10 @@ const PersonSchema = new mongoose.Schema({
   lastLogin: {
     type: Date,
   },
+
+  bio: {
+    type: String
+  }
 });
 
 // Indexes

@@ -194,7 +194,7 @@ exports.enrollStudentInCourse = asyncHandler(async (req, res) => {
     
     // Enroll student in course using repository
     try {
-        await courseRepository.enrollStudent(req.user.id, code);
+        await courseRepository.enrollStudent(req.user.id, course._id, code);
         
         res.status(200).json({
             success: true,
@@ -218,7 +218,7 @@ exports.unenrollStudentFromCourse = asyncHandler(async (req, res) => {
     }
     
     // Find course by code
-    const course = await courseRepository.findByCode(code);
+    const course = await courseRepository.findById(code);
     
     if (!course) {
         return res.status(404).json({ error: 'Course not found' });

@@ -47,7 +47,7 @@ export default function UserCourses() {
     };
     
     fetchEnrolledCourses();
-  }, [toastError]);
+  }, []);
 
   // Filter courses based on search term and category
   const filteredCourses = enrolledCourses.filter(course => {

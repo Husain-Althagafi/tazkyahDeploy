@@ -6,6 +6,8 @@ const { verifyToken, requireRoles } = require('../middleware/auth');
 // Public routes
 router.get('/', courseController.getAllCourses);
 // Parameterized routes (This was a protected route!)
+router.get('/enrolled', verifyToken, requireRoles(['student']), courseController.getStudentCourses);
+
 router.get('/:code', courseController.getCourseByCode);
 
 // Protected routes
