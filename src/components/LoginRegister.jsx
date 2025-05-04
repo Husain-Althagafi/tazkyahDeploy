@@ -13,7 +13,7 @@ const LoginRegister = () => {
     lastName: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    // confirmPassword: "",
   });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({ login: null, register: null });
@@ -99,9 +99,9 @@ const LoginRegister = () => {
         throw new Error("Please fill in all required fields");
       }
 
-      if (registerData.password !== registerData.confirmPassword) {
-        throw new Error("Passwords do not match");
-      }
+      // if (registerData.password !== registerData.confirmPassword) {
+      //   throw new Error("Passwords do not match");
+      // }
 
       if (registerData.password.length < 6) {
         throw new Error("Password must be at least 6 characters long");
@@ -243,7 +243,7 @@ const LoginRegister = () => {
               />
               <i className="bx bxs-lock-alt"></i>
             </div>
-            <div className="input-box">
+            {/* <div className="input-box">
               <input
                 type="password"
                 name="confirmPassword"
@@ -253,7 +253,7 @@ const LoginRegister = () => {
                 required
               />
               <i className="bx bxs-lock-alt"></i>
-            </div>
+            </div> */}
             {errors.register && (
               <div className="form-error">{errors.register}</div>
             )}
