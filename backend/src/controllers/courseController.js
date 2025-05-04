@@ -218,7 +218,7 @@ exports.unenrollStudentFromCourse = asyncHandler(async (req, res) => {
     }
     
     // Find course by code
-    const course = await courseRepository.findByCode(code);
+    const course = await courseRepository.findById(code);
     
     if (!course) {
         return res.status(404).json({ error: 'Course not found' });

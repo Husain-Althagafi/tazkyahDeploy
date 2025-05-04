@@ -239,6 +239,9 @@ class CourseRepository {
         try {
             const enrollments = await Enrollment.find({ userId });
             
+            // if (Object.keys(enrollments).length === 0) {
+            //     return {}
+            // }
             // Get course IDs from enrollments
             const courseIds = enrollments.map(e => e.courseId);
             
