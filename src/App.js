@@ -1,9 +1,8 @@
-// src/App.js (modified version)
+// src/App.js (modified to remove sidebar)
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import React from "react";
 import "./styles/global.css";
-import "./styles/user-dashboard.css";
-import "./styles/user-components.css";
+import "./styles/user-components.css"; // Remove user-dashboard.css as it contains sidebar styles
 
 // Import components
 import LoginRegister from "./components/LoginRegister";
@@ -18,8 +17,6 @@ import About from "./components/About";
 import UserProfile from "./components/UserProfile";
 import UserCourses from "./components/UserCourses";
 import UserSettings from "./components/UserSettings";
-import UserLayout from "./components/UserLayout";
-import AdminLayout from "./components/AdminLayout";
 import AdminCourses from "./components/AdminCourses";
 import AdminSchools from "./components/AdminSchools";
 import AdminStudents from "./components/AdminStudents";
@@ -33,69 +30,65 @@ import { ToastProvider } from "./contexts/ToastContext";
 function App() {
   return (
     <ToastProvider>
-    <div className="app">
-      <Router>
-        <Navbar />
-        <Routes>
-          {/* Public routes */}
-          <Route path="/" element={<Main />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/courses" element={<CoursesPage />} />
-          <Route
-            path="/courses/course-details/:code"
-            element={<CourseDetails />}
-          />
-          <Route path="/core-values" element={<About />} />
-          <Route path="/join-us" element={<Hero />} />
-          <Route path="/login-register" element={<LoginRegister />} />
-          <Route path="/unauthorized" element={<UnauthorizedPage />} />
+      <div className="app">
+        <Router>
+          <Navbar />
+          <div className="main-content">
+            <Routes>
+              {/* Public routes */}
+              <Route path="/" element={<Main />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/courses" element={<CoursesPage />} />
+              <Route
+                path="/courses/course-details/:code"
+                element={<CourseDetails />}
+              />
+              <Route path="/core-values" element={<Hero />} /> {/* Changed from About to Hero for differentiation */}
+              <Route path="/join-us" element={<Hero />} />
+              <Route path="/login-register" element={<LoginRegister />} />
+              <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
-          {/* Student routes */}
-          <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
-            <Route element={<UserLayout />}>
-              <Route path="/user-profile" element={<UserProfile />} />
-              <Route path="/user-courses" element={<UserCourses />} />
-              <Route path="/user-settings" element={<UserSettings />} />
-              <Route
-                path="/courses/:courseId/resources"
-                element={<StudentResourcesContainer />}
-              />
-              <Route
-                path="/courses/course-details/enrolled"
-                element={<EnrollConfirmation />}
-              />
-            </Route>
-          </Route>
+              {/* Student routes */}
+              <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
+                <Route path="/user-profile" element={<UserProfile />} />
+                <Route path="/user-courses" element={<UserCourses />} />
+                <Route path="/user-settings" element={<UserSettings />} />
+                <Route
+                  path="/courses/:courseId/resources"
+                  element={<StudentResourcesContainer />}
+                />
+                <Route
+                  path="/courses/course-details/enrolled"
+                  element={<EnrollConfirmation />}
+                />
+              </Route>
 
-          {/* Instructor routes */}
-          <Route element={<ProtectedRoute allowedRoles={["instructor"]} />}>
-            <Route element={<UserLayout />}>
-              <Route path="/instructor-profile" element={<UserProfile />} />
-              <Route
-                path="/instructor-courses"
-                element={<InstructorCourses />}
-              />
-              <Route
-                path="/instructor/courses/:courseId/resources"
-                element={<InstructorResourcesContainer />}
-              />
-              <Route path="/instructor-settings" element={<UserSettings />} />
-            </Route>
-          </Route>
+              {/* Instructor routes */}
+              <Route element={<ProtectedRoute allowedRoles={["instructor"]} />}>
+                <Route path="/instructor-profile" element={<UserProfile />} />
+                <Route
+                  path="/instructor-courses"
+                  element={<InstructorCourses />}
+                />
+                <Route
+                  path="/instructor/courses/:courseId/resources"
+                  element={<InstructorResourcesContainer />}
+                />
+                <Route path="/instructor-settings" element={<UserSettings />} />
+              </Route>
 
-          {/* Admin routes */}
-          <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
-            <Route element={<AdminLayout />}>
-              <Route path="/admin-profile" element={<UserProfile />} />
-              <Route path="/admin-courses" element={<AdminCourses />} />
-              <Route path="/admin-students" element={<AdminStudents />} />
-              <Route path="/admin-schools" element={<AdminSchools />} />
-              <Route path="/admin-settings" element={<UserSettings />} />
-            </Route>
-          </Route>
-        </Routes>
-        <Footer />
-      </Router>
+              {/* Admin routes */}
+              <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+                <Route path="/admin-profile" element={<UserProfile />} />
+                <Route path="/admin-courses" element={<AdminCourses />} />
+                <Route path="/admin-students" element={<AdminStudents />} />
+                <Route path="/admin-schools" element={<AdminSchools />} />
+                <Route path="/admin-settings" element={<UserSettings />} />
+              </Route>
+            </Routes>
+          </div>
+          <Footer />
+        </Router>
       </div>
     </ToastProvider>
   );

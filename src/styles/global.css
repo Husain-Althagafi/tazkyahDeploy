@@ -7,11 +7,30 @@
   list-style: none;
 }
 
+/* Add these to src/styles/global.css */
 .app {
-  width: 100vw;
-  min-height: 100vh;
-  overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  background: whitesmoke;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding: 10px;
+  }
 }
