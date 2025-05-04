@@ -18,12 +18,21 @@ function RegisterHandler() {
 
       console.log(JSON.stringify({ firstName, lastName, email, password }));
 
+<<<<<<< Updated upstream
       try {
         const res = await fetch("http://localhost:5005/api/auth/register", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ firstName, lastName, email, password }),
         });
+=======
+            try {
+                const res = await fetch("http://localhost:5005/api/auth/register", {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ firstName, lastName, email, password }),
+                })
+>>>>>>> Stashed changes
 
         const data = await res.json();
 

@@ -1,122 +1,123 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 import '../styles/usercourses.css';
-
-// CourseCard component for displaying individual courses
-function CourseCard({ course }) {
-  const { title, instructor, completion, image, category, lastAccessed } = course;
-  
-  return (
-    <div className="course-card">
-      <div className="course-image-container">
-        <img 
-          src={image} 
-          alt={title} 
-          className="course-image"
-        />
-        <div className="course-category">{category}</div>
-      </div>
-      <div className="course-content">
-        <h3 className="course-title">{title}</h3>
-        <p className="course-instructor">Instructor: {instructor}</p>
-        <div className="course-progress-container">
-          <div className="progress-header">
-            <span className="progress-label">Progress</span>
-            <span className="progress-percentage">{completion}%</span>
-          </div>
-          <div className="progress-bar-background">
-            <div 
-              className="progress-bar-fill" 
-              style={{ width: `${completion}%` }}
-            ></div>
-          </div>
-        </div>
-        <p className="course-last-accessed">Last accessed: {lastAccessed}</p>
-        <div className="course-actions">
-          <button className="continue-btn">Continue</button>
-          <button className="details-btn">Details</button>
-        </div>
-      </div>
-    </div>
-  );
-}
+import LoadingSpinner from './common/LoadingSpinner';
+import { useToast } from '../contexts/ToastContext';
 
 export default function UserCourses() {
-  // Sample course data
-  const [courses] = useState([
-    {
-      id: 1,
-      title: "Introduction to Web Development",
-      instructor: "Sarah Johnson",
-      completion: 75,
-      image: "/api/placeholder/400/300",
-      category: "Web Development",
-      lastAccessed: "April 28, 2025"
-    },
-    {
-      id: 2,
-      title: "Advanced React Patterns",
-      instructor: "Michael Chen",
-      completion: 45,
-      image: "/api/placeholder/400/300",
-      category: "JavaScript",
-      lastAccessed: "April 30, 2025"
-    },
-    {
-      id: 3,
-      title: "UI/UX Design Fundamentals",
-      instructor: "Emily Williams",
-      completion: 90,
-      image: "/api/placeholder/400/300",
-      category: "Design",
-      lastAccessed: "April 29, 2025"
-    },
-    {
-      id: 4,
-      title: "Data Structures and Algorithms",
-      instructor: "Robert Brown",
-      completion: 30,
-      image: "/api/placeholder/400/300",
-      category: "Computer Science",
-      lastAccessed: "April 25, 2025"
-    },
-    {
-      id: 5,
-      title: "Mobile App Development with React Native",
-      instructor: "Jessica Lee",
-      completion: 60,
-      image: "/api/placeholder/400/300",
-      category: "Mobile Development",
-      lastAccessed: "April 27, 2025"
-    },
-    {
-      id: 6,
-      title: "Database Design and Management",
-      instructor: "David Miller",
-      completion: 15,
-      image: "/api/placeholder/400/300",
-      category: "Databases",
-      lastAccessed: "April 20, 2025"
-    }
-  ]);
-
-  // Filter states
+  const [enrolledCourses, setEnrolledCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCategory, setFilterCategory] = useState('All');
+  const { error: toastError } = useToast();
   
+  // Available course categories (can be dynamic based on backend data)
   const categories = ['All', 'Web Development', 'JavaScript', 'Design', 'Computer Science', 'Mobile Development', 'Databases'];
 
+  useEffect(() => {
+    const fetchEnrolledCourses = async () => {
+      setLoading(true);
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          throw new Error('Authentication required');
+        }
+        
+        // Get enrolled courses from backend
+        const response = await axios.get('http://localhost:5005/api/courses/enrolled', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        
+        if (response.data.success) {
+          setEnrolledCourses(response.data.data);
+        } else {
+          throw new Error(response.data.error || 'Failed to fetch enrolled courses');
+        }
+      } catch (err) {
+        console.error('Error fetching enrolled courses:', err);
+        setError(err.message || 'Failed to load your courses');
+        toastError('Failed to load your courses');
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchEnrolledCourses();
+  }, [toastError]);
+
   // Filter courses based on search term and category
-  const filteredCourses = courses.filter(course => {
-    const matchesSearch = course.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          course.instructor.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = filterCategory === 'All' || course.category === filterCategory;
+  const filteredCourses = enrolledCourses.filter(course => {
+    const matchesSearch = 
+      course.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      (course.instructor && course.instructor.toLowerCase().includes(searchTerm.toLowerCase()));
+    
+    const matchesCategory = 
+      filterCategory === 'All' || course.category === filterCategory;
     
     return matchesSearch && matchesCategory;
   });
 
+  // Helper function to format date
+  const formatDate = (dateString) => {
+    if (!dateString) return 'N/A';
+    return new Date(dateString).toLocaleDateString();
+  };
+
+  // Handle unenrolling from a course
+  const handleUnenroll = async (courseId, courseName) => {
+    if (!window.confirm(`Are you sure you want to unenroll from "${courseName}"?`)) {
+      return;
+    }
+    
+    try {
+      const token = localStorage.getItem('token');
+      
+      await axios.delete(`http://localhost:5005/api/courses/${courseId}/enroll`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      
+      // Remove course from state
+      setEnrolledCourses(prev => prev.filter(course => course._id !== courseId));
+    } catch (err) {
+      console.error('Error unenrolling from course:', err);
+      toastError(err.response?.data?.error || 'Failed to unenroll from course');
+    }
+  };
+
+  if (loading) {
+    return <LoadingSpinner size="large" text="Loading your courses..." />;
+  }
+
   return (
     <div className="courses-container">
       <h1 className="courses-title">My Courses</h1>
+      
+      {/* Course statistics */}
+      <div className="courses-stats">
+        <div className="stat-box">
+          <h3>{enrolledCourses.length}</h3>
+          <p>Enrolled Courses</p>
+        </div>
+        <div className="stat-box">
+          <h3>{enrolledCourses.filter(course => course.enrollment.progress === 100).length}</h3>
+          <p>Completed</p>
+        </div>
+        <div className="stat-box">
+          <h3>
+            {Math.round(
+              enrolledCourses.reduce((sum, course) => sum + course.enrollment.progress, 0) / 
+              (enrolledCourses.length || 1)
+            )}%
+          </h3>
+          <p>Average Progress</p>
+        </div>
+      </div>
       
       {/* Filters and Search */}
       <div className="courses-filters">
@@ -151,34 +152,102 @@ export default function UserCourses() {
           </select>
         </div>
       </div>
-      
-      {/* Course Grid */}
-      {filteredCourses.length > 0 ? (
-        <div className="courses-grid">
-          {filteredCourses.map(course => (
-            <CourseCard key={course.id} course={course} />
-          ))}
-        </div>
-      ) : (
-        <div className="no-courses">
-          <p className="no-courses-message">No courses found matching your filters.</p>
-          <button 
-            onClick={() => {setSearchTerm(''); setFilterCategory('All');}}
-            className="clear-filters-btn"
-          >
-            Clear filters
+
+      {/* Error display */}
+      {error && (
+        <div className="courses-error">
+          <p>{error}</p>
+          <button onClick={() => window.location.reload()} className="reload-btn">
+            Try Again
           </button>
         </div>
       )}
-      
-      {/* Explore More Courses CTA */}
-      <div className="explore-section">
-        <h2 className="explore-title">Looking for more learning opportunities?</h2>
-        <p className="explore-description">Explore our course catalog to find your next skill to master.</p>
-        <button className="explore-btn">
-          Explore Course Catalog
-        </button>
-      </div>
+
+      {/* Course Grid */}
+      {!error && (
+        <>
+          {enrolledCourses.length === 0 ? (
+            <div className="no-courses">
+              <p>You are not enrolled in any courses yet.</p>
+              <Link to="/courses" className="browse-courses-btn">
+                Browse Available Courses
+              </Link>
+            </div>
+          ) : filteredCourses.length === 0 ? (
+            <div className="no-courses">
+              <p>No courses match your search criteria.</p>
+              <button 
+                onClick={() => {setSearchTerm(''); setFilterCategory('All');}}
+                className="clear-filters-btn"
+              >
+                Clear Filters
+              </button>
+            </div>
+          ) : (
+            <div className="enrolled-courses">
+              <h2>Enrolled Courses</h2>
+              <div className="course-cards">
+                {filteredCourses.map(course => (
+                  <div 
+                    key={course._id} 
+                    className={`course-card ${course.enrollment.progress === 100 ? 'completed' : ''}`}
+                  >
+                    <div className="course-image">
+                      <img 
+                        src={course.imageUrl || "https://placehold.co/400x200?text=Course"} 
+                        alt={course.title} 
+                      />
+                      {course.enrollment.progress === 100 && (
+                        <div className="completed-badge">Completed</div>
+                      )}
+                    </div>
+                    <div className="course-details">
+                      <h3>{course.title}</h3>
+                      <p>Instructor: {course.instructorName || 'Not specified'}</p>
+                      
+                      <div className="progress-container">
+                        <div className="progress-bar">
+                          <div 
+                            className="progress-fill"
+                            style={{ width: `${course.enrollment.progress}%` }}
+                          ></div>
+                        </div>
+                        <div className="progress-info">
+                          <span>{course.enrollment.progress}% Complete</span>
+                          <span>Enrolled: {formatDate(course.enrollment.enrollmentDate)}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="course-actions">
+                      <Link to={`/courses/${course._id}/view`} className="course-button primary">
+                        {course.enrollment.progress > 0 ? 'Continue' : 'Start'} Course
+                      </Link>
+                      <Link to={`/courses/${course._id}/resources`} className="course-button secondary">
+                        Resources
+                      </Link>
+                      <button 
+                        className="course-button danger"
+                        onClick={() => handleUnenroll(course._id, course.title)}
+                      >
+                        Unenroll
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+    
+          {/* Recommended Courses Section */}
+          <div className="recommended-courses">
+            <h2>Recommended for You</h2>
+            <p>Based on your enrolled courses and interests</p>
+            <Link to="/courses" className="browse-button">
+              Browse All Courses
+            </Link>
+          </div>
+        </>
+      )}
     </div>
   );
 }

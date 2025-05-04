@@ -1,31 +1,53 @@
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
 import "../styles/userprofile.css";
+import { useToast } from "../contexts/ToastContext";
+import LoadingSpinner from "./common/LoadingSpinner";
+import { authAxios } from "../services/authService";
 
 export default function UserProfile() {
   const [profileData, setProfileData] = useState(null);
-  const token = localStorage.getItem("token");
-
+  const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({});
+  const [error, setError] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const { success, error: toastError } = useToast();
 
+  // Fetch user profile data
   useEffect(() => {
-    axios.get('http://localhost:5005/api/persons/me', {
-      headers: {
-        Authorization: `Bearer ${token}`
+    const fetchProfileData = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const response = await authAxios().get("/persons/me");
+
+        if (response.data.success) {
+          setProfileData(response.data.data);
+          setFormData({
+            firstName: response.data.data.firstName || "",
+            lastName: response.data.data.lastName || "",
+            email: response.data.data.email || "",
+            phoneNumber: response.data.data.phoneNumber || "",
+            bio: response.data.data.bio || "",
+          });
+        } else {
+          throw new Error("Failed to fetch profile data");
+        }
+      } catch (err) {
+        console.error("Error fetching profile data:", err);
+        setError(err.message || "Failed to load profile data");
+        toastError("Failed to load profile data");
+      } finally {
+        setLoading(false);
       }
-    })
-    .then((res) => {
-      setProfileData(res.data.data)
-      setFormData(res.data)
-    })
-    .catch((error) => {
-      console.error('Error fetching profile data:',error)
-    })
-  }, [])
+    };
 
+    fetchProfileData();
+  }, [toastError]);
 
-
+  // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -34,59 +56,76 @@ export default function UserProfile() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  // Submit form data
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setProfileData({ ...formData });
-    setIsEditing(false);
-    // Here you would typically make an API call to update the user profile
-    axios.put('http://localhost:5005/api/users/profile', profileData)
-    alert('Profile updated successfully!');
+    setSaving(true);
+    setError(null);
+
+    try {
+      // Update basic profile info
+      const response = await authAxios().put(
+        `/persons/${profileData._id}`,
+        formData
+      );
+
+      if (response.data.success) {
+        // Update local state with new data
+        setProfileData({
+          ...profileData,
+          ...formData,
+        });
+
+        setIsEditing(false);
+        success("Profile updated successfully!");
+      } else {
+        throw new Error(response.data.error || "Failed to update profile");
+      }
+    } catch (err) {
+      console.error("Error updating profile:", err);
+      setError(
+        err.response?.data?.error || err.message || "Failed to update profile"
+      );
+      toastError("Failed to update profile");
+    } finally {
+      setSaving(false);
+    }
   };
 
+  // Cancel editing
   const handleCancel = () => {
-    setFormData({ ...profileData });
+    setFormData({
+      firstName: profileData.firstName || "",
+      lastName: profileData.lastName || "",
+      email: profileData.email || "",
+      phoneNumber: profileData.phoneNumber || "",
+      bio: profileData.bio || "",
+    });
     setIsEditing(false);
   };
 
-  if (!profileData) {
-    return <div>Loading...</div>;
+  if (loading) {
+    return <LoadingSpinner size="large" text="Loading profile data..." />;
   }
+
+  if (error && !profileData) {
+    return (
+      <div className="profile-error">
+        <h2>Error Loading Profile</h2>
+        <p>{error}</p>
+        <button onClick={() => window.location.reload()} className="reload-btn">
+          Try Again
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="profile-container">
       <h1 className="profile-title">User Profile</h1>
 
       <div className="profile-card">
         <div className="profile-layout">
-          {/* Profile Picture Section */}
-          {/* <div className="profile-picture-section">
-            <div className="profile-picture-container">
-              <img 
-                src={profileData.profilePicture || ''} 
-                alt="Profile" 
-                className="profile-picture"
-              />
-              {isEditing && (
-                <button 
-                  className="change-picture-btn"
-                  title="Change Profile Picture"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-                    <circle cx="12" cy="13" r="4"></circle>
-                  </svg>
-                </button>
-              )}
-            </div>
-            {!isEditing && (
-              <button 
-                onClick={() => setIsEditing(true)}
-                className="edit-profile-btn"
-              >
-                Edit Profile
-              </button>
-            )}
-          </div> */}
-
           {/* Profile Details Section */}
           <div className="profile-details">
             {isEditing ? (
@@ -123,16 +162,19 @@ export default function UserProfile() {
                       onChange={handleChange}
                       className="form-input"
                       required
+                      disabled // Email is typically not changeable
                     />
                   </div>
                   <div className="form-group">
                     <label className="form-label">Phone Number</label>
                     <input
                       type="tel"
-                      name="phone"
-                      value={formData.phone}
+                      name="phoneNumber"
+                      value={formData.phoneNumber}
                       onChange={handleChange}
                       className="form-input"
+                      pattern="[0-9+\-\(\)\s]+"
+                      title="Please enter a valid phone number"
                     />
                   </div>
                 </div>
@@ -146,42 +188,67 @@ export default function UserProfile() {
                     className="form-textarea"
                   ></textarea>
                 </div>
+
+                {error && <div className="form-error">{error}</div>}
+
                 <div className="form-buttons">
                   <button
                     type="button"
                     onClick={handleCancel}
                     className="cancel-btn"
+                    disabled={saving}
                   >
                     Cancel
                   </button>
-                  <button type="submit" className="save-btn">
-                    Save Changes
+                  <button type="submit" className="save-btn" disabled={saving}>
+                    {saving ? "Saving..." : "Save Changes"}
                   </button>
                 </div>
               </form>
             ) : (
               <div className="profile-info">
+                <div className="profile-header">
+                  <div className="profile-actions">
+                    <button
+                      onClick={() => setIsEditing(true)}
+                      className="edit-profile-btn"
+                    >
+                      Edit Profile
+                    </button>
+                  </div>
+                </div>
+
                 <div className="info-grid">
                   <div className="info-group">
                     <h3 className="info-label">First Name</h3>
-                    <p className="info-value">{profileData.firstName}</p>
+                    <p className="info-value">
+                      {profileData.firstName || "Not set"}
+                    </p>
                   </div>
                   <div className="info-group">
                     <h3 className="info-label">Last Name</h3>
-                    <p className="info-value">{profileData.lastName}</p>
+                    <p className="info-value">
+                      {profileData.lastName || "Not set"}
+                    </p>
                   </div>
                   <div className="info-group">
                     <h3 className="info-label">Email</h3>
-                    <p className="info-value">{profileData.email}</p>
+                    <p className="info-value">
+                      {profileData.email || "Not set"}
+                    </p>
                   </div>
                   <div className="info-group">
                     <h3 className="info-label">Phone Number</h3>
-                    <p className="info-value">{profileData.phone}</p>
+                    <p className="info-value">
+                      {profileData.phoneNumber || "Not set"}
+                    </p>
                   </div>
                 </div>
                 <div className="bio-section">
                   <h3 className="info-label">Bio</h3>
-                  <p className="info-value">{profileData.bio}</p>
+                  <p className="info-value bio-text">
+                    {profileData.bio || "No bio information provided yet."}
+                  </p>
                 </div>
               </div>
             )}
