@@ -188,7 +188,7 @@ class CourseRepository {
             }
             
             // Check if course exists
-            const course = await Course.findById(courseCode);
+            const course = await Course.findOne({code: courseCode});
             if (!course) {
                 throw new Error('Course not found');
             }
@@ -196,7 +196,7 @@ class CourseRepository {
             // Create enrollment
             const enrollment = new Enrollment({
                 userId,
-                courseCode,
+                courseId: course._id,
                 status: 'active',
                 progress: 0,
                 enrollmentDate: new Date()
