@@ -179,12 +179,12 @@ class CourseRepository {
      * @param {string} courseId - Course ID
      * @returns {Promise<Object>} Enrollment record
      */
-    async enrollStudent(userId, courseCode) {
+    async enrollStudent(userId, courseId, courseCode) {
         try {
             // Check if already enrolled
-            const existingEnrollment = await Enrollment.findOne({ userId, courseCode });
+            const existingEnrollment = await Enrollment.findOne({ userId, courseId });
             if (existingEnrollment) {
-                return existingEnrollment;
+                throw new Error('Student is already enrolled in the course') 
             }
             
             // Check if course exists

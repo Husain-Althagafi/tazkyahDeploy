@@ -121,9 +121,15 @@ function CourseDetails() {
       }
     } catch (error) {
       console.error("Error during enrollment:", error);
-      setEnrollmentError(
-        error.response?.data?.error || "Failed to enroll in the course"
-      );
+      if (error.response?.data?.code === 11000) {
+        setEnrollmentError('You are already enrolled in this course');
+      }
+      else {
+        setEnrollmentError(
+          error.response?.data?.error || "Failed to enroll in the course"
+        );
+      }
+      
     } finally {
       setEnrolling(false);
     }
