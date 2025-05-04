@@ -10,7 +10,7 @@ const jwt = require('jsonwebtoken');
 exports.register = asyncHandler(async (req, res) => {
     const { firstName, lastName, email, password, role } = req.body;
     
-    if (!username || !email || !password) {
+    if (!firstName || !lastName || !email || !password) {
         return res.status(400).json({ error: 'Please provide all required fields' });
     }
     
@@ -22,7 +22,8 @@ exports.register = asyncHandler(async (req, res) => {
     
     // Create user data object
     const userData = {
-        username,
+        firstName,
+        lastName,
         email,
         password,
         role: role || 'student'
