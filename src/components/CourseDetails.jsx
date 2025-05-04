@@ -1,4 +1,4 @@
-// src/components/CourseDetails.jsx (with fixes)
+// src/components/CourseDetails.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -54,23 +54,31 @@ function CourseDetails() {
     }
   };
 
-  // Fetch course details
+  // Fetch course details - Enhanced error handling and response processing
   useEffect(() => {
     async function fetchCourseDetails() {
       setLoading(true);
+      setError(null);
+      
       try {
+        console.log(`Fetching course details for code: ${code}`);
         const response = await axios.get(
           `http://localhost:5005/api/courses/${code}`
         );
 
         if (response.data.success) {
+          console.log("Course details fetched:", response.data.data);
           setCourseDetails(response.data.data);
         } else {
-          setError("Failed to fetch course details");
+          throw new Error(response.data.error || "Failed to fetch course details");
         }
-      } catch (error) {
-        console.error("Error fetching course:", error);
-        setError("An error occurred while fetching course details");
+      } catch (err) {
+        console.error("Error fetching course:", err);
+        setError(
+          err.response?.data?.error || 
+          err.message || 
+          "An error occurred while fetching course details"
+        );
       } finally {
         setLoading(false);
       }
@@ -115,7 +123,9 @@ function CourseDetails() {
       );
 
       if (response.data.success) {
-        navigate("/courses/course-details/enrolled");
+        navigate("/courses/course-details/enrolled", {
+          state: { course: courseDetails }
+        });
       } else {
         setEnrollmentError(response.data.error || "Enrollment failed");
       }
@@ -129,7 +139,6 @@ function CourseDetails() {
           error.response?.data?.error || "Failed to enroll in the course"
         );
       }
-      
     } finally {
       setEnrolling(false);
     }
