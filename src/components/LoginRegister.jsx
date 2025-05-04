@@ -1,4 +1,4 @@
-// src/components/LoginRegister.jsx (improved)
+// src/components/LoginRegister.jsx with added social login functionality
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -13,7 +13,6 @@ const LoginRegister = () => {
     lastName: "",
     email: "",
     password: "",
-    // confirmPassword: "",
   });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({ login: null, register: null });
@@ -99,10 +98,6 @@ const LoginRegister = () => {
         throw new Error("Please fill in all required fields");
       }
 
-      // if (registerData.password !== registerData.confirmPassword) {
-      //   throw new Error("Passwords do not match");
-      // }
-
       if (registerData.password.length < 6) {
         throw new Error("Password must be at least 6 characters long");
       }
@@ -139,6 +134,35 @@ const LoginRegister = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Function to handle social media authentication
+  const handleSocialLogin = (provider) => {
+    // Beyond the scope of SWE 363, could be implemented for the real client later.
+    // This function handles social login redirection
+    
+    // In a real implementation, you'd need to:
+    // 1. Set up OAuth endpoints on the backend for each provider
+    // 2. Configure appropriate redirect URLs and authentication callbacks
+    // 3. Handle tokens and user creation/linking on the backend
+    
+    // For now, we'll provide appropriate links to each provider's OAuth page
+    // These URLs would typically point to your backend OAuth endpoints
+    const oauthUrls = {
+      google: "https://accounts.google.com/o/oauth2/v2/auth",
+      facebook: "https://www.facebook.com/v11.0/dialog/oauth",
+      github: "https://github.com/login/oauth/authorize",
+      linkedin: "https://www.linkedin.com/oauth/v2/authorization"
+    };
+    
+    // For demonstration purposes, we'll log what would happen and alert the user
+    console.log(`Initiating ${provider} OAuth flow`);
+    
+    // In a real application, you would redirect to your backend endpoint like:
+    // window.location.href = `http://localhost:5005/api/auth/${provider}`;
+    
+    // Since we don't have the backend implementation yet, show an informative message
+    alert(`Authenticating with ${provider}... \n\nIn a complete implementation, this would redirect to the ${provider} login page. This feature requires backend OAuth configuration.`);
   };
 
   return (
@@ -179,16 +203,17 @@ const LoginRegister = () => {
             </button>
             <p>or login with social platforms</p>
             <div className="social-icons">
-              <a href="#google">
+              {/* Updated social login links with proper OAuth handlers */}
+              <a href="#" onClick={(e) => { e.preventDefault(); handleSocialLogin('google'); }}>
                 <i className="bx bxl-google"></i>
               </a>
-              <a href="#facebook">
+              <a href="#" onClick={(e) => { e.preventDefault(); handleSocialLogin('facebook'); }}>
                 <i className="bx bxl-facebook"></i>
               </a>
-              <a href="#github">
+              <a href="#" onClick={(e) => { e.preventDefault(); handleSocialLogin('github'); }}>
                 <i className="bx bxl-github"></i>
               </a>
-              <a href="#linkedin">
+              <a href="#" onClick={(e) => { e.preventDefault(); handleSocialLogin('linkedin'); }}>
                 <i className="bx bxl-linkedin"></i>
               </a>
             </div>
@@ -243,17 +268,6 @@ const LoginRegister = () => {
               />
               <i className="bx bxs-lock-alt"></i>
             </div>
-            {/* <div className="input-box">
-              <input
-                type="password"
-                name="confirmPassword"
-                placeholder="Confirm password"
-                value={registerData.confirmPassword}
-                onChange={handleRegisterChange}
-                required
-              />
-              <i className="bx bxs-lock-alt"></i>
-            </div> */}
             {errors.register && (
               <div className="form-error">{errors.register}</div>
             )}
@@ -262,16 +276,17 @@ const LoginRegister = () => {
             </button>
             <p>or register with social platforms</p>
             <div className="social-icons">
-              <a href="#google">
+              {/* Updated social registration links with proper OAuth handlers */}
+              <a href="#" onClick={(e) => { e.preventDefault(); handleSocialLogin('google'); }}>
                 <i className="bx bxl-google"></i>
               </a>
-              <a href="#facebook">
+              <a href="#" onClick={(e) => { e.preventDefault(); handleSocialLogin('facebook'); }}>
                 <i className="bx bxl-facebook"></i>
               </a>
-              <a href="#github">
+              <a href="#" onClick={(e) => { e.preventDefault(); handleSocialLogin('github'); }}>
                 <i className="bx bxl-github"></i>
               </a>
-              <a href="#linkedin">
+              <a href="#" onClick={(e) => { e.preventDefault(); handleSocialLogin('linkedin'); }}>
                 <i className="bx bxl-linkedin"></i>
               </a>
             </div>
