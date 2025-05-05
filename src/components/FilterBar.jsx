@@ -82,7 +82,7 @@ export function FilterBar() {
               key={course.id} // Using id in params
               code={course.code}
               imgPath={course.img}
-              // title={course.title} These are not needed. More info about courses is inside the course
+              title={course.title} // These are not needed. More info about courses is inside the course
               // description={course.description}
             />
           </div>

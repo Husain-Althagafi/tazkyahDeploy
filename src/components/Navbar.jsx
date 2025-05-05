@@ -1,4 +1,4 @@
-// src/components/Navbar.jsx (updated version)
+// src/components/Navbar.jsx
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import navbarLogo from '../images/navbarLogo.png';
@@ -80,15 +80,15 @@ function Navbar() {
           <Link to="/about" onClick={() => setMobileMenuOpen(false)}>About Us</Link>
         </li>
         
-        {/* Show Courses link for everyone except admins */}
-        {(!user || user?.role !== 'admin') && (
+        {/* Show Courses link for everyone except admins and instructors */}
+        {(!user || (user?.role !== 'admin' && user?.role !== 'instructor')) && (
           <li className={isActive('/courses') ? 'active' : ''}>
             <Link to="/courses" onClick={() => setMobileMenuOpen(false)}>Courses</Link>
           </li>
         )}
         
         <li className={isActive('/core-values') ? 'active' : ''}>
-          <Link to="/core-values" onClick={() => setMobileMenuOpen(false)}>Our Mission</Link>
+          <Link to="/core-values" onClick={() => setMobileMenuOpen(false)}>Core Values</Link>
         </li>
         
         {loading ? (

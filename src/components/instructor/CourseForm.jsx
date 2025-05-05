@@ -183,60 +183,140 @@ const CourseForm = () => {
       };
 
       let response;
+      let courseCode = formData.code;
 
       if (id) {
-        // Update existing course - use course code from formData
-        response = await axios.put(
-          `http://localhost:5005/api/courses/${formData.code}`,
-          courseData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-      } else {
-        // Create new course
-        response = await axios.post(
-          "http://localhost:5005/api/courses",
-          courseData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-      }
-
-      // Handle successful response
-      if (response.data.success) {
-        const courseId = response.data.data._id || id;
-        const courseCode = response.data.data.code || formData.code;
-
-        // If there's a course image, upload it
+        // If there's a course image, update the imageUrl in the courseData
         if (courseImage?.file) {
-          const imageFormData = new FormData();
-          imageFormData.append("courseImage", courseImage.file);
-
-          await axios.put(
-            `http://localhost:5005/api/courses/${courseCode}/image`,
-            imageFormData,
+          // Prepare a reader to convert the image file to a data URL
+          const reader = new FileReader();
+          
+          reader.onload = async () => {
+            const imageData = reader.result;
+            
+            // Include the image data in the course update
+            const updatedCourseData = {
+              ...courseData,
+              imageUrl: imageData,
+              img: imageData // Include both imageUrl and img for compatibility
+            };
+            
+            // Update existing course
+            try {
+              response = await axios.put(
+                `http://localhost:5005/api/courses/${courseCode}`,
+                updatedCourseData,
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                  },
+                }
+              );
+              
+              if (response.data.success) {
+                success("Course updated successfully!");
+                navigate("/instructor-courses");
+              } else {
+                throw new Error(response.data.error || "Failed to update course");
+              }
+            } catch (err) {
+              console.error("Error updating course:", err);
+              setError(
+                err.response?.data?.error || err.message || "Failed to update course"
+              );
+              toastError(
+                err.response?.data?.error || err.message || "Failed to update course"
+              );
+              setSubmitting(false);
+            }
+          };
+          
+          reader.readAsDataURL(courseImage.file);
+          return; // Exit early since we're handling the submit in the reader.onload callback
+        } else {
+          // Update without image change
+          response = await axios.put(
+            `http://localhost:5005/api/courses/${courseCode}`,
+            courseData,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
-                "Content-Type": "multipart/form-data",
+                "Content-Type": "application/json",
               },
             }
           );
         }
+      } else {
+        // Creating a new course
+        if (courseImage?.file) {
+          // Convert image to data URL for new course
+          const reader = new FileReader();
+          
+          reader.onload = async () => {
+            const imageData = reader.result;
+            
+            // Include the image data in the new course
+            const newCourseData = {
+              ...courseData,
+              imageUrl: imageData,
+              img: imageData
+            };
+            
+            try {
+              response = await axios.post(
+                "http://localhost:5005/api/courses",
+                newCourseData,
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                  },
+                }
+              );
+              
+              if (response.data.success) {
+                success("Course created successfully!");
+                navigate("/instructor-courses");
+              } else {
+                throw new Error(response.data.error || "Failed to create course");
+              }
+            } catch (err) {
+              console.error("Error creating course:", err);
+              setError(
+                err.response?.data?.error || err.message || "Failed to create course"
+              );
+              toastError(
+                err.response?.data?.error || err.message || "Failed to create course"
+              );
+              setSubmitting(false);
+            }
+          };
+          
+          reader.readAsDataURL(courseImage.file);
+          return; // Exit early
+        } else {
+          // Create without image
+          response = await axios.post(
+            "http://localhost:5005/api/courses",
+            courseData,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+        }
+      }
 
+      // Handle response for cases without image processing
+      if (response && response.data.success) {
         success(
           id ? "Course updated successfully!" : "Course created successfully!"
         );
         navigate("/instructor-courses");
-      } else {
+      } else if (response) {
         throw new Error(response.data.error || "Failed to save course");
       }
     } catch (err) {

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "../styles/newcourses.css";
+import { Link } from 'react-router-dom';
 
 export function NewCourses() {
   const [newCourses, setNewCourses] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchCourses() {
@@ -24,8 +26,10 @@ export function NewCourses() {
         );
 
         setNewCourses(onlyNewCourses);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching courses:", error.message);
+        setLoading(false);
       }
     }
 
@@ -42,33 +46,46 @@ export function NewCourses() {
     setStartIndex((prev) => (prev - 1 + totalCourses) % totalCourses);
   };
 
+  if (loading) {
+    return <div className="new-courses-loading">Loading featured courses...</div>;
+  }
+
   if (totalCourses === 0) {
-    return <div>Loading courses...</div>;
+    return null; // Don't show anything if there are no new courses
   }
 
   const displayedCourses = [
     newCourses[startIndex],
     newCourses[(startIndex + 1) % totalCourses],
     newCourses[(startIndex + 2) % totalCourses],
-  ];
+  ].filter(course => course); // Filter out undefined courses
 
   return (
-    <div className="new-courses-container">
-      <button onClick={prevCourses}>◀</button>
-      <div className="new-courses-imgs-container">
-        {displayedCourses.map(
-          (course, index) =>
-            course && (
+    <div className="new-courses-section">
+      <h2 className="new-courses-title">Featured New Courses</h2>
+      <div className="new-courses-container">
+        <button onClick={prevCourses} className="carousel-btn">◀</button>
+        <div className="new-courses-imgs-container">
+          {displayedCourses.map((course, index) => (
+            <Link 
+              to={`/courses/course-details/${course.code}`}
+              key={course._id || index} 
+              className="carousel-course"
+            >
               <img
                 className="course-img"
-                key={course.id || index}
                 src={course.img}
-                alt={`Course ${course.id}`}
+                alt={course.title}
               />
-            )
-        )}
+              <div className="carousel-info">
+                <span className="carousel-title">{course.title}</span>
+                <span className="carousel-code">Code: {course.code}</span>
+              </div>
+            </Link>
+          ))}
+        </div>
+        <button onClick={nextCourses} className="carousel-btn">▶</button>
       </div>
-      <button onClick={nextCourses}>▶</button>
     </div>
   );
 }

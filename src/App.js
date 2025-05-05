@@ -1,3 +1,4 @@
+// src/App.js
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import React from "react";
 import "./styles/global.css";
@@ -13,6 +14,7 @@ import Main from "./components/Main";
 import CourseDetails from "./components/CourseDetails";
 import Hero from "./components/Hero";
 import About from "./components/About";
+import CoreValues from "./components/CoreValues";
 import UserProfile from "./components/UserProfile";
 import UserCourses from "./components/UserCourses";
 import UserSettings from "./components/UserSettings";
@@ -44,8 +46,7 @@ function App() {
                 path="/courses/course-details/:code"
                 element={<CourseDetails />}
               />
-              <Route path="/core-values" element={<Hero />} />{" "}
-              {/* Changed from About to Hero for differentiation */}
+              <Route path="/core-values" element={<CoreValues />} />
               <Route path="/join-us" element={<Hero />} />
               <Route path="/login-register" element={<LoginRegister />} />
               <Route path="/unauthorized" element={<UnauthorizedPage />} />
