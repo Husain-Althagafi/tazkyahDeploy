@@ -72,14 +72,6 @@ function App() {
                   element={<InstructorCourses />}
                 />
                 <Route
-                  path="/instructor/courses/create"
-                  element={<CourseForm />}
-                />
-                <Route
-                  path="/instructor/courses/:id/edit"
-                  element={<CourseForm />}
-                />
-                <Route
                   path="/instructor/courses/:courseId/students"
                   element={<InstructorStudents />}
                 />
@@ -89,11 +81,16 @@ function App() {
                 />
                 <Route path="/instructor-settings" element={<UserSettings />} />
               </Route>
-              
+
               {/* Admin routes */}
               <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
                 <Route path="/admin-profile" element={<UserProfile />} />
                 <Route path="/admin-courses" element={<AdminCourses />} />
+                <Route path="/admin/courses/create" element={<CourseForm />} />
+                <Route
+                  path="/admin/courses/:id/edit"
+                  element={<CourseForm />}
+                />
                 <Route path="/admin-students" element={<AdminStudents />} />
                 <Route path="/admin-schools" element={<AdminSchools />} />
                 <Route path="/admin-settings" element={<UserSettings />} />

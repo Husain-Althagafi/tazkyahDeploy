@@ -1,3 +1,4 @@
+// src/components/instructor/InstructorCourses.jsx
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -100,9 +101,7 @@ const InstructorCourses = () => {
     <div className="instructor-courses-container">
       <div className="instructor-header">
         <h1>My Teaching</h1>
-        <Link to="/instructor/courses/create" className="create-course-btn">
-          Create New Course
-        </Link>
+        {/* Removed Create New Course button here */}
       </div>
 
       <div className="instructor-filters">
@@ -145,13 +144,7 @@ const InstructorCourses = () => {
 
       {courses.length === 0 ? (
         <div className="no-courses">
-          <p>You don't have any courses yet.</p>
-          <Link
-            to="/instructor/courses/create"
-            className="create-first-course-btn"
-          >
-            Create Your First Course
-          </Link>
+          <p>You don't have any courses assigned to you yet.</p>
         </div>
       ) : filteredCourses.length === 0 ? (
         <div className="no-courses">
@@ -220,12 +213,7 @@ const InstructorCourses = () => {
                 </div>
 
                 <div className="course-actions">
-                  <Link
-                    to={`/instructor/courses/${course.code}/edit`}
-                    className="edit-btn"
-                  >
-                    Edit
-                  </Link>
+                  {/* Removed Edit button */}
                   <Link
                     to={`/instructor/courses/${course.code}/students`}
                     className="students-btn"
