@@ -7,7 +7,7 @@ import { useToast } from "../../contexts/ToastContext";
 import LoadingSpinner from "../common/LoadingSpinner";
 
 const CourseForm = () => {
-  const { id } = useParams(); // For editing existing course
+  const { id } = useParams(); // This could be course._id
   const navigate = useNavigate();
   const { success, error: toastError } = useToast();
   const [loading, setLoading] = useState(id ? true : false);
@@ -33,6 +33,7 @@ const CourseForm = () => {
       const fetchCourse = async () => {
         try {
           const token = localStorage.getItem("token");
+          // Try fetching by id first
           const response = await axios.get(
             `http://localhost:5005/api/courses/${id}`,
             {
@@ -61,15 +62,56 @@ const CourseForm = () => {
               enrollmentCapacity: course.enrollmentCapacity || 30,
               startDate: formatDate(course.startDate),
               endDate: formatDate(course.endDate),
-              imageUrl: course.imageUrl || "",
+              imageUrl: course.imageUrl || course.img || "",
             });
           } else {
             throw new Error("Failed to fetch course details");
           }
         } catch (err) {
           console.error("Error fetching course details:", err);
-          setError("Failed to load course data");
-          toastError("Failed to load course data");
+          
+          // If we get an error, let's try fetching by course code as a fallback
+          try {
+            // Try assuming the id is actually a course code
+            const token = localStorage.getItem("token");
+            const response = await axios.get(
+              `http://localhost:5005/api/courses/${id}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+
+            if (response.data.success) {
+              const course = response.data.data;
+
+              // Format dates for date inputs
+              const formatDate = (dateString) => {
+                if (!dateString) return "";
+
+                const date = new Date(dateString);
+                return date.toISOString().split("T")[0]; // Format as YYYY-MM-DD
+              };
+
+              setFormData({
+                title: course.title || "",
+                code: course.code || "",
+                description: course.description || "",
+                status: course.status || "upcoming",
+                enrollmentCapacity: course.enrollmentCapacity || 30,
+                startDate: formatDate(course.startDate),
+                endDate: formatDate(course.endDate),
+                imageUrl: course.imageUrl || course.img || "",
+              });
+            } else {
+              throw new Error("Failed to fetch course details");
+            }
+          } catch (secondErr) {
+            console.error("Error fetching course details (2nd attempt):", secondErr);
+            setError("Failed to load course data");
+            toastError("Failed to load course data");
+          }
         } finally {
           setLoading(false);
         }
@@ -143,9 +185,9 @@ const CourseForm = () => {
       let response;
 
       if (id) {
-        // Update existing course
+        // Update existing course - use course code from formData
         response = await axios.put(
-          `http://localhost:5005/api/courses/${id}`,
+          `http://localhost:5005/api/courses/${formData.code}`,
           courseData,
           {
             headers: {
@@ -171,6 +213,7 @@ const CourseForm = () => {
       // Handle successful response
       if (response.data.success) {
         const courseId = response.data.data._id || id;
+        const courseCode = response.data.data.code || formData.code;
 
         // If there's a course image, upload it
         if (courseImage?.file) {
@@ -178,7 +221,7 @@ const CourseForm = () => {
           imageFormData.append("courseImage", courseImage.file);
 
           await axios.put(
-            `http://localhost:5005/api/courses/${courseId}/image`,
+            `http://localhost:5005/api/courses/${courseCode}/image`,
             imageFormData,
             {
               headers: {

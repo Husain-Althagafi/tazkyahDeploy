@@ -221,13 +221,13 @@ const InstructorCourses = () => {
 
                 <div className="course-actions">
                   <Link
-                    to={`/instructor/courses/${course._id}/edit`}
+                    to={`/instructor/courses/${course.code}/edit`}
                     className="edit-btn"
                   >
                     Edit
                   </Link>
                   <Link
-                    to={`/instructor/courses/${course._id}/students`}
+                    to={`/instructor/courses/${course.code}/students`}
                     className="students-btn"
                   >
                     Students

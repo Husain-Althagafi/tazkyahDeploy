@@ -1,0 +1,226 @@
+/* src/styles/instructorStudents.css */
+.instructor-students-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.students-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.students-header h1 {
+  font-size: 1.8rem;
+  color: #333;
+  margin: 0;
+}
+
+.back-btn {
+  padding: 0.5rem 1rem;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.back-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.students-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.search-container {
+  position: relative;
+  width: 300px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.6rem 2rem 0.6rem 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #7494ec;
+  box-shadow: 0 0 0 2px rgba(116, 148, 236, 0.2);
+}
+
+.search-icon {
+  position: absolute;
+  right: 0.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
+  color: #999;
+}
+
+.students-info {
+  display: flex;
+  gap: 1rem;
+}
+
+.student-count {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.student-count span {
+  font-weight: 500;
+  color: #333;
+}
+
+.no-students {
+  text-align: center;
+  padding: 3rem 0;
+  color: #666;
+}
+
+.clear-filters-btn {
+  background: none;
+  border: none;
+  color: #7494ec;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.students-table-container {
+  overflow-x: auto;
+}
+
+.students-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;   /* let columns size to content or explicit rules */
+}
+
+.students-table th,
+.students-table td {
+  padding: 0.8rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.students-table th {
+  font-weight: 500;
+  color: #333;
+  background-color: #f9f9f9;
+}
+
+/* Give the “Progress” column a relative width */
+.students-table th:nth-child(4),
+.students-table td:nth-child(4) {
+  width: 25%;
+}
+
+/* Progress bar styles */
+.progress-cell {
+  /* no fixed width—cell will size based on table/column rules */
+  /* optional cap on desktop: */
+  /* max-width: 300px; */
+}
+
+.progress-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+}
+
+.progress-bar {
+  flex: 1 1 120px;
+  min-width: 120px;
+  height: 8px;
+  background-color: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #7494ec;
+  /* round only left corners so it stays pill-shaped at low % */
+  border-radius: 4px 0 0 4px;
+}
+
+.progress-text {
+  flex: 0 0 auto;
+  min-width: 40px;
+  white-space: nowrap;
+}
+
+/* Status badge styles */
+.status-badge {
+  padding: 0.3rem 0.6rem;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status-badge.active {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.status-badge.completed {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-badge.dropped {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.instructor-error {
+  text-align: center;
+  padding: 3rem 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.instructor-error h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .students-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .students-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .search-container {
+    width: 100%;
+  }
+  
+  /* let the Progress column expand on mobile */
+  .students-table th:nth-child(4),
+  .students-table td:nth-child(4) {
+    width: auto;
+    max-width: none;
+  }
+}

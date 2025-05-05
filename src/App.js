@@ -1,8 +1,7 @@
-// src/App.js (modified to remove sidebar)
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import React from "react";
 import "./styles/global.css";
-import "./styles/user-components.css"; // Remove user-dashboard.css as it contains sidebar styles
+import "./styles/user-components.css";
 
 // Import components
 import LoginRegister from "./components/LoginRegister";
@@ -25,6 +24,8 @@ import InstructorResourcesContainer from "./containers/InstructorResourcesContai
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import UnauthorizedPage from "./components/auth/UnauthorizedPage";
 import InstructorCourses from "./components/instructor/InstructorCourses";
+import CourseForm from "./components/instructor/CourseForm";
+import InstructorStudents from "./components/instructor/InstructorStudents";
 import { ToastProvider } from "./contexts/ToastContext";
 
 function App() {
@@ -43,11 +44,11 @@ function App() {
                 path="/courses/course-details/:code"
                 element={<CourseDetails />}
               />
-              <Route path="/core-values" element={<Hero />} /> {/* Changed from About to Hero for differentiation */}
+              <Route path="/core-values" element={<Hero />} />{" "}
+              {/* Changed from About to Hero for differentiation */}
               <Route path="/join-us" element={<Hero />} />
               <Route path="/login-register" element={<LoginRegister />} />
               <Route path="/unauthorized" element={<UnauthorizedPage />} />
-
               {/* Student routes */}
               <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
                 <Route path="/user-profile" element={<UserProfile />} />
@@ -62,7 +63,6 @@ function App() {
                   element={<EnrollConfirmation />}
                 />
               </Route>
-
               {/* Instructor routes */}
               <Route element={<ProtectedRoute allowedRoles={["instructor"]} />}>
                 <Route path="/instructor-profile" element={<UserProfile />} />
@@ -71,12 +71,24 @@ function App() {
                   element={<InstructorCourses />}
                 />
                 <Route
+                  path="/instructor/courses/create"
+                  element={<CourseForm />}
+                />
+                <Route
+                  path="/instructor/courses/:id/edit"
+                  element={<CourseForm />}
+                />
+                <Route
+                  path="/instructor/courses/:courseId/students"
+                  element={<InstructorStudents />}
+                />
+                <Route
                   path="/instructor/courses/:courseId/resources"
                   element={<InstructorResourcesContainer />}
                 />
                 <Route path="/instructor-settings" element={<UserSettings />} />
               </Route>
-
+              
               {/* Admin routes */}
               <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
                 <Route path="/admin-profile" element={<UserProfile />} />
