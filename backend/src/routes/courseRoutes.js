@@ -26,7 +26,20 @@ router.delete('/:code', requireRoles(['instructor', 'admin']), courseController.
 router.get('/:code/students', requireRoles(['instructor', 'admin']), courseController.getEnrolledStudents);
 
 // Student enrollment routes
-router.post('/:code/enroll', requireRoles(['student', 'admin']), courseController.enrollStudentInCourse);
-router.delete('/:code/enroll', requireRoles(['student', 'admin']), courseController.unenrollStudentFromCourse);
+router.post('/:code/enroll', requireRoles(['student']), courseController.enrollStudentInCourse);
+router.delete('/:code/enroll', requireRoles(['student']), courseController.unenrollStudentFromCourse);
+
+router.post(
+  "/:code/admin-enroll",
+  verifyToken,
+  requireRoles(["admin"]),
+  courseController.adminEnrollStudent
+);
+router.delete(
+  "/:code/admin-enroll",
+  verifyToken,
+  requireRoles(["admin"]),
+  courseController.adminUnenrollStudent
+);
 
 module.exports = router;

@@ -151,13 +151,13 @@ export default function AdminCourseDetails() {
     }
   };
 
-  // Handle enrolling a student
+  // Handle enrolling a student (admin function)
   const handleEnrollStudent = async (studentId) => {
     try {
-      // Using the same API that students use to enroll
+      // Use the new admin-specific endpoint
       const response = await axios.post(
-        `http://localhost:5005/api/courses/${code}/enroll`,
-        { userId: studentId }, // This might need adjustment based on your API
+        `http://localhost:5005/api/courses/${code}/admin-enroll`,
+        { studentId },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -181,17 +181,18 @@ export default function AdminCourseDetails() {
     }
   };
 
-  // Handle removing a student
-  const handleRemoveStudent = async (enrollmentId) => {
+  // Handle removing a student (admin function)
+  const handleRemoveStudent = async (studentId) => {
     try {
-      // Using the same API that students use to unenroll
+      // Use the new admin-specific endpoint
       const response = await axios.delete(
-        `http://localhost:5005/api/courses/${code}/enroll`,
+        `http://localhost:5005/api/courses/${code}/admin-enroll`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
-          data: { enrollmentId }, // Pass the enrollment ID in the request body
+          data: { studentId }, // Pass the studentId in the request body
         }
       );
 
