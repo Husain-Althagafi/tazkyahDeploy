@@ -4,7 +4,7 @@ import "../styles/admincourses.css";
 import CourseAddForm from "./CourseAddForm";
 import LoadingSpinner from "./common/LoadingSpinner";
 import { useToast } from "../contexts/ToastContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 // CourseCard component for displaying individual courses
 function CourseCard({ course, onDelete, onEdit }) {
@@ -66,6 +66,9 @@ function CourseCard({ course, onDelete, onEdit }) {
           <button className="edit-btn" onClick={() => onEdit(code)}>
             Edit
           </button>
+          <Link to={`/admin/courses/${code}/details`} className="details-btn">
+            View Details
+          </Link>
         </div>
       </div>
     </div>

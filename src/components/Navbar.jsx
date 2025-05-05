@@ -69,33 +69,44 @@ function Navbar() {
       <Link to="/" className="navbar-logo">
         <img src={navbarLogo} alt="Tazkyah Logo" />
       </Link>
-      
-      <div className={`mobile-menu-button ${mobileMenuOpen ? 'active' : ''}`} onClick={toggleMobileMenu}>
+
+      <div
+        className={`mobile-menu-button ${mobileMenuOpen ? "active" : ""}`}
+        onClick={toggleMobileMenu}
+      >
         <span></span>
         <span></span>
         <span></span>
       </div>
-      
-      <ul className={`navbar-links ${mobileMenuOpen ? 'active' : ''}`}>
+
+      <ul className={`navbar-links ${mobileMenuOpen ? "active" : ""}`}>
         {/* Common links for all users */}
-        <li className={isActive('/') ? 'active' : ''}>
-          <Link to="/" onClick={() => setMobileMenuOpen(false)}>Home</Link>
+        <li className={isActive("/") ? "active" : ""}>
+          <Link to="/" onClick={() => setMobileMenuOpen(false)}>
+            Home
+          </Link>
         </li>
-        <li className={isActive('/about') ? 'active' : ''}>
-          <Link to="/about" onClick={() => setMobileMenuOpen(false)}>About Us</Link>
+        <li className={isActive("/about") ? "active" : ""}>
+          <Link to="/about" onClick={() => setMobileMenuOpen(false)}>
+            About Us
+          </Link>
         </li>
-        
+
         {/* Show Courses link for everyone except admins and instructors */}
-        {(!user || (user?.role !== 'admin' && user?.role !== 'instructor')) && (
-          <li className={isActive('/courses') ? 'active' : ''}>
-            <Link to="/courses" onClick={() => setMobileMenuOpen(false)}>Courses</Link>
+        {(!user || (user?.role !== "admin" && user?.role !== "instructor")) && (
+          <li className={isActive("/courses") ? "active" : ""}>
+            <Link to="/courses" onClick={() => setMobileMenuOpen(false)}>
+              Courses
+            </Link>
           </li>
         )}
-        
-        <li className={isActive('/core-values') ? 'active' : ''}>
-          <Link to="/core-values" onClick={() => setMobileMenuOpen(false)}>Core Values</Link>
+
+        <li className={isActive("/core-values") ? "active" : ""}>
+          <Link to="/core-values" onClick={() => setMobileMenuOpen(false)}>
+            Core Values
+          </Link>
         </li>
-        
+
         {loading ? (
           // Show loading state
           <li className="loading-indicator">
@@ -105,44 +116,66 @@ function Navbar() {
           // Authenticated user - show role-specific links
           <>
             {/* Student links */}
-            {user.role === 'student' && (
-              <li className={isActive('/user-courses') ? 'active' : ''}>
-                <Link to="/user-courses" onClick={() => setMobileMenuOpen(false)}>My Courses</Link>
+            {user.role === "student" && (
+              <li className={isActive("/user-courses") ? "active" : ""}>
+                <Link
+                  to="/user-courses"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  My Courses
+                </Link>
               </li>
             )}
-            
+
             {/* Instructor links */}
-            {user.role === 'instructor' && (
-              <li className={isActive('/instructor-courses') ? 'active' : ''}>
-                <Link to="/instructor-courses" onClick={() => setMobileMenuOpen(false)}>My Teaching</Link>
+            {user.role === "instructor" && (
+              <li className={isActive("/instructor-courses") ? "active" : ""}>
+                <Link
+                  to="/instructor-courses"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  My Teaching
+                </Link>
               </li>
             )}
-            
+
             {/* Admin links */}
-            {user.role === 'admin' && (
+            {user.role === "admin" && (
               <>
-                <li className={isActive('/admin-courses') ? 'active' : ''}>
-                  <Link to="/admin-courses" onClick={() => setMobileMenuOpen(false)}>Manage Courses</Link>
+                <li className={isActive("/admin-courses") ? "active" : ""}>
+                  <Link
+                    to="/admin-courses"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Manage Courses
+                  </Link>
                 </li>
-                <li className={isActive('/admin-students') ? 'active' : ''}>
-                  <Link to="/admin-students" onClick={() => setMobileMenuOpen(false)}>Manage Students</Link>
+                <li className={isActive("/admin-users") ? "active" : ""}>
+                  <Link
+                    to="/admin-users"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Manage Users
+                  </Link>
                 </li>
               </>
             )}
-            
+
             {/* User dropdown menu */}
             <li className="user-dropdown">
               <button className="user-button">
-                {user.firstName} {user.lastName} 
+                {user.firstName} {user.lastName}
                 <span className="dropdown-icon">▼</span>
               </button>
               <ul className="dropdown-menu">
                 <li>
-                  <Link 
+                  <Link
                     to={
-                      user.role === 'admin' ? '/admin-profile' :
-                      user.role === 'instructor' ? '/instructor-profile' : 
-                      '/user-profile'
+                      user.role === "admin"
+                        ? "/admin-profile"
+                        : user.role === "instructor"
+                        ? "/instructor-profile"
+                        : "/user-profile"
                     }
                     onClick={() => setMobileMenuOpen(false)}
                   >
@@ -150,11 +183,13 @@ function Navbar() {
                   </Link>
                 </li>
                 <li>
-                  <Link 
+                  <Link
                     to={
-                      user.role === 'admin' ? '/admin-settings' :
-                      user.role === 'instructor' ? '/instructor-settings' : 
-                      '/user-settings'
+                      user.role === "admin"
+                        ? "/admin-settings"
+                        : user.role === "instructor"
+                        ? "/instructor-settings"
+                        : "/user-settings"
                     }
                     onClick={() => setMobileMenuOpen(false)}
                   >
@@ -172,8 +207,12 @@ function Navbar() {
         ) : (
           // Guest links
           <>
-            <li className={isActive('/login-register') ? 'active' : ''}>
-              <Link to="/login-register" className="login-button" onClick={() => setMobileMenuOpen(false)}>
+            <li className={isActive("/login-register") ? "active" : ""}>
+              <Link
+                to="/login-register"
+                className="login-button"
+                onClick={() => setMobileMenuOpen(false)}
+              >
                 Login
               </Link>
             </li>

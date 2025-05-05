@@ -72,9 +72,15 @@ function Footer() {
       return (
         <>
           {commonLinks}
-          <li><Link to="/admin-courses">Manage Courses</Link></li>
-          <li><Link to="/admin-students">Manage Students</Link></li>
-          <li><Link to="/admin-profile">Profile</Link></li>
+          <li>
+            <Link to="/admin-courses">Manage Courses</Link>
+          </li>
+          <li>
+            <Link to="/admin-users">Manage Users</Link>
+          </li>
+          <li>
+            <Link to="/admin-profile">Profile</Link>
+          </li>
         </>
       );
     } else if (user.role === 'instructor') {

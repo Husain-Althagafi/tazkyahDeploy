@@ -29,6 +29,9 @@ import InstructorCourses from "./components/instructor/InstructorCourses";
 import CourseForm from "./components/instructor/CourseForm";
 import InstructorStudents from "./components/instructor/InstructorStudents";
 import { ToastProvider } from "./contexts/ToastContext";
+import AdminUsers from "./components/AdminUsers";
+import AssignInstructors from "./components/AssignInstructors";
+import AdminCourseDetails from "./components/admin/CourseDetails";
 
 function App() {
   return (
@@ -94,6 +97,11 @@ function App() {
                 <Route path="/admin-students" element={<AdminStudents />} />
                 <Route path="/admin-schools" element={<AdminSchools />} />
                 <Route path="/admin-settings" element={<UserSettings />} />
+                <Route path="/admin-users" element={<AdminUsers />} />
+                <Route
+                  path="/admin/courses/:code/details"
+                  element={<AdminCourseDetails />}
+                />
               </Route>
             </Routes>
           </div>

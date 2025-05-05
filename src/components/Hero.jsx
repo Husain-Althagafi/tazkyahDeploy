@@ -74,18 +74,18 @@ function Hero() {
     }
 
     switch (user.role) {
-      case 'admin':
+      case "admin":
         return (
           <div className="hero-actions">
             <Link to="/admin-courses">
               <button className="primary-action">Manage Courses</button>
             </Link>
-            <Link to="/admin-students">
-              <button className="secondary-action">Manage Students</button>
+            <Link to="/admin-users">
+              <button className="secondary-action">Manage Users</button>
             </Link>
           </div>
         );
-      case 'instructor':
+      case "instructor":
         return (
           <div className="hero-actions">
             <Link to="/instructor-courses">
@@ -93,7 +93,7 @@ function Hero() {
             </Link>
           </div>
         );
-      case 'student':
+      case "student":
         return (
           <div className="hero-actions">
             <Link to="/user-courses">
