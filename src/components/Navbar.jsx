@@ -170,9 +170,6 @@ function Navbar() {
         ) : (
           // Guest links
           <>
-            <li className={isActive('/join-us') ? 'active' : ''}>
-              <Link to="/join-us" onClick={() => setMobileMenuOpen(false)}>Join Us</Link>
-            </li>
             <li className={isActive('/login-register') ? 'active' : ''}>
               <Link to="/login-register" className="login-button" onClick={() => setMobileMenuOpen(false)}>
                 Login

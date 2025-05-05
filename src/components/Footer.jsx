@@ -1,6 +1,6 @@
-// src/components/Footer.jsx
+// src/components/Footer.jsx (updated version)
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import footerLogo from '../images/navbarLogo.png';
 import '../styles/footer.css';
 import { authAxios } from '../services/authService';
@@ -8,8 +8,9 @@ import { authAxios } from '../services/authService';
 function Footer() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const location = useLocation(); // Add this to listen for route changes
 
-  // Fetch user data on component mount
+  // Fetch user data on component mount and when location changes
   useEffect(() => {
     const fetchUserData = async () => {
       const token = localStorage.getItem('token');
@@ -40,9 +41,9 @@ function Footer() {
     };
     
     fetchUserData();
-  }, []); 
+  }, [location.pathname]); // Re-fetch when route changes, just like Navbar does
 
-  // Navigation links based on user role
+  // Navigation links based on user role - same as before
   const getNavigationLinks = () => {
     if (!user) {
       // Guest navigation links
@@ -52,7 +53,6 @@ function Footer() {
           <li><Link to="/about">About</Link></li>
           <li><Link to="/courses">Courses</Link></li>
           <li><Link to="/core-values">Core Values</Link></li>
-          <li><Link to="/join-us">Join Us</Link></li>
           <li><Link to="/login-register">Login / Register</Link></li>
         </>
       );
