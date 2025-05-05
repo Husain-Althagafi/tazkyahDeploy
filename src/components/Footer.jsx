@@ -74,7 +74,6 @@ function Footer() {
           {commonLinks}
           <li><Link to="/admin-courses">Manage Courses</Link></li>
           <li><Link to="/admin-students">Manage Students</Link></li>
-          <li><Link to="/admin-schools">Manage Schools</Link></li>
           <li><Link to="/admin-profile">Profile</Link></li>
         </>
       );

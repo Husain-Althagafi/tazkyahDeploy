@@ -48,7 +48,12 @@ function Navbar() {
   const handleLogout = () => {
     localStorage.removeItem('token');
     setUser(null);
+
+    window.dispatchEvent(new CustomEvent('user-logout'));
+
     navigate('/');
+
+    window.location.reload();
   };
 
   // Check if current path matches the given path
@@ -121,9 +126,6 @@ function Navbar() {
                 </li>
                 <li className={isActive('/admin-students') ? 'active' : ''}>
                   <Link to="/admin-students" onClick={() => setMobileMenuOpen(false)}>Manage Students</Link>
-                </li>
-                <li className={isActive('/admin-schools') ? 'active' : ''}>
-                  <Link to="/admin-schools" onClick={() => setMobileMenuOpen(false)}>Manage Schools</Link>
                 </li>
               </>
             )}
