@@ -116,9 +116,14 @@ exports.updateCourse = asyncHandler(async (req, res) => {
         return res.status(404).json({ error: 'Course not found' });
     }
     
+    // Handle empty instructor ID (convert empty string to null)
+    if (updateData.instructorId === '') {
+        updateData.instructorId = null;
+    }
+    
     // Check if user is instructor for this course or an admin
     if (
-        course.instructorId.toString() !== req.user.id &&
+        course.instructorId && course.instructorId.toString() !== req.user.id &&
         req.user.role !== 'admin'
     ) {
         return res.status(403).json({ error: 'Not authorized to update this course' });
@@ -155,7 +160,7 @@ exports.deleteCourse = asyncHandler(async (req, res) => {
     
     // Check if user is instructor for this course or an admin
     if (
-        course.instructorId.toString() !== req.user.id &&
+        course.instructorId && course.instructorId.toString() !== req.user.id &&
         req.user.role !== 'admin'
     ) {
         return res.status(403).json({ error: 'Not authorized to delete this course' });
@@ -374,7 +379,7 @@ exports.getEnrolledStudents = asyncHandler(async (req, res) => {
     
     // Check if user is instructor for this course or an admin
     if (
-        course.instructorId.toString() !== req.user.id &&
+        course.instructorId && course.instructorId.toString() !== req.user.id &&
         req.user.role !== 'admin'
     ) {
         return res.status(403).json({ error: 'Not authorized to view enrolled students' });

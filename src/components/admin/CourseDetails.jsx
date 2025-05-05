@@ -125,7 +125,7 @@ export default function AdminCourseDetails() {
       // Call API to update course's instructor
       const response = await axios.put(
         `http://localhost:5005/api/courses/${code}`,
-        { instructorId },
+        { instructorId: instructorId || null }, // Ensure null is sent when no instructor is selected
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -136,10 +136,12 @@ export default function AdminCourseDetails() {
 
       if (response.data.success) {
         // Update the course in state
-        setCourse({ ...course, instructorId });
-        success("Instructor assigned successfully");
+        setCourse({ ...course, instructorId: instructorId || null });
+        success("Instructor assignment updated successfully");
       } else {
-        throw new Error(response.data.error || "Failed to assign instructor");
+        throw new Error(
+          response.data.error || "Failed to update instructor assignment"
+        );
       }
     } catch (err) {
       console.error("Error assigning instructor:", err);
