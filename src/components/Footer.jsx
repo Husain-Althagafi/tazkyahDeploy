@@ -1,41 +1,140 @@
-import React from 'react';
-import footerLogo from '../images/navbarLogo.png'
-import '../styles/footer.css'
-//import end
+// src/components/Footer.jsx (updated version)
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import footerLogo from '../images/navbarLogo.png';
+import '../styles/footer.css';
+import { authAxios } from '../services/authService';
 
 function Footer() {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const location = useLocation(); // Add this to listen for route changes
+
+  // Fetch user data on component mount and when location changes
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        setUser(null);
+        setLoading(false);
+        return;
+      }
+      
+      try {
+        const response = await authAxios().get('/auth/me');
+        
+        if (response.data.success) {
+          setUser(response.data.data);
+        } else {
+          // Handle invalid token
+          localStorage.removeItem('token');
+          setUser(null);
+        }
+      } catch (error) {
+        console.error('Authentication error:', error);
+        localStorage.removeItem('token'); // Clear invalid token
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchUserData();
+  }, [location.pathname]); // Re-fetch when route changes, just like Navbar does
+
+  // Navigation links based on user role - same as before
+  const getNavigationLinks = () => {
+    if (!user) {
+      // Guest navigation links
+      return (
+        <>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/about">About</Link></li>
+          <li><Link to="/courses">Courses</Link></li>
+          <li><Link to="/core-values">Core Values</Link></li>
+          <li><Link to="/login-register">Login / Register</Link></li>
+        </>
+      );
+    }
+
+    // Common links for all authenticated users
+    const commonLinks = (
+      <>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/about">About</Link></li>
+        <li><Link to="/core-values">Core Values</Link></li>
+      </>
+    );
+
+    // Role-specific links
+    if (user.role === 'admin') {
+      return (
+        <>
+          {commonLinks}
+          <li>
+            <Link to="/admin-courses">Manage Courses</Link>
+          </li>
+          <li>
+            <Link to="/admin-users">Manage Users</Link>
+          </li>
+          <li>
+            <Link to="/admin-profile">Profile</Link>
+          </li>
+        </>
+      );
+    } else if (user.role === 'instructor') {
+      return (
+        <>
+          {commonLinks}
+          <li><Link to="/instructor-courses">My Teaching</Link></li>
+          <li><Link to="/instructor-profile">Profile</Link></li>
+        </>
+      );
+    } else { // student
+      return (
+        <>
+          {commonLinks}
+          <li><Link to="/courses">Courses</Link></li>
+          <li><Link to="/user-courses">My Courses</Link></li>
+          <li><Link to="/user-profile">Profile</Link></li>
+        </>
+      );
+    }
+  };
+
   return (
     <footer>
       <div className="logo-secondary">
-        <img src={footerLogo} alt="Tazkyah Logo" />
+        <Link to="/">
+          <img src={footerLogo} alt="Tazkyah Logo" />
+        </Link>
       </div>
 
       <section className="footer-navigation">
         <nav>
-          <h3>Doormat Navigation</h3>
+          <h3>Navigation</h3>
           <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#menu">Courses</a></li>
-            <li><a href="#reservations">Core Values</a></li>
-            <li><a href="#order-online">Join Us</a></li>
-            <li><a href="#login">Login</a></li>
+            {!loading && getNavigationLinks()}
           </ul>
         </nav>
       </section>
 
       <section className="contact">
-        <h3>Contact</h3>
-        <p>Address</p>
-        <p>Phone number</p>
-        <p>Email</p>
+        <h3>Contact Us</h3>
+        <p>Email: contact@tazkyah.org</p>
+        <p>Phone: +966 123 456 789</p>
+        <p>Riyadh, Saudi Arabia</p>
       </section>
 
       <section className="social-media">
-        <h3>Social Media Links</h3>
-        <p>Address</p>
-        <p>Phone number</p>
-        <p>Email</p>
+        <h3>Connect With Us</h3>
+        <div className="social-links">
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">Facebook</a>
+          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">Twitter</a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
       </section>
     </footer>
   );

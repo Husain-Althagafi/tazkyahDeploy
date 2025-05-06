@@ -1,20 +1,38 @@
 import { useState, useEffect } from 'react';
-import '../styles/courseform.css'
+import '../styles/courseform.css';
 
-export default function AddCourseForm({ onSubmit, onClose, initialData = null }) {
+export default function CourseAddForm({ onSubmit, onClose, initialData = null }) {
   const [formData, setFormData] = useState({
     title: '',
     code: '',
-    instructor: '',
-    completion: '',
-    image: '',
-    category: '',
-    lastAccessed: '',
+    description: '',
+    status: 'upcoming',
+    enrollmentCapacity: 30,
+    startDate: '',
+    endDate: '',
+    imageUrl: '',
   });
 
+  // If editing existing course, populate form with course data
   useEffect(() => {
     if (initialData) {
-      setFormData(initialData);
+      // Format dates for form inputs
+      const formatDate = (dateString) => {
+        if (!dateString) return '';
+        const date = new Date(dateString);
+        return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+      };
+      
+      setFormData({
+        title: initialData.title || '',
+        code: initialData.code || '',
+        description: initialData.description || '',
+        status: initialData.status || 'upcoming',
+        enrollmentCapacity: initialData.enrollmentCapacity || 30,
+        startDate: formatDate(initialData.startDate),
+        endDate: formatDate(initialData.endDate),
+        imageUrl: initialData.imageUrl || initialData.img || '',
+      });
     }
   }, [initialData]);
 
@@ -25,8 +43,14 @@ export default function AddCourseForm({ onSubmit, onClose, initialData = null })
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData);
-    onClose();
+    
+    // Prepare data for submission
+    const submitData = {
+      ...formData,
+      enrollmentCapacity: parseInt(formData.enrollmentCapacity, 10) || 30
+    };
+    
+    onSubmit(submitData);
   };
 
   return (
@@ -55,7 +79,7 @@ export default function AddCourseForm({ onSubmit, onClose, initialData = null })
               value={formData.code}
               onChange={handleChange}
               required
-              disabled={!!initialData} 
+              disabled={!!initialData} // Disable code field when editing
             />
             <label htmlFor="code">Course Code</label>
           </div>
@@ -63,66 +87,82 @@ export default function AddCourseForm({ onSubmit, onClose, initialData = null })
 
         <div className="form-row">
           <div className="form-group floating">
-            <input
-              type="text"
-              id="instructor"
-              name="instructor"
-              placeholder=" "
-              value={formData.instructor}
+            <select
+              id="status"
+              name="status"
+              value={formData.status}
               onChange={handleChange}
-            />
-            <label htmlFor="instructor">Instructor (optional)</label>
+              className="form-select"
+              required
+            >
+              <option value="upcoming">Upcoming</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+            <label htmlFor="status" className="select-label">Status</label>
           </div>
           <div className="form-group floating">
             <input
               type="number"
-              id="completion"
-              name="completion"
+              id="enrollmentCapacity"
+              name="enrollmentCapacity"
               placeholder=" "
-              value={formData.completion}
+              value={formData.enrollmentCapacity}
               onChange={handleChange}
-              min="0"
-              max="100"
+              min="1"
+              max="500"
             />
-            <label htmlFor="completion">Completion % (optional)</label>
+            <label htmlFor="enrollmentCapacity">Capacity</label>
           </div>
         </div>
 
         <div className="form-row">
           <div className="form-group floating">
             <input
-              type="text"
-              id="image"
-              name="image"
+              type="date"
+              id="startDate"
+              name="startDate"
               placeholder=" "
-              value={formData.image}
+              value={formData.startDate}
               onChange={handleChange}
             />
-            <label htmlFor="image">Image URL (optional)</label>
+            <label htmlFor="startDate">Start Date</label>
           </div>
           <div className="form-group floating">
             <input
-              type="text"
-              id="category"
-              name="category"
+              type="date"
+              id="endDate"
+              name="endDate"
               placeholder=" "
-              value={formData.category}
+              value={formData.endDate}
               onChange={handleChange}
             />
-            <label htmlFor="category">Category (optional)</label>
+            <label htmlFor="endDate">End Date</label>
           </div>
         </div>
 
         <div className="form-group floating">
-          <input
-            type="date"
-            id="lastAccessed"
-            name="lastAccessed"
+          <textarea
+            id="description"
+            name="description"
             placeholder=" "
-            value={formData.lastAccessed}
+            value={formData.description}
+            onChange={handleChange}
+            rows="4"
+          ></textarea>
+          <label htmlFor="description" className="textarea-label">Description</label>
+        </div>
+
+        <div className="form-group floating">
+          <input
+            type="text"
+            id="imageUrl"
+            name="imageUrl"
+            placeholder=" "
+            value={formData.imageUrl}
             onChange={handleChange}
           />
-          <label htmlFor="lastAccessed">Last Accessed (optional)</label>
+          <label htmlFor="imageUrl">Image URL</label>
         </div>
 
         <div className="form-group submit-group">

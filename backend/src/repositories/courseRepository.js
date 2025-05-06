@@ -179,16 +179,16 @@ class CourseRepository {
      * @param {string} courseId - Course ID
      * @returns {Promise<Object>} Enrollment record
      */
-    async enrollStudent(userId, courseCode) {
+    async enrollStudent(userId, courseId, courseCode) {
         try {
             // Check if already enrolled
-            const existingEnrollment = await Enrollment.findOne({ userId, courseCode });
+            const existingEnrollment = await Enrollment.findOne({ userId, courseId });
             if (existingEnrollment) {
-                return existingEnrollment;
+                throw new Error('Student is already enrolled in the course') 
             }
             
             // Check if course exists
-            const course = await Course.findById(courseCode);
+            const course = await Course.findOne({code: courseCode});
             if (!course) {
                 throw new Error('Course not found');
             }
@@ -196,7 +196,7 @@ class CourseRepository {
             // Create enrollment
             const enrollment = new Enrollment({
                 userId,
-                courseCode,
+                courseId: course._id,
                 status: 'active',
                 progress: 0,
                 enrollmentDate: new Date()
@@ -239,6 +239,9 @@ class CourseRepository {
         try {
             const enrollments = await Enrollment.find({ userId });
             
+            // if (Object.keys(enrollments).length === 0) {
+            //     return {}
+            // }
             // Get course IDs from enrollments
             const courseIds = enrollments.map(e => e.courseId);
             

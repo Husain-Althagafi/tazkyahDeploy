@@ -1,7 +1,9 @@
 const courseRepository = require('../repositories/courseRepository');
 const userRepository = require('../repositories/userRepository');
 const asyncHandler = require('../middleware/asyncHandler');
-
+const Course = require('../models/Course');
+const Enrollment = require('../models/Enrollment');
+const User = require('../models/User');
 /**
  * Get all courses
  * @route GET /api/courses
@@ -114,9 +116,14 @@ exports.updateCourse = asyncHandler(async (req, res) => {
         return res.status(404).json({ error: 'Course not found' });
     }
     
+    // Handle empty instructor ID (convert empty string to null)
+    if (updateData.instructorId === '') {
+        updateData.instructorId = null;
+    }
+    
     // Check if user is instructor for this course or an admin
     if (
-        course.instructorId.toString() !== req.user.id &&
+        course.instructorId && course.instructorId.toString() !== req.user.id &&
         req.user.role !== 'admin'
     ) {
         return res.status(403).json({ error: 'Not authorized to update this course' });
@@ -153,7 +160,7 @@ exports.deleteCourse = asyncHandler(async (req, res) => {
     
     // Check if user is instructor for this course or an admin
     if (
-        course.instructorId.toString() !== req.user.id &&
+        course.instructorId && course.instructorId.toString() !== req.user.id &&
         req.user.role !== 'admin'
     ) {
         return res.status(403).json({ error: 'Not authorized to delete this course' });
@@ -194,11 +201,59 @@ exports.enrollStudentInCourse = asyncHandler(async (req, res) => {
     
     // Enroll student in course using repository
     try {
-        await courseRepository.enrollStudent(req.user.id, code);
+        await courseRepository.enrollStudent(req.user.id, course._id, code);
         
         res.status(200).json({
             success: true,
             message: 'Successfully enrolled in course'
+        });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
+/**
+ * Admin enrolls student in course
+ * @route POST /api/courses/:code/admin-enroll
+ * @access Private (Admin)
+ */
+exports.adminEnrollStudent = asyncHandler(async (req, res) => {
+    const { code } = req.params;
+    const { studentId } = req.body;
+    
+    if (!code) {
+        return res.status(400).json({ error: 'Course code is required' });
+    }
+    
+    if (!studentId) {
+        return res.status(400).json({ error: 'Student ID is required' });
+    }
+    
+    // Check if user is an admin
+    if (req.user.role !== 'admin') {
+        return res.status(403).json({ error: 'Only administrators can use this endpoint' });
+    }
+
+    // Find course by code
+    const course = await courseRepository.findByCode(code);
+    
+    if (!course) {
+        return res.status(404).json({ error: 'Course not found' });
+    }
+    
+    // Check if student exists
+    const student = await User.findById(studentId);
+    if (!student) {
+        return res.status(404).json({ error: 'Student not found' });
+    }
+    
+    // Check if student is already enrolled
+    try {
+        await courseRepository.enrollStudent(studentId, course._id, code);
+        
+        res.status(200).json({
+            success: true,
+            message: 'Student successfully enrolled in course'
         });
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -218,7 +273,7 @@ exports.unenrollStudentFromCourse = asyncHandler(async (req, res) => {
     }
     
     // Find course by code
-    const course = await courseRepository.findByCode(code);
+    const course = await courseRepository.findById(code);
     
     if (!course) {
         return res.status(404).json({ error: 'Course not found' });
@@ -243,6 +298,67 @@ exports.unenrollStudentFromCourse = asyncHandler(async (req, res) => {
 });
 
 /**
+ * Admin unenrolls student from course
+ * @route DELETE /api/courses/:code/admin-enroll
+ * @access Private (Admin)
+ */
+exports.adminUnenrollStudent = asyncHandler(async (req, res) => {
+    const { code } = req.params;
+    const { studentId } = req.body;
+    
+    if (!code) {
+        return res.status(400).json({ error: 'Course code is required' });
+    }
+    
+    if (!studentId) {
+        return res.status(400).json({ error: 'Student ID is required' });
+    }
+    
+    // Check if user is an admin
+    if (req.user.role !== 'admin') {
+        return res.status(403).json({ error: 'Only administrators can use this endpoint' });
+    }
+    
+    // Find course by code
+    const course = await courseRepository.findByCode(code);
+    
+    if (!course) {
+        return res.status(404).json({ error: 'Course not found' });
+    }
+    
+    // Check if student exists
+    const student = await User.findById(studentId);
+    if (!student) {
+        return res.status(404).json({ error: 'Student not found' });
+    }
+    
+    // Find enrollment and delete it
+    const enrollment = await Enrollment.findOne({ 
+        userId: studentId, 
+        courseId: course._id 
+    });
+    
+    if (!enrollment) {
+        return res.status(400).json({ error: 'Student is not enrolled in this course' });
+    }
+    
+    await Enrollment.findByIdAndDelete(enrollment._id);
+    
+    // Remove student from enrolledStudents array if it exists
+    if (course.enrolledStudents && course.enrolledStudents.includes(studentId)) {
+        course.enrolledStudents = course.enrolledStudents.filter(id => 
+            id.toString() !== studentId.toString()
+        );
+        await course.save();
+    }
+    
+    res.status(200).json({
+        success: true,
+        message: 'Student successfully unenrolled from course'
+    });
+});
+
+/**
  * Get enrolled students for a course
  * @route GET /api/courses/:code/students
  * @access Private (Instructors, Admins)
@@ -263,7 +379,7 @@ exports.getEnrolledStudents = asyncHandler(async (req, res) => {
     
     // Check if user is instructor for this course or an admin
     if (
-        course.instructorId.toString() !== req.user.id &&
+        course.instructorId && course.instructorId.toString() !== req.user.id &&
         req.user.role !== 'admin'
     ) {
         return res.status(403).json({ error: 'Not authorized to view enrolled students' });

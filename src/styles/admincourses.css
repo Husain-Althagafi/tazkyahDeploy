@@ -296,3 +296,26 @@
   .add-course-btn:hover {
     background-color: #059669;
   }
+
+  .course-status {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+}
+
+.course-status.active {
+  background-color: #10b981; /* Green */
+}
+
+.course-status.upcoming {
+  background-color: #f59e0b; /* Amber/Orange */
+}
+
+.course-status.inactive {
+  background-color: #ef4444; /* Red */
+}

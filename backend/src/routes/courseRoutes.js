@@ -6,6 +6,8 @@ const { verifyToken, requireRoles } = require('../middleware/auth');
 // Public routes
 router.get('/', courseController.getAllCourses);
 // Parameterized routes (This was a protected route!)
+router.get('/enrolled', verifyToken, requireRoles(['student']), courseController.getStudentCourses);
+
 router.get('/:code', courseController.getCourseByCode);
 
 // Protected routes
@@ -26,5 +28,18 @@ router.get('/:code/students', requireRoles(['instructor', 'admin']), courseContr
 // Student enrollment routes
 router.post('/:code/enroll', requireRoles(['student']), courseController.enrollStudentInCourse);
 router.delete('/:code/enroll', requireRoles(['student']), courseController.unenrollStudentFromCourse);
+
+router.post(
+  "/:code/admin-enroll",
+  verifyToken,
+  requireRoles(["admin"]),
+  courseController.adminEnrollStudent
+);
+router.delete(
+  "/:code/admin-enroll",
+  verifyToken,
+  requireRoles(["admin"]),
+  courseController.adminUnenrollStudent
+);
 
 module.exports = router;

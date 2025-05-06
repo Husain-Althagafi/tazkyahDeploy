@@ -1,0 +1,54 @@
+/* src/styles/unauthorized.css */
+.unauthorized-container {
+  text-align: center;
+  padding: 4rem 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.unauthorized-icon {
+  font-size: 5rem;
+  margin: 2rem 0;
+  color: #7494ec;
+}
+
+.unauthorized-container h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.unauthorized-container p {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.unauthorized-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.home-button, .login-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.home-button {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.login-button {
+  background-color: #7494ec;
+  color: white;
+}
+
+.home-button:hover, .login-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

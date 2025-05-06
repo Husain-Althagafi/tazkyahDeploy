@@ -1,18 +1,18 @@
-import { useEffect } from "react"
-import { useNavigate } from 'react-router-dom'
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function LoginHandler() {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        const form = document.getElementById("loginForm")
-        if (!form) return;
+  useEffect(() => {
+    const form = document.getElementById("loginForm");
+    if (!form) return;
 
-        const handleSubmit = async (e) => {
-            e.preventDefault()
+    const handleSubmit = async (e) => {
+      e.preventDefault();
 
-            const email = document.getElementById("l-email").value
-            const password = document.getElementById("l-password").value
+      const email = document.getElementById("l-email").value;
+      const password = document.getElementById("l-password").value;
 
             try {
                 const res = await fetch("http://localhost:5005/api/auth/login", {
@@ -21,29 +21,29 @@ function LoginHandler() {
                     body: JSON.stringify({ email, password }),
                 })
 
-                const data = await res.json()
+        const data = await res.json();
 
-                if (res.ok) {
-                    localStorage.setItem('token', data.token)
-                    console.log('Login successful!')
-                    navigate('/')
-                } else {
-                    alert(data.message || data.error)
-                }
-            } catch (err) {
-                console.error(err)
-                alert(err)
-            }
+        if (res.ok) {
+          localStorage.setItem("token", data.token);
+          console.log("Login successful!");
+          navigate("/");
+        } else {
+          alert(data.message || data.error);
         }
+      } catch (err) {
+        console.error(err);
+        alert(err);
+      }
+    };
 
-        form.addEventListener("submit", handleSubmit)
+    form.addEventListener("submit", handleSubmit);
 
-        return () => {
-            form.removeEventListener("submit", handleSubmit)
-        }
-    }, [navigate])
+    return () => {
+      form.removeEventListener("submit", handleSubmit);
+    };
+  }, [navigate]);
 
-    return null
+  return null;
 }
 
-export default LoginHandler
+export default LoginHandler;

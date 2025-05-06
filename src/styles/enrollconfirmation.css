@@ -1,49 +1,154 @@
+/* src/styles/enrollconfirmation.css (improved) */
 .confirmed-registration {
-    width: 100%;
-    color: #7494ec;
-    padding: 40px 20px;
-    text-align: center;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  width: 100%;
+  padding: 40px 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f7fa;
+}
+
+.enrollment-success-card {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  max-width: 700px;
+  width: 100%;
+  text-align: center;
+  animation: slide-up 0.6s ease-out;
+}
+
+@keyframes slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.success-image {
+  width: 150px;
+  height: 150px;
+  margin-bottom: 20px;
+}
+
+.confirmed-registration h1 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  color: #7494ec;
+}
+
+.confirmed-registration h2 {
+  font-size: 1.4em;
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: 500;
+}
+
+.success-message {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.enrollment-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.primary-action {
+  background-color: #7494ec;
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.primary-action:hover {
+  background-color: #5a7bd6;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.secondary-action {
+  background-color: white;
+  color: #7494ec;
+  border: 2px solid #7494ec;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.success-icon {
+  font-size: 4rem;
+  color: #10b981;
+  margin-bottom: 20px;
+  background-color: #ecfdf5;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.secondary-action:hover {
+  background-color: #f5f7ff;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+}
+
+.text-action {
+  background: none;
+  border: none;
+  color: #666;
+  padding: 10px;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.text-action:hover {
+  color: #7494ec;
+  text-decoration: underline;
+}
+
+.auto-redirect {
+  margin-top: 20px;
+  font-size: 0.85em;
+  color: #999;
+  font-style: italic;
+}
+
+@media (min-width: 768px) {
+  .enrollment-actions {
+    flex-direction: row;
     justify-content: center;
   }
-  
-  .confirmed-registration h1 {
-    font-size: 2.5em;
-    margin-bottom: 20px;
-  }
-  
-  .confirmed-registration h2 {
-    font-size: 1.2em;
-    margin-bottom: 30px;
-  }
-  
-  .confirmed-registration button {
-    padding: 15px 30px;
-    font-size: 1.1em;
-    font-weight: bold;
-    color: #f7f7f7;
-    background-color: #7494ec;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-  }
-  
-  .confirmed-registration button:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    transform: scale(1.05);
-  }
-  
-  .confirmed-registration button:focus {
-    outline: 2px solid rgb(255, 143, 0);
-    outline-offset: 2px;
-  }
-  
-  /* Responsive */
-  @media (max-width: 480px) {
-    .confirmed-registration h1 { font-size: 2em; }
-    .confirmed-registration h2 { font-size: 1em; }
-  }
+}
+
+@media (max-width: 480px) {
+  .confirmed-registration h1 { font-size: 2em; }
+  .confirmed-registration h2 { font-size: 1.2em; }
+  .enrollment-success-card { padding: 30px 20px; }
+}
