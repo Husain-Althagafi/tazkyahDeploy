@@ -38,8 +38,10 @@ app.use('/api/resources', resourceRoutes)
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to Tazkyah API" });
 });
+// All your existing middleware and routes stay here
+// ...
 
-
+// Add this AFTER all API routes but BEFORE error handling
 if (process.env.NODE_ENV === 'production') {
   // Serve static files
   app.use(express.static(path.join(__dirname, '../build')));
@@ -57,7 +59,6 @@ app.use((err, req, res, next) => {
 });
 
 module.exports = app;
-
 //Error handling
 app.use((err, req, res, next) => {
     console.error(err.stack)
