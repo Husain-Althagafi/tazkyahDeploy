@@ -37,11 +37,11 @@ app.get('/health', (req, res) => res.status(200).send('OK'));
 // Production configuration
 if (process.env.NODE_ENV === 'production') {
   // Serve static files from React app
-  app.use(express.static(path.join(__dirname, '../../build')));
+  app.use(express.static(path.join(__dirname, '../build')));
   
   // Handle React routing - must come last
   app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../build', 'index.html'));
+    res.sendFile(path.join(__dirname, '../build', 'index.html'));
   });
 }
 
