@@ -295,8 +295,12 @@ export default function AdminCourseDetails() {
   }
 
   // Filter enrolled students by search term
-  const filteredStudents = enrolledStudents.filter((enrollment) => {
-    const student = enrollment.userId;
+    const filteredStudents = enrolledStudents.filter((enrollment) => {
+        if (!enrollment || !enrollment.userId) return false;
+        
+        const student = enrollment.userId;
+        
+        if (!student) return false;
     const fullName = `${student.person?.firstName || ""} ${
       student.person?.lastName || ""
     }`.toLowerCase();
@@ -437,7 +441,8 @@ export default function AdminCourseDetails() {
               </thead>
               <tbody>
                 {filteredStudents.map((enrollment) => {
-                  const student = enrollment.userId;
+                    const student = enrollment.userId;
+                    if (!student || !student.person) return null;
                   return (
                     <tr key={enrollment._id}>
                       <td>
@@ -472,7 +477,7 @@ export default function AdminCourseDetails() {
                       <td>
                         <button
                           className="remove-btn"
-                          onClick={() => handleRemoveStudent(enrollment._id)}
+                          onClick={() => handleRemoveStudent(student._id)}
                         >
                           Remove
                         </button>
