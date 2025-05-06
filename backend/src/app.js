@@ -39,6 +39,25 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to Tazkyah API" });
 });
 
+
+if (process.env.NODE_ENV === 'production') {
+  // Serve static files
+  app.use(express.static(path.join(__dirname, '../build')));
+  
+  // Handle React routing
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build', 'index.html'));
+  });
+}
+
+// Error handling (must come last)
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: err.message || 'Something went wrong!' });
+});
+
+module.exports = app;
+
 //Error handling
 app.use((err, req, res, next) => {
     console.error(err.stack)
