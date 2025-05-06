@@ -31,6 +31,9 @@ app.use('/api/persons', personRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/resources', resourceRoutes);
 
+// Health check
+app.get('/health', (req, res) => res.status(200).send('OK'));
+
 // Production configuration
 if (process.env.NODE_ENV === 'production') {
   // Serve static files from React app
