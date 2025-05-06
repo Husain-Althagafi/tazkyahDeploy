@@ -16,7 +16,8 @@ export default function AdminCourseDetails() {
   const [error, setError] = useState(null);
   const [instructors, setInstructors] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const { success, error: toastError } = useToast();
+    const { success, error: toastError } = useToast();
+    const [instructorSelectDisabled, setInstructorSelectDisabled] = useState(false);
 
   const token = localStorage.getItem("token");
 
@@ -42,7 +43,8 @@ export default function AdminCourseDetails() {
         }
 
         const courseData = courseResponse.data.data;
-        setCourse(courseData);
+          setCourse(courseData);
+        setInstructorSelectDisabled(!!courseData.instructorId);
 
         // Fetch enrolled students
         const studentsResponse = await axios.get(
@@ -136,7 +138,9 @@ export default function AdminCourseDetails() {
 
       if (response.data.success) {
         // Update the course in state
-        setCourse({ ...course, instructorId: instructorId || null });
+          setCourse({ ...course, instructorId: instructorId || null });
+          
+          setInstructorSelectDisabled(!!instructorId);
         success("Instructor assignment updated successfully");
       } else {
         throw new Error(
@@ -362,18 +366,31 @@ export default function AdminCourseDetails() {
               <span className="current-instructor">
                 {getInstructorName(course.instructorId)}
               </span>
-              <select
-                className="instructor-select"
-                value={course.instructorId || ""}
-                onChange={(e) => handleAssignInstructor(e.target.value)}
-              >
-                <option value="">-- Change Instructor --</option>
-                {instructors.map((instructor) => (
-                  <option key={instructor._id} value={instructor._id}>
-                    {instructor.person?.firstName} {instructor.person?.lastName}
-                  </option>
-                ))}
-              </select>
+              <div className="instructor-select-container">
+                <select
+                  className="instructor-select"
+                  value={course.instructorId || ""}
+                  onChange={(e) => handleAssignInstructor(e.target.value)}
+                  disabled={instructorSelectDisabled}
+                >
+                  <option value="">-- Select Instructor --</option>
+                  {instructors.map((instructor) => (
+                    <option key={instructor._id} value={instructor._id}>
+                      {instructor.person?.firstName}{" "}
+                      {instructor.person?.lastName}
+                    </option>
+                  ))}
+                </select>
+                {instructorSelectDisabled && course.instructorId && (
+                  <button
+                    className="clear-instructor-btn"
+                    onClick={() => handleAssignInstructor(null)}
+                    title="Remove instructor assignment"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -441,8 +458,8 @@ export default function AdminCourseDetails() {
               </thead>
               <tbody>
                 {filteredStudents.map((enrollment) => {
-                    const student = enrollment.userId;
-                    if (!student || !student.person) return null;
+                  const student = enrollment.userId;
+                  if (!student || !student.person) return null;
                   return (
                     <tr key={enrollment._id}>
                       <td>

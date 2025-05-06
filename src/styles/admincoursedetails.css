@@ -107,19 +107,54 @@
   font-weight: 500;
 }
 
+.instructor-select-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  max-width: 300px;
+}
+
 .instructor-select {
   padding: 8px 12px;
   border: 1px solid #d1d5db;
   border-radius: 4px;
   font-size: 16px;
   width: 100%;
-  max-width: 300px;
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 8px center;
   background-size: 16px;
 }
+
+.instructor-select:disabled {
+  background-color: #f3f4f6;
+  color: #333;
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+.clear-instructor-btn {
+  position: absolute;
+  right: 35px; /* Position this to avoid overlapping with the select dropdown arrow */
+  background: none;
+  border: none;
+  color: #ef4444;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0 8px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.clear-instructor-btn:hover {
+  color: #b91c1c;
+}
+
 
 .instructor-select:focus {
   outline: none;
