@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "../styles/newcourses.css";
-import { Link } from 'react-router-dom';
 
 export function NewCourses() {
   const [newCourses, setNewCourses] = useState([]);
@@ -10,9 +10,9 @@ export function NewCourses() {
   useEffect(() => {
     async function fetchCourses() {
       try {
-        const response = await fetch('http://localhost:5005/api/courses/', {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
+        const response = await fetch(`${process.env.API_URL}/courses/`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
         });
 
         if (!response.ok) {
@@ -47,7 +47,9 @@ export function NewCourses() {
   };
 
   if (loading) {
-    return <div className="new-courses-loading">Loading featured courses...</div>;
+    return (
+      <div className="new-courses-loading">Loading featured courses...</div>
+    );
   }
 
   if (totalCourses === 0) {
@@ -58,25 +60,23 @@ export function NewCourses() {
     newCourses[startIndex],
     newCourses[(startIndex + 1) % totalCourses],
     newCourses[(startIndex + 2) % totalCourses],
-  ].filter(course => course); // Filter out undefined courses
+  ].filter((course) => course); // Filter out undefined courses
 
   return (
     <div className="new-courses-section">
       <h2 className="new-courses-title">Featured New Courses</h2>
       <div className="new-courses-container">
-        <button onClick={prevCourses} className="carousel-btn">◀</button>
+        <button onClick={prevCourses} className="carousel-btn">
+          ◀
+        </button>
         <div className="new-courses-imgs-container">
           {displayedCourses.map((course, index) => (
-            <Link 
+            <Link
               to={`/courses/course-details/${course.code}`}
-              key={course._id || index} 
+              key={course._id || index}
               className="carousel-course"
             >
-              <img
-                className="course-img"
-                src={course.img}
-                alt={course.title}
-              />
+              <img className="course-img" src={course.img} alt={course.title} />
               <div className="carousel-info">
                 <span className="carousel-title">{course.title}</span>
                 <span className="carousel-code">Code: {course.code}</span>
@@ -84,7 +84,9 @@ export function NewCourses() {
             </Link>
           ))}
         </div>
-        <button onClick={nextCourses} className="carousel-btn">▶</button>
+        <button onClick={nextCourses} className="carousel-btn">
+          ▶
+        </button>
       </div>
     </div>
   );

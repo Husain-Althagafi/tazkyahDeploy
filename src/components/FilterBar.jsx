@@ -9,8 +9,8 @@ export function FilterBar() {
   useEffect(() => {
     async function fetchCourses() {
       try {
-        const response = await fetch('http://localhost:5005/api/courses/', {
-          method: 'GET',
+        const response = await fetch(`${process.env.API_URL}/courses/`, {
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },

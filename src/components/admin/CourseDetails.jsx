@@ -1,10 +1,10 @@
 // src/components/admin/CourseDetails.jsx
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useToast } from "../../contexts/ToastContext";
 import "../../styles/admincoursedetails.css";
 import LoadingSpinner from "../common/LoadingSpinner";
-import { useToast } from "../../contexts/ToastContext";
 
 export default function AdminCourseDetails() {
   const { code } = useParams();
@@ -29,7 +29,7 @@ export default function AdminCourseDetails() {
       try {
         // Fetch course details
         const courseResponse = await axios.get(
-          `http://localhost:5005/api/courses/${code}`,
+          `${process.env.API_URL}/courses/${code}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -49,7 +49,7 @@ export default function AdminCourseDetails() {
 
         // Fetch enrolled students
         const studentsResponse = await axios.get(
-          `http://localhost:5005/api/courses/${code}/students`,
+          `${process.env.API_URL}/courses/${code}/students`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -67,7 +67,7 @@ export default function AdminCourseDetails() {
 
         // Fetch all instructors
         const instructorsResponse = await axios.get(
-          "http://localhost:5005/api/users/role/instructor",
+          `${process.env.API_URL}/users/role/instructor`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -85,7 +85,7 @@ export default function AdminCourseDetails() {
 
         // Fetch all students to get available students
         const allStudentsResponse = await axios.get(
-          "http://localhost:5005/api/users/role/student",
+          `${process.env.API_URL}/users/role/student`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -122,7 +122,6 @@ export default function AdminCourseDetails() {
     fetchData();
   }, [code, token, toastError]);
 
-
   // We only need to update the functions that show toast notifications
 
   // Handle instructor assignment - updated version
@@ -130,7 +129,7 @@ export default function AdminCourseDetails() {
     try {
       // Call API to update course's instructor
       const response = await axios.put(
-        `http://localhost:5005/api/courses/${code}`,
+        `${process.env.API_URL}/courses/${code}`,
         { instructorId: instructorId || null }, // Ensure null is sent when no instructor is selected
         {
           headers: {
@@ -173,7 +172,7 @@ export default function AdminCourseDetails() {
 
     try {
       const response = await axios.post(
-        `http://localhost:5005/api/courses/${code}/admin-enroll`,
+        `${process.env.API_URL}/courses/${code}/admin-enroll`,
         { studentId },
         {
           headers: {
@@ -204,7 +203,7 @@ export default function AdminCourseDetails() {
   const handleRemoveStudent = async (studentId) => {
     try {
       const response = await axios.delete(
-        `http://localhost:5005/api/courses/${code}/admin-enroll`,
+        `${process.env.API_URL}/courses/${code}/admin-enroll`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -253,7 +252,7 @@ export default function AdminCourseDetails() {
   const fetchEnrolledStudents = async () => {
     try {
       const studentsResponse = await axios.get(
-        `http://localhost:5005/api/courses/${code}/students`,
+        `${process.env.API_URL}/courses/${code}/students`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -271,7 +270,7 @@ export default function AdminCourseDetails() {
 
       // Update available students list
       const allStudentsResponse = await axios.get(
-        "http://localhost:5005/api/users/role/student",
+        `${process.env.API_URL}/users/role/student`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

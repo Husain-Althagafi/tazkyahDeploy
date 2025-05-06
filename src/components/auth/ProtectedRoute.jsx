@@ -1,6 +1,6 @@
-import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 const ProtectedRoute = ({ allowedRoles }) => {
   const [user, setUser] = useState(null);
@@ -17,7 +17,7 @@ const ProtectedRoute = ({ allowedRoles }) => {
       }
 
       try {
-        const response = await axios.get("http://localhost:5005/api/auth/me", {
+        const response = await axios.get(`${process.env.API_URL}/auth/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
