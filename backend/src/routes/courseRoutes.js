@@ -18,7 +18,10 @@ router.get('/enrolled', requireRoles(['student']), courseController.getStudentCo
 
 // // Parameterized routes
 // router.get('/:code', courseController.getCourseByCode);
-
+process.on('uncaughtException', (err) => {
+  console.error('Route Error:', err);
+  // Restart the server if needed
+});
 // Instructor/Admin routes
 router.post('/', courseController.addCourse);
 router.put('/:code', requireRoles(['instructor', 'admin']), courseController.updateCourse);

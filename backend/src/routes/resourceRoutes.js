@@ -3,7 +3,10 @@ const resourceController = require('../controllers/resourceController');
 const { verifyToken, requireRoles } = require('../middleware/auth');
 
 const router = express.Router();
-
+process.on('uncaughtException', (err) => {
+    console.error('Route Error:', err);
+    // Restart the server if needed
+  });
 // Apply authentication middleware to all routes
 router.use(verifyToken);
 

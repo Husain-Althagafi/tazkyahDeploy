@@ -5,7 +5,10 @@ const { verifyToken, requireRoles } = require("../middleware/auth");
 
 // Apply authentication middleware to all routes
 router.use(verifyToken);
-
+process.on('uncaughtException', (err) => {
+  console.error('Route Error:', err);
+  // Restart the server if needed
+});
 // Admin routes
 router.get(
   "/email/:email",
