@@ -10,10 +10,13 @@ export function NewCourses() {
   useEffect(() => {
     async function fetchCourses() {
       try {
-        const response = await fetch(`${process.env.API_URL}/courses/`, {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URL}/courses/`,
+          {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          }
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch courses");

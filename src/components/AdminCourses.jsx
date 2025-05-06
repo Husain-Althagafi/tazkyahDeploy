@@ -8,7 +8,6 @@ import "../styles/admincourses.css";
 import CourseAddForm from "./CourseAddForm";
 import LoadingSpinner from "./common/LoadingSpinner";
 
-
 // CourseCard component for displaying individual courses
 function CourseCard({
   course,
@@ -115,7 +114,7 @@ export default function AdminCourses() {
       for (const course of coursesList) {
         try {
           const response = await axios.get(
-            `${process.env.API_URL}/courses/${course.code}/students`,
+            `${process.env.REACT_APP_API_URL}/courses/${course.code}/students`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -151,7 +150,7 @@ export default function AdminCourses() {
       try {
         // Fetch all courses
         const coursesResponse = await axios.get(
-          `${process.env.API_URL}/courses/`,
+          `${process.env.REACT_APP_API_URL}/courses/`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -173,7 +172,7 @@ export default function AdminCourses() {
 
         // Fetch all instructors to get their names
         const instructorsResponse = await axios.get(
-          `${process.env.API_URL}/users/role/instructor`,
+          `${process.env.REACT_APP_API_URL}/users/role/instructor`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -263,7 +262,7 @@ export default function AdminCourses() {
 
       // Proceed with deletion
       const response = await axios.delete(
-        `${process.env.API_URL}/courses/${code}`,
+        `${process.env.REACT_APP_API_URL}/courses/${code}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -315,7 +314,7 @@ export default function AdminCourses() {
       if (editingCourse) {
         // Update existing course
         response = await axios.put(
-          `${process.env.API_URL}/courses/${courseData.code}`,
+          `${process.env.REACT_APP_API_URL}/courses/${courseData.code}`,
           courseData,
           {
             headers: {
@@ -338,7 +337,7 @@ export default function AdminCourses() {
       } else {
         // Add new course
         response = await axios.post(
-          `${process.env.API_URL}/courses/`,
+          `${process.env.REACT_APP_API_URL}/courses/`,
           courseData,
           {
             headers: {

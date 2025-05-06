@@ -23,11 +23,14 @@ export default function AdminUsers() {
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
-        const response = await axios.get(`${process.env.API_URL}/auth/me`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/auth/me`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (response.data.success) {
           setCurrentUserId(response.data.data.id);
@@ -46,11 +49,14 @@ export default function AdminUsers() {
       setLoading(true);
       try {
         // Fetch all users
-        const response = await axios.get(`${process.env.API_URL}/users`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/users`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (response.data.success) {
           setUsers(response.data.data);
@@ -111,7 +117,7 @@ export default function AdminUsers() {
 
     try {
       const response = await axios.delete(
-        `${process.env.API_URL}/users/${userId}`,
+        `${process.env.REACT_APP_API_URL}/users/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -142,7 +148,7 @@ export default function AdminUsers() {
       if (editingUser) {
         // Update existing user
         response = await axios.put(
-          `${process.env.API_URL}/users/${editingUser._id}`,
+          `${process.env.REACT_APP_API_URL}/users/${editingUser._id}`,
           userData,
           {
             headers: {
@@ -165,12 +171,16 @@ export default function AdminUsers() {
         }
       } else {
         // Add new user
-        response = await axios.post(`${process.env.API_URL}/users`, userData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
+        response = await axios.post(
+          `${process.env.REACT_APP_API_URL}/users`,
+          userData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (response.data.success) {
           // Add new user to state

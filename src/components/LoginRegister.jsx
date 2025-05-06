@@ -47,7 +47,7 @@ const LoginRegister = () => {
 
       // Submit login request
       const response = await axios.post(
-        `${process.env.API_URL}/auth/login`,
+        `${process.env.REACT_APP_API_URL}/auth/login`,
         loginData
       );
 
@@ -104,7 +104,7 @@ const LoginRegister = () => {
 
       // Submit registration request
       const response = await axios.post(
-        `${process.env.API_URL}/auth/register`,
+        `${process.env.REACT_APP_API_URL}/auth/register`,
         {
           firstName: registerData.firstName,
           lastName: registerData.lastName,
@@ -159,7 +159,7 @@ const LoginRegister = () => {
     console.log(`Initiating ${provider} OAuth flow`);
 
     // In a real application, you would redirect to your backend endpoint like:
-    // window.location.href = `${process.env.API_URL}/auth/${provider}`;
+    // window.location.href = `${process.env.REACT_APP_API_URL}/auth/${provider}`;
 
     // Since we don't have the backend implementation yet, show an informative message
     alert(

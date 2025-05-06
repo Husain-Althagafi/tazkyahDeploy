@@ -35,7 +35,7 @@ export default function UserCourses() {
 
         // Get enrolled courses from backend
         const response = await axios.get(
-          `${process.env.API_URL}/courses/enrolled`,
+          `${process.env.REACT_APP_API_URL}/courses/enrolled`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -92,11 +92,14 @@ export default function UserCourses() {
     try {
       const token = localStorage.getItem("token");
 
-      await axios.delete(`${process.env.API_URL}/courses/${courseId}/enroll`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axios.delete(
+        `${process.env.REACT_APP_API_URL}/courses/${courseId}/enroll`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       // Remove course from state
       setEnrolledCourses((prev) =>

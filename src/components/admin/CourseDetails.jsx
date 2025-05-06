@@ -29,7 +29,7 @@ export default function AdminCourseDetails() {
       try {
         // Fetch course details
         const courseResponse = await axios.get(
-          `${process.env.API_URL}/courses/${code}`,
+          `${process.env.REACT_APP_API_URL}/courses/${code}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -49,7 +49,7 @@ export default function AdminCourseDetails() {
 
         // Fetch enrolled students
         const studentsResponse = await axios.get(
-          `${process.env.API_URL}/courses/${code}/students`,
+          `${process.env.REACT_APP_API_URL}/courses/${code}/students`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -67,7 +67,7 @@ export default function AdminCourseDetails() {
 
         // Fetch all instructors
         const instructorsResponse = await axios.get(
-          `${process.env.API_URL}/users/role/instructor`,
+          `${process.env.REACT_APP_API_URL}/users/role/instructor`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -85,7 +85,7 @@ export default function AdminCourseDetails() {
 
         // Fetch all students to get available students
         const allStudentsResponse = await axios.get(
-          `${process.env.API_URL}/users/role/student`,
+          `${process.env.REACT_APP_API_URL}/users/role/student`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -129,7 +129,7 @@ export default function AdminCourseDetails() {
     try {
       // Call API to update course's instructor
       const response = await axios.put(
-        `${process.env.API_URL}/courses/${code}`,
+        `${process.env.REACT_APP_API_URL}/courses/${code}`,
         { instructorId: instructorId || null }, // Ensure null is sent when no instructor is selected
         {
           headers: {
@@ -172,7 +172,7 @@ export default function AdminCourseDetails() {
 
     try {
       const response = await axios.post(
-        `${process.env.API_URL}/courses/${code}/admin-enroll`,
+        `${process.env.REACT_APP_API_URL}/courses/${code}/admin-enroll`,
         { studentId },
         {
           headers: {
@@ -203,7 +203,7 @@ export default function AdminCourseDetails() {
   const handleRemoveStudent = async (studentId) => {
     try {
       const response = await axios.delete(
-        `${process.env.API_URL}/courses/${code}/admin-enroll`,
+        `${process.env.REACT_APP_API_URL}/courses/${code}/admin-enroll`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -252,7 +252,7 @@ export default function AdminCourseDetails() {
   const fetchEnrolledStudents = async () => {
     try {
       const studentsResponse = await axios.get(
-        `${process.env.API_URL}/courses/${code}/students`,
+        `${process.env.REACT_APP_API_URL}/courses/${code}/students`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -270,7 +270,7 @@ export default function AdminCourseDetails() {
 
       // Update available students list
       const allStudentsResponse = await axios.get(
-        `${process.env.API_URL}/users/role/student`,
+        `${process.env.REACT_APP_API_URL}/users/role/student`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

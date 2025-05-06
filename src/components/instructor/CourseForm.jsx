@@ -35,7 +35,7 @@ const CourseForm = () => {
           const token = localStorage.getItem("token");
           // Try fetching by id first
           const response = await axios.get(
-            `${process.env.API_URL}/courses/${id}`,
+            `${process.env.REACT_APP_API_URL}/courses/${id}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -75,7 +75,7 @@ const CourseForm = () => {
             // Try assuming the id is actually a course code
             const token = localStorage.getItem("token");
             const response = await axios.get(
-              `${process.env.API_URL}/courses/${id}`,
+              `${process.env.REACT_APP_API_URL}/courses/${id}`,
               {
                 headers: {
                   Authorization: `Bearer ${token}`,
@@ -207,7 +207,7 @@ const CourseForm = () => {
             // Update existing course
             try {
               response = await axios.put(
-                `${process.env.API_URL}/courses/${courseCode}`,
+                `${process.env.REACT_APP_API_URL}/courses/${courseCode}`,
                 updatedCourseData,
                 {
                   headers: {
@@ -246,7 +246,7 @@ const CourseForm = () => {
         } else {
           // Update without image change
           response = await axios.put(
-            `${process.env.API_URL}/courses/${courseCode}`,
+            `${process.env.REACT_APP_API_URL}/courses/${courseCode}`,
             courseData,
             {
               headers: {
@@ -274,7 +274,7 @@ const CourseForm = () => {
 
             try {
               response = await axios.post(
-                `${process.env.API_URL}/courses`,
+                `${process.env.REACT_APP_API_URL}/courses`,
                 newCourseData,
                 {
                   headers: {
@@ -313,7 +313,7 @@ const CourseForm = () => {
         } else {
           // Create without image
           response = await axios.post(
-            `${process.env.API_URL}/courses`,
+            `${process.env.REACT_APP_API_URL}/courses`,
             courseData,
             {
               headers: {

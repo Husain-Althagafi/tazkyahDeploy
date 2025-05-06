@@ -24,7 +24,7 @@ export default function AssignInstructors() {
       try {
         // Fetch all courses
         const coursesResponse = await axios.get(
-          `${process.env.API_URL}/courses`,
+          `${process.env.REACT_APP_API_URL}/courses`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -40,7 +40,7 @@ export default function AssignInstructors() {
 
         // Fetch all instructors
         const instructorsResponse = await axios.get(
-          `${process.env.API_URL}/users/role/instructor`,
+          `${process.env.REACT_APP_API_URL}/users/role/instructor`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -87,7 +87,7 @@ export default function AssignInstructors() {
     try {
       // Call API to update course's instructor
       const response = await axios.put(
-        `${process.env.API_URL}/courses/${courseId}`,
+        `${process.env.REACT_APP_API_URL}/courses/${courseId}`,
         { instructorId },
         {
           headers: {

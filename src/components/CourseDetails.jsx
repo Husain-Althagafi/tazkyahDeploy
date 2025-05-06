@@ -34,11 +34,14 @@ function CourseDetails() {
   // Fetch user information if logged in
   const fetchUserInfo = async (token) => {
     try {
-      const response = await axios.get(`${process.env.API_URL}/auth/me`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/auth/me`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (response.data.success) {
         const userData = response.data.data;
@@ -63,7 +66,7 @@ function CourseDetails() {
       try {
         console.log(`Fetching course details for code: ${code}`);
         const response = await axios.get(
-          `${process.env.API_URL}/courses/${code}`
+          `${process.env.REACT_APP_API_URL}/courses/${code}`
         );
 
         if (response.data.success) {
@@ -114,7 +117,7 @@ function CourseDetails() {
       }
 
       const response = await axios.post(
-        `${process.env.API_URL}/courses/${code}/enroll`,
+        `${process.env.REACT_APP_API_URL}/courses/${code}/enroll`,
         formData,
         {
           headers: {

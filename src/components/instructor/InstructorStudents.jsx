@@ -25,7 +25,7 @@ const InstructorStudents = () => {
         // Try fetching by ID, then fallback to code
         try {
           const courseResponse = await axios.get(
-            `${process.env.API_URL}/courses/${courseId}`,
+            `${process.env.REACT_APP_API_URL}/courses/${courseId}`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
 
@@ -38,7 +38,7 @@ const InstructorStudents = () => {
           setCourse(courseResponse.data.data);
           const code = courseResponse.data.data.code;
           const studentsResponse = await axios.get(
-            `${process.env.API_URL}/courses/${code}/students`,
+            `${process.env.REACT_APP_API_URL}/courses/${code}/students`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
 
@@ -52,7 +52,7 @@ const InstructorStudents = () => {
         } catch {
           // Fallback: treat courseId as code
           const courseResponse = await axios.get(
-            `${process.env.API_URL}/courses/${courseId}`,
+            `${process.env.REACT_APP_API_URL}/courses/${courseId}`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
 
@@ -64,7 +64,7 @@ const InstructorStudents = () => {
 
           setCourse(courseResponse.data.data);
           const studentsResponse = await axios.get(
-            `${process.env.API_URL}/courses/${courseId}/students`,
+            `${process.env.REACT_APP_API_URL}/courses/${courseId}/students`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
 

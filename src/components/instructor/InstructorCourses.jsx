@@ -19,16 +19,19 @@ const InstructorCourses = () => {
         const token = localStorage.getItem("token");
 
         // Get all courses and filter on client side for instructor
-        const response = await axios.get(`${process.env.API_URL}/courses`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/courses`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (response.data.success) {
           // Get instructor ID
           const userResponse = await axios.get(
-            `${process.env.API_URL}/auth/me`,
+            `${process.env.REACT_APP_API_URL}/auth/me`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,

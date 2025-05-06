@@ -58,7 +58,7 @@ export default function AdminStudents() {
 
   useEffect(() => {
     axios
-      .get(`${process.env.API_URL}/users/role/student`, {
+      .get(`${process.env.REACT_APP_API_URL}/users/role/student`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -113,7 +113,7 @@ export default function AdminStudents() {
     }
 
     axios
-      .delete(`${process.env.API_URL}/users/${id}`, {
+      .delete(`${process.env.REACT_APP_API_URL}/users/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

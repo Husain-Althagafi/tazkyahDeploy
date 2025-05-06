@@ -17,11 +17,14 @@ const ProtectedRoute = ({ allowedRoles }) => {
       }
 
       try {
-        const response = await axios.get(`${process.env.API_URL}/auth/me`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/auth/me`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         setUser(response.data.data);
         setLoading(false);
