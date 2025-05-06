@@ -1,4 +1,4 @@
-// Updated version of AdminCourses.jsx with instructor name lookup
+// Enhanced AdminCourses.jsx with proper enrollment count display
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -9,17 +9,17 @@ import { useToast } from "../contexts/ToastContext";
 import { useNavigate, Link } from "react-router-dom";
 
 // CourseCard component for displaying individual courses
-function CourseCard({ course, onDelete, onEdit, instructorName }) {
-  const { title, image, category, lastAccessed, code } = course;
-
+function CourseCard({ course, onDelete, onEdit, instructorName, enrollmentCount }) {
+  // Note: Added enrollmentCount parameter to accurately display enrollment numbers
+  
   return (
     <div className="course-card">
       <div className="course-image-container">
         <img
           src={
-            image || course.img || "https://placehold.co/600x400?text=Course"
+            course.image || course.img || "https://placehold.co/600x400?text=Course"
           }
-          alt={title}
+          alt={course.title}
           className="course-image"
         />
         <div className={`course-status ${course.status}`}>
@@ -29,7 +29,7 @@ function CourseCard({ course, onDelete, onEdit, instructorName }) {
         </div>
       </div>
       <div className="course-content">
-        <h3 className="course-title">{title}</h3>
+        <h3 className="course-title">{course.title}</h3>
         <p className="course-instructor">
           Instructor: {instructorName || "Not assigned"}
         </p>
@@ -37,8 +37,8 @@ function CourseCard({ course, onDelete, onEdit, instructorName }) {
           <div className="progress-header">
             <span className="progress-label">Students</span>
             <span className="progress-percentage">
-              {course.enrolledStudents ? course.enrolledStudents.length : 0}{" "}
-              enrolled
+              {/* Use the passed enrollmentCount instead of course.enrolledStudents */}
+              {enrollmentCount} enrolled
             </span>
           </div>
           <div className="progress-bar-background">
@@ -46,10 +46,8 @@ function CourseCard({ course, onDelete, onEdit, instructorName }) {
               className="progress-bar-fill"
               style={{
                 width: `${
-                  course.enrolledStudents && course.enrollmentCapacity
-                    ? (course.enrolledStudents.length /
-                        course.enrollmentCapacity) *
-                      100
+                  course.enrollmentCapacity
+                    ? (enrollmentCount / course.enrollmentCapacity) * 100
                     : 0
                 }%`,
               }}
@@ -58,16 +56,16 @@ function CourseCard({ course, onDelete, onEdit, instructorName }) {
         </div>
         <p className="course-last-accessed">
           Created:{" "}
-          {lastAccessed || new Date(course.createdAt).toLocaleDateString()}
+          {course.lastAccessed || new Date(course.createdAt).toLocaleDateString()}
         </p>
         <div className="course-actions">
-          <button className="delete-btn" onClick={() => onDelete(code)}>
+          <button className="delete-btn" onClick={() => onDelete(course.code)}>
             Delete
           </button>
-          <button className="edit-btn" onClick={() => onEdit(code)}>
+          <button className="edit-btn" onClick={() => onEdit(course.code)}>
             Edit
           </button>
-          <Link to={`/admin/courses/${code}/details`} className="details-btn">
+          <Link to={`/admin/courses/${course.code}/details`} className="details-btn">
             View Details
           </Link>
         </div>
@@ -79,6 +77,7 @@ function CourseCard({ course, onDelete, onEdit, instructorName }) {
 export default function AdminCourses() {
   const [courses, setCourses] = useState([]);
   const [instructors, setInstructors] = useState([]);
+  const [enrollmentData, setEnrollmentData] = useState({}); // New state to store enrollment counts
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -92,6 +91,42 @@ export default function AdminCourses() {
 
   // Available categories (status types)
   const categories = ["All", "active", "upcoming", "inactive"];
+
+  // New function to fetch enrollment counts for all courses
+  const fetchEnrollmentCounts = async (coursesList) => {
+    try {
+      // Create an object to store enrollment counts
+      const enrollmentCounts = {};
+      
+      // For each course, fetch its enrolled students
+      for (const course of coursesList) {
+        try {
+          const response = await axios.get(
+            `http://localhost:5005/api/courses/${course.code}/students`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          
+          if (response.data.success) {
+            // Store the count of enrolled students for this course
+            enrollmentCounts[course._id] = response.data.data.length;
+          }
+        } catch (err) {
+          console.error(`Error fetching enrollments for course ${course.code}:`, err);
+          // If there's an error, set the count to 0
+          enrollmentCounts[course._id] = 0;
+        }
+      }
+      
+      setEnrollmentData(enrollmentCounts);
+    } catch (err) {
+      console.error("Error fetching enrollment counts:", err);
+      if (toastError) toastError("Failed to load enrollment data");
+    }
+  };
 
   // Fetch all courses and instructors
   useEffect(() => {
@@ -114,6 +149,12 @@ export default function AdminCourses() {
           );
         }
 
+        const fetchedCourses = coursesResponse.data.data;
+        setCourses(fetchedCourses);
+        
+        // Fetch enrollment counts for all courses
+        await fetchEnrollmentCounts(fetchedCourses);
+
         // Fetch all instructors to get their names
         const instructorsResponse = await axios.get(
           "http://localhost:5005/api/users/role/instructor",
@@ -130,7 +171,6 @@ export default function AdminCourses() {
           );
         }
 
-        setCourses(coursesResponse.data.data);
         setInstructors(instructorsResponse.data.data || []);
       } catch (err) {
         console.error("Error fetching data:", err);
@@ -158,6 +198,11 @@ export default function AdminCourses() {
     }`;
   };
 
+  // Get enrollment count for a course
+  const getEnrollmentCount = (courseId) => {
+    return enrollmentData[courseId] || 0;
+  };
+
   // Filter courses based on search term and category
   const filteredCourses = courses.filter((course) => {
     const matchesSearch =
@@ -176,16 +221,13 @@ export default function AdminCourses() {
     // First, get the course details to check enrollment
     try {
       const course = courses.find((c) => c.code === code);
+      const enrollmentCount = getEnrollmentCount(course._id);
 
       // Check if students are enrolled
-      if (
-        course &&
-        course.enrolledStudents &&
-        course.enrolledStudents.length > 0
-      ) {
+      if (enrollmentCount > 0) {
         // Show warning about enrolled students
         const deleteConfirm = window.confirm(
-          `Warning: This course has ${course.enrolledStudents.length} enrolled student(s). ` +
+          `Warning: This course has ${enrollmentCount} enrolled student(s). ` +
             `Deleting this course will remove it from their enrolled courses. ` +
             `Do you want to proceed with deletion?`
         );
@@ -214,7 +256,19 @@ export default function AdminCourses() {
       );
 
       if (response.data.success) {
+        // Remove the course from our state
+        const deletedCourse = courses.find(c => c.code === code);
         setCourses((prev) => prev.filter((course) => course.code !== code));
+        
+        // Also remove the enrollment data for this course
+        if (deletedCourse) {
+          setEnrollmentData(prevData => {
+            const newData = {...prevData};
+            delete newData[deletedCourse._id];
+            return newData;
+          });
+        }
+        
         success("Course deleted successfully");
       } else {
         throw new Error(response.data.error || "Failed to delete course");
@@ -279,7 +333,15 @@ export default function AdminCourses() {
         );
 
         if (response.data.success) {
-          setCourses((prev) => [...prev, response.data.data]);
+          const newCourse = response.data.data;
+          setCourses((prev) => [...prev, newCourse]);
+          
+          // Initialize enrollment count for new course
+          setEnrollmentData(prevData => ({
+            ...prevData,
+            [newCourse._id]: 0
+          }));
+          
           success("Course added successfully");
         } else {
           throw new Error(response.data.error || "Failed to add course");
@@ -378,6 +440,7 @@ export default function AdminCourses() {
               onDelete={handleDelete}
               onEdit={handleEdit}
               instructorName={getInstructorName(course.instructorId)}
+              enrollmentCount={getEnrollmentCount(course._id)}
             />
           ))}
         </div>
