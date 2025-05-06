@@ -16,8 +16,9 @@ export default function AdminCourseDetails() {
   const [error, setError] = useState(null);
   const [instructors, setInstructors] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-    const { success, error: toastError } = useToast();
-    const [instructorSelectDisabled, setInstructorSelectDisabled] = useState(false);
+  const { success, error: toastError } = useToast();
+  const [instructorSelectDisabled, setInstructorSelectDisabled] =
+    useState(false);
 
   const token = localStorage.getItem("token");
 
@@ -43,7 +44,7 @@ export default function AdminCourseDetails() {
         }
 
         const courseData = courseResponse.data.data;
-          setCourse(courseData);
+        setCourse(courseData);
         setInstructorSelectDisabled(!!courseData.instructorId);
 
         // Fetch enrolled students
@@ -121,7 +122,10 @@ export default function AdminCourseDetails() {
     fetchData();
   }, [code, token, toastError]);
 
-  // Handle instructor assignment
+
+  // We only need to update the functions that show toast notifications
+
+  // Handle instructor assignment - updated version
   const handleAssignInstructor = async (instructorId) => {
     try {
       // Call API to update course's instructor
@@ -137,12 +141,16 @@ export default function AdminCourseDetails() {
       );
 
       if (response.data.success) {
-        // Update the course in state
-          setCourse({ ...course, instructorId: instructorId || null });
-          
-        if (!!instructorId !== instructorSelectDisabled) {
-            setInstructorSelectDisabled(!!instructorId);
-        };
+        // Update the course in state without causing a re-render cascade
+        setCourse((prevCourse) => ({
+          ...prevCourse,
+          instructorId: instructorId || null,
+        }));
+
+        // Update the instructor selection disabled state independently
+        setInstructorSelectDisabled(!!instructorId);
+
+        // Show success toast
         success("Instructor assignment updated successfully");
       } else {
         throw new Error(
@@ -159,10 +167,11 @@ export default function AdminCourseDetails() {
     }
   };
 
-  // Handle enrolling a student (admin function)
+  // Handle enrolling a student
   const handleEnrollStudent = async (studentId) => {
+    if (!studentId) return; // Skip if no student selected
+
     try {
-      // Use the new admin-specific endpoint
       const response = await axios.post(
         `http://localhost:5005/api/courses/${code}/admin-enroll`,
         { studentId },
@@ -175,9 +184,11 @@ export default function AdminCourseDetails() {
       );
 
       if (response.data.success) {
-        // Refresh the enrolled students list
-        fetchEnrolledStudents();
+        // Show success toast first
         success("Student enrolled successfully");
+
+        // Then refresh the enrolled students list
+        fetchEnrolledStudents();
       } else {
         throw new Error(response.data.error || "Failed to enroll student");
       }
@@ -189,10 +200,9 @@ export default function AdminCourseDetails() {
     }
   };
 
-  // Handle removing a student (admin function)
+  // Handle removing a student
   const handleRemoveStudent = async (studentId) => {
     try {
-      // Use the new admin-specific endpoint
       const response = await axios.delete(
         `http://localhost:5005/api/courses/${code}/admin-enroll`,
         {
@@ -200,14 +210,34 @@ export default function AdminCourseDetails() {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-          data: { studentId }, // Pass the studentId in the request body
+          data: { studentId },
         }
       );
 
       if (response.data.success) {
-        // Refresh the enrolled students list
-        fetchEnrolledStudents();
+        // Show success toast first
         success("Student removed successfully");
+
+        // Then update the student list without causing full re-render
+        setEnrolledStudents((prevStudents) =>
+          prevStudents.filter(
+            (enrollment) => enrollment.userId._id !== studentId
+          )
+        );
+
+        // Also update available students
+        setAvailableStudents((prevAvailable) => {
+          // Find the removed student's info
+          const removedStudent = enrolledStudents.find(
+            (enrollment) => enrollment.userId._id === studentId
+          )?.userId;
+
+          if (removedStudent) {
+            // Add the removed student to the available list
+            return [...prevAvailable, removedStudent];
+          }
+          return prevAvailable;
+        });
       } else {
         throw new Error(response.data.error || "Failed to remove student");
       }
@@ -301,12 +331,12 @@ export default function AdminCourseDetails() {
   }
 
   // Filter enrolled students by search term
-    const filteredStudents = enrolledStudents.filter((enrollment) => {
-        if (!enrollment || !enrollment.userId) return false;
-        
-        const student = enrollment.userId;
-        
-        if (!student) return false;
+  const filteredStudents = enrolledStudents.filter((enrollment) => {
+    if (!enrollment || !enrollment.userId) return false;
+
+    const student = enrollment.userId;
+
+    if (!student) return false;
     const fullName = `${student.person?.firstName || ""} ${
       student.person?.lastName || ""
     }`.toLowerCase();

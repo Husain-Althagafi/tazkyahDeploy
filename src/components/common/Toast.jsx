@@ -1,16 +1,23 @@
-// In src/components/common/Toast.jsx
-import React, { useEffect, useState } from "react";
+// In src/components/common/Toast.jsx - Enhanced version
+import React, { useEffect, useState, useRef } from "react";
 import "../../styles/toast.css";
 
-const Toast = ({ type, message, duration = 5000, onClose }) => {
+const Toast = ({ type, message, duration = 5000, hiding = false, onClose }) => {
   const [visible, setVisible] = useState(true);
-  const [timeoutId, setTimeoutId] = useState(null);
+  const timeoutIdRef = useRef(null);
+
+  // Handle the case when the toast is manually marked as hiding
+  useEffect(() => {
+    if (hiding) {
+      setVisible(false);
+    }
+  }, [hiding]);
 
   // Set up the automatic timeout
   useEffect(() => {
-    // Only set a timeout if duration is positive
-    if (duration > 0) {
-      const id = setTimeout(() => {
+    // Only set a timeout if duration is positive and not already hiding
+    if (duration > 0 && !hiding) {
+      timeoutIdRef.current = setTimeout(() => {
         setVisible(false);
         // Wait for fade-out animation before actually closing
         setTimeout(() => {
@@ -18,19 +25,17 @@ const Toast = ({ type, message, duration = 5000, onClose }) => {
         }, 300);
       }, duration);
 
-      setTimeoutId(id);
-
       // Clean up the timeout if component unmounts
       return () => {
-        if (timeoutId) clearTimeout(timeoutId);
+        if (timeoutIdRef.current) clearTimeout(timeoutIdRef.current);
       };
     }
-  }, [duration, onClose]);
+  }, [duration, onClose, hiding]);
 
   // Handle manual close
   const handleClose = () => {
     // Clear the automatic timeout
-    if (timeoutId) clearTimeout(timeoutId);
+    if (timeoutIdRef.current) clearTimeout(timeoutIdRef.current);
 
     setVisible(false);
     // Wait for fade-out animation before actually closing
