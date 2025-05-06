@@ -1,5 +1,6 @@
 // backend/src/utils/seeder.js
-require('dotenv').config({ path: '../.env' });
+// You need to run it at the same folder in terminal
+require('dotenv').config({ path: '../../../.env' });
 const mongoose = require('mongoose');
 const Person = require('../models/Person');
 const User = require('../models/User');
@@ -9,10 +10,7 @@ const Enrollment = require('../models/Enrollment');
 // Connect to database
 const connectDB = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_URL, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        });
+        await mongoose.connect(process.env.MONGO_URL);
         console.log('MongoDB Connected!');
     } catch (error) {
         console.error(`Error connecting to MongoDB: ${error.message}`);
