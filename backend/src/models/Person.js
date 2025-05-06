@@ -46,6 +46,6 @@ const PersonSchema = new mongoose.Schema({
 });
 
 // Indexes
-PersonSchema.index({ email: 1 });
+// PersonSchema.index({ email: 1 });
 
 module.exports = mongoose.model("Person", PersonSchema);
