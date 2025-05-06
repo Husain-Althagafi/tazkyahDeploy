@@ -1,8 +1,8 @@
 // src/components/AssignInstructors.jsx
-import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../styles/assigninstructors.css";
+import React, { useEffect, useState } from "react";
 import { useToast } from "../contexts/ToastContext";
+import "../styles/assigninstructors.css";
 import LoadingSpinner from "./common/LoadingSpinner";
 
 export default function AssignInstructors() {
@@ -24,7 +24,7 @@ export default function AssignInstructors() {
       try {
         // Fetch all courses
         const coursesResponse = await axios.get(
-          "http://localhost:5005/api/courses",
+          `${process.env.REACT_APP_API_URL}/courses`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -40,7 +40,7 @@ export default function AssignInstructors() {
 
         // Fetch all instructors
         const instructorsResponse = await axios.get(
-          "http://localhost:5005/api/users/role/instructor",
+          `${process.env.REACT_APP_API_URL}/users/role/instructor`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -87,7 +87,7 @@ export default function AssignInstructors() {
     try {
       // Call API to update course's instructor
       const response = await axios.put(
-        `http://localhost:5005/api/courses/${courseId}`,
+        `${process.env.REACT_APP_API_URL}/courses/${courseId}`,
         { instructorId },
         {
           headers: {

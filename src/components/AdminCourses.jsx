@@ -1,23 +1,31 @@
 // Enhanced AdminCourses.jsx with proper enrollment count display
 
-import React, { useEffect, useState } from "react";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useToast } from "../contexts/ToastContext";
 import "../styles/admincourses.css";
 import CourseAddForm from "./CourseAddForm";
 import LoadingSpinner from "./common/LoadingSpinner";
-import { useToast } from "../contexts/ToastContext";
-import { useNavigate, Link } from "react-router-dom";
 
 // CourseCard component for displaying individual courses
-function CourseCard({ course, onDelete, onEdit, instructorName, enrollmentCount }) {
+function CourseCard({
+  course,
+  onDelete,
+  onEdit,
+  instructorName,
+  enrollmentCount,
+}) {
   // Note: Added enrollmentCount parameter to accurately display enrollment numbers
-  
+
   return (
     <div className="course-card">
       <div className="course-image-container">
         <img
           src={
-            course.image || course.img || "https://placehold.co/600x400?text=Course"
+            course.image ||
+            course.img ||
+            "https://placehold.co/600x400?text=Course"
           }
           alt={course.title}
           className="course-image"
@@ -56,7 +64,8 @@ function CourseCard({ course, onDelete, onEdit, instructorName, enrollmentCount 
         </div>
         <p className="course-last-accessed">
           Created:{" "}
-          {course.lastAccessed || new Date(course.createdAt).toLocaleDateString()}
+          {course.lastAccessed ||
+            new Date(course.createdAt).toLocaleDateString()}
         </p>
         <div className="course-actions">
           <button className="delete-btn" onClick={() => onDelete(course.code)}>
@@ -65,7 +74,10 @@ function CourseCard({ course, onDelete, onEdit, instructorName, enrollmentCount 
           <button className="edit-btn" onClick={() => onEdit(course.code)}>
             Edit
           </button>
-          <Link to={`/admin/courses/${course.code}/details`} className="details-btn">
+          <Link
+            to={`/admin/courses/${course.code}/details`}
+            className="details-btn"
+          >
             View Details
           </Link>
         </div>
@@ -97,30 +109,33 @@ export default function AdminCourses() {
     try {
       // Create an object to store enrollment counts
       const enrollmentCounts = {};
-      
+
       // For each course, fetch its enrolled students
       for (const course of coursesList) {
         try {
           const response = await axios.get(
-            `http://localhost:5005/api/courses/${course.code}/students`,
+            `${process.env.REACT_APP_API_URL}/courses/${course.code}/students`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
             }
           );
-          
+
           if (response.data.success) {
             // Store the count of enrolled students for this course
             enrollmentCounts[course._id] = response.data.data.length;
           }
         } catch (err) {
-          console.error(`Error fetching enrollments for course ${course.code}:`, err);
+          console.error(
+            `Error fetching enrollments for course ${course.code}:`,
+            err
+          );
           // If there's an error, set the count to 0
           enrollmentCounts[course._id] = 0;
         }
       }
-      
+
       setEnrollmentData(enrollmentCounts);
     } catch (err) {
       console.error("Error fetching enrollment counts:", err);
@@ -135,7 +150,7 @@ export default function AdminCourses() {
       try {
         // Fetch all courses
         const coursesResponse = await axios.get(
-          "http://localhost:5005/api/courses/",
+          `${process.env.REACT_APP_API_URL}/courses/`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -151,13 +166,13 @@ export default function AdminCourses() {
 
         const fetchedCourses = coursesResponse.data.data;
         setCourses(fetchedCourses);
-        
+
         // Fetch enrollment counts for all courses
         await fetchEnrollmentCounts(fetchedCourses);
 
         // Fetch all instructors to get their names
         const instructorsResponse = await axios.get(
-          "http://localhost:5005/api/users/role/instructor",
+          `${process.env.REACT_APP_API_URL}/users/role/instructor`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -247,7 +262,7 @@ export default function AdminCourses() {
 
       // Proceed with deletion
       const response = await axios.delete(
-        `http://localhost:5005/api/courses/${code}`,
+        `${process.env.REACT_APP_API_URL}/courses/${code}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -257,18 +272,18 @@ export default function AdminCourses() {
 
       if (response.data.success) {
         // Remove the course from our state
-        const deletedCourse = courses.find(c => c.code === code);
+        const deletedCourse = courses.find((c) => c.code === code);
         setCourses((prev) => prev.filter((course) => course.code !== code));
-        
+
         // Also remove the enrollment data for this course
         if (deletedCourse) {
-          setEnrollmentData(prevData => {
-            const newData = {...prevData};
+          setEnrollmentData((prevData) => {
+            const newData = { ...prevData };
             delete newData[deletedCourse._id];
             return newData;
           });
         }
-        
+
         success("Course deleted successfully");
       } else {
         throw new Error(response.data.error || "Failed to delete course");
@@ -299,7 +314,7 @@ export default function AdminCourses() {
       if (editingCourse) {
         // Update existing course
         response = await axios.put(
-          `http://localhost:5005/api/courses/${courseData.code}`,
+          `${process.env.REACT_APP_API_URL}/courses/${courseData.code}`,
           courseData,
           {
             headers: {
@@ -322,7 +337,7 @@ export default function AdminCourses() {
       } else {
         // Add new course
         response = await axios.post(
-          "http://localhost:5005/api/courses/",
+          `${process.env.REACT_APP_API_URL}/courses/`,
           courseData,
           {
             headers: {
@@ -335,13 +350,13 @@ export default function AdminCourses() {
         if (response.data.success) {
           const newCourse = response.data.data;
           setCourses((prev) => [...prev, newCourse]);
-          
+
           // Initialize enrollment count for new course
-          setEnrollmentData(prevData => ({
+          setEnrollmentData((prevData) => ({
             ...prevData,
-            [newCourse._id]: 0
+            [newCourse._id]: 0,
           }));
-          
+
           success("Course added successfully");
         } else {
           throw new Error(response.data.error || "Failed to add course");

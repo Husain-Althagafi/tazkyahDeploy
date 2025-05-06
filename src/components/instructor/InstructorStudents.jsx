@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import '../../styles/instructorStudents.css';
-import LoadingSpinner from '../common/LoadingSpinner';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import "../../styles/instructorStudents.css";
+import LoadingSpinner from "../common/LoadingSpinner";
 
 const InstructorStudents = () => {
   const { courseId } = useParams();
@@ -11,66 +11,74 @@ const InstructorStudents = () => {
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         if (!token) {
-          throw new Error('Authentication required');
+          throw new Error("Authentication required");
         }
 
         // Try fetching by ID, then fallback to code
         try {
           const courseResponse = await axios.get(
-            `http://localhost:5005/api/courses/${courseId}`,
+            `${process.env.REACT_APP_API_URL}/courses/${courseId}`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
 
           if (!courseResponse.data.success) {
-            throw new Error(courseResponse.data.error || 'Failed to fetch course details');
+            throw new Error(
+              courseResponse.data.error || "Failed to fetch course details"
+            );
           }
 
           setCourse(courseResponse.data.data);
           const code = courseResponse.data.data.code;
           const studentsResponse = await axios.get(
-            `http://localhost:5005/api/courses/${code}/students`,
+            `${process.env.REACT_APP_API_URL}/courses/${code}/students`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
 
           if (!studentsResponse.data.success) {
-            throw new Error(studentsResponse.data.error || 'Failed to fetch enrolled students');
+            throw new Error(
+              studentsResponse.data.error || "Failed to fetch enrolled students"
+            );
           }
 
           setStudents(studentsResponse.data.data || []);
         } catch {
           // Fallback: treat courseId as code
           const courseResponse = await axios.get(
-            `http://localhost:5005/api/courses/${courseId}`,
+            `${process.env.REACT_APP_API_URL}/courses/${courseId}`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
 
           if (!courseResponse.data.success) {
-            throw new Error(courseResponse.data.error || 'Failed to fetch course details');
+            throw new Error(
+              courseResponse.data.error || "Failed to fetch course details"
+            );
           }
 
           setCourse(courseResponse.data.data);
           const studentsResponse = await axios.get(
-            `http://localhost:5005/api/courses/${courseId}/students`,
+            `${process.env.REACT_APP_API_URL}/courses/${courseId}/students`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
 
           if (!studentsResponse.data.success) {
-            throw new Error(studentsResponse.data.error || 'Failed to fetch enrolled students');
+            throw new Error(
+              studentsResponse.data.error || "Failed to fetch enrolled students"
+            );
           }
 
           setStudents(studentsResponse.data.data || []);
         }
       } catch (err) {
-        console.error('Error fetching data:', err);
-        setError(err.message || 'An error occurred while fetching data');
+        console.error("Error fetching data:", err);
+        setError(err.message || "An error occurred while fetching data");
       } finally {
         setLoading(false);
       }
@@ -90,7 +98,7 @@ const InstructorStudents = () => {
     );
   });
 
-  const handleBack = () => navigate('/instructor-courses');
+  const handleBack = () => navigate("/instructor-courses");
 
   if (loading) {
     return <LoadingSpinner size="large" text="Loading student data..." />;
@@ -110,7 +118,7 @@ const InstructorStudents = () => {
   return (
     <div className="instructor-students-container">
       <div className="students-header">
-        <h1>Students in {course?.title || 'Course'}</h1>
+        <h1>Students in {course?.title || "Course"}</h1>
         <button onClick={handleBack} className="back-btn">
           Back to Courses
         </button>
@@ -155,7 +163,7 @@ const InstructorStudents = () => {
         <div className="no-students">
           <p>No students found matching your search.</p>
           <button
-            onClick={() => setSearchTerm('')}
+            onClick={() => setSearchTerm("")}
             className="clear-filters-btn"
           >
             Clear Search

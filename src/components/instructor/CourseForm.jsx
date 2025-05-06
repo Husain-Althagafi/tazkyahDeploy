@@ -1,9 +1,9 @@
 // src/components/instructor/CourseForm.jsx
-import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import "../../styles/courseFormInstructor.css";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useToast } from "../../contexts/ToastContext";
+import "../../styles/courseFormInstructor.css";
 import LoadingSpinner from "../common/LoadingSpinner";
 
 const CourseForm = () => {
@@ -35,7 +35,7 @@ const CourseForm = () => {
           const token = localStorage.getItem("token");
           // Try fetching by id first
           const response = await axios.get(
-            `http://localhost:5005/api/courses/${id}`,
+            `${process.env.REACT_APP_API_URL}/courses/${id}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -69,13 +69,13 @@ const CourseForm = () => {
           }
         } catch (err) {
           console.error("Error fetching course details:", err);
-          
+
           // If we get an error, let's try fetching by course code as a fallback
           try {
             // Try assuming the id is actually a course code
             const token = localStorage.getItem("token");
             const response = await axios.get(
-              `http://localhost:5005/api/courses/${id}`,
+              `${process.env.REACT_APP_API_URL}/courses/${id}`,
               {
                 headers: {
                   Authorization: `Bearer ${token}`,
@@ -108,7 +108,10 @@ const CourseForm = () => {
               throw new Error("Failed to fetch course details");
             }
           } catch (secondErr) {
-            console.error("Error fetching course details (2nd attempt):", secondErr);
+            console.error(
+              "Error fetching course details (2nd attempt):",
+              secondErr
+            );
             setError("Failed to load course data");
             toastError("Failed to load course data");
           }
@@ -190,21 +193,21 @@ const CourseForm = () => {
         if (courseImage?.file) {
           // Prepare a reader to convert the image file to a data URL
           const reader = new FileReader();
-          
+
           reader.onload = async () => {
             const imageData = reader.result;
-            
+
             // Include the image data in the course update
             const updatedCourseData = {
               ...courseData,
               imageUrl: imageData,
-              img: imageData // Include both imageUrl and img for compatibility
+              img: imageData, // Include both imageUrl and img for compatibility
             };
-            
+
             // Update existing course
             try {
               response = await axios.put(
-                `http://localhost:5005/api/courses/${courseCode}`,
+                `${process.env.REACT_APP_API_URL}/courses/${courseCode}`,
                 updatedCourseData,
                 {
                   headers: {
@@ -213,31 +216,37 @@ const CourseForm = () => {
                   },
                 }
               );
-              
+
               if (response.data.success) {
                 success("Course updated successfully!");
                 navigate("/instructor-courses");
               } else {
-                throw new Error(response.data.error || "Failed to update course");
+                throw new Error(
+                  response.data.error || "Failed to update course"
+                );
               }
             } catch (err) {
               console.error("Error updating course:", err);
               setError(
-                err.response?.data?.error || err.message || "Failed to update course"
+                err.response?.data?.error ||
+                  err.message ||
+                  "Failed to update course"
               );
               toastError(
-                err.response?.data?.error || err.message || "Failed to update course"
+                err.response?.data?.error ||
+                  err.message ||
+                  "Failed to update course"
               );
               setSubmitting(false);
             }
           };
-          
+
           reader.readAsDataURL(courseImage.file);
           return; // Exit early since we're handling the submit in the reader.onload callback
         } else {
           // Update without image change
           response = await axios.put(
-            `http://localhost:5005/api/courses/${courseCode}`,
+            `${process.env.REACT_APP_API_URL}/courses/${courseCode}`,
             courseData,
             {
               headers: {
@@ -252,20 +261,20 @@ const CourseForm = () => {
         if (courseImage?.file) {
           // Convert image to data URL for new course
           const reader = new FileReader();
-          
+
           reader.onload = async () => {
             const imageData = reader.result;
-            
+
             // Include the image data in the new course
             const newCourseData = {
               ...courseData,
               imageUrl: imageData,
-              img: imageData
+              img: imageData,
             };
-            
+
             try {
               response = await axios.post(
-                "http://localhost:5005/api/courses",
+                `${process.env.REACT_APP_API_URL}/courses`,
                 newCourseData,
                 {
                   headers: {
@@ -274,31 +283,37 @@ const CourseForm = () => {
                   },
                 }
               );
-              
+
               if (response.data.success) {
                 success("Course created successfully!");
                 navigate("/instructor-courses");
               } else {
-                throw new Error(response.data.error || "Failed to create course");
+                throw new Error(
+                  response.data.error || "Failed to create course"
+                );
               }
             } catch (err) {
               console.error("Error creating course:", err);
               setError(
-                err.response?.data?.error || err.message || "Failed to create course"
+                err.response?.data?.error ||
+                  err.message ||
+                  "Failed to create course"
               );
               toastError(
-                err.response?.data?.error || err.message || "Failed to create course"
+                err.response?.data?.error ||
+                  err.message ||
+                  "Failed to create course"
               );
               setSubmitting(false);
             }
           };
-          
+
           reader.readAsDataURL(courseImage.file);
           return; // Exit early
         } else {
           // Create without image
           response = await axios.post(
-            "http://localhost:5005/api/courses",
+            `${process.env.REACT_APP_API_URL}/courses`,
             courseData,
             {
               headers: {

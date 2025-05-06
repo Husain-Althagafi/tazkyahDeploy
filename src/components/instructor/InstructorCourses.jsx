@@ -1,9 +1,9 @@
 // src/components/instructor/InstructorCourses.jsx
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import '../../styles/instructorCourses.css';
-import LoadingSpinner from '../common/LoadingSpinner';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import "../../styles/instructorCourses.css";
+import LoadingSpinner from "../common/LoadingSpinner";
 
 const InstructorCourses = () => {
   const [courses, setCourses] = useState([]);
@@ -19,16 +19,19 @@ const InstructorCourses = () => {
         const token = localStorage.getItem("token");
 
         // Get all courses and filter on client side for instructor
-        const response = await axios.get("http://localhost:5005/api/courses", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/courses`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (response.data.success) {
           // Get instructor ID
           const userResponse = await axios.get(
-            "http://localhost:5005/api/auth/me",
+            `${process.env.REACT_APP_API_URL}/auth/me`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,

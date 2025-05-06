@@ -1,7 +1,7 @@
 // src/components/CourseDetails.jsx
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import "../styles/courseDetails.css";
 import LoadingSpinner from "./common/LoadingSpinner";
 
@@ -34,12 +34,15 @@ function CourseDetails() {
   // Fetch user information if logged in
   const fetchUserInfo = async (token) => {
     try {
-      const response = await axios.get("http://localhost:5005/api/auth/me", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/auth/me`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       if (response.data.success) {
         const userData = response.data.data;
         setFormData({
@@ -59,25 +62,27 @@ function CourseDetails() {
     async function fetchCourseDetails() {
       setLoading(true);
       setError(null);
-      
+
       try {
         console.log(`Fetching course details for code: ${code}`);
         const response = await axios.get(
-          `http://localhost:5005/api/courses/${code}`
+          `${process.env.REACT_APP_API_URL}/courses/${code}`
         );
 
         if (response.data.success) {
           console.log("Course details fetched:", response.data.data);
           setCourseDetails(response.data.data);
         } else {
-          throw new Error(response.data.error || "Failed to fetch course details");
+          throw new Error(
+            response.data.error || "Failed to fetch course details"
+          );
         }
       } catch (err) {
         console.error("Error fetching course:", err);
         setError(
-          err.response?.data?.error || 
-          err.message || 
-          "An error occurred while fetching course details"
+          err.response?.data?.error ||
+            err.message ||
+            "An error occurred while fetching course details"
         );
       } finally {
         setLoading(false);
@@ -104,7 +109,7 @@ function CourseDetails() {
 
     try {
       const token = localStorage.getItem("token");
-      
+
       if (!token) {
         setEnrollmentError("You must be logged in to enroll in courses");
         setEnrolling(false);
@@ -112,7 +117,7 @@ function CourseDetails() {
       }
 
       const response = await axios.post(
-        `http://localhost:5005/api/courses/${code}/enroll`,
+        `${process.env.REACT_APP_API_URL}/courses/${code}/enroll`,
         formData,
         {
           headers: {
@@ -124,7 +129,7 @@ function CourseDetails() {
 
       if (response.data.success) {
         navigate("/courses/course-details/enrolled", {
-          state: { course: courseDetails }
+          state: { course: courseDetails },
         });
       } else {
         setEnrollmentError(response.data.error || "Enrollment failed");
@@ -132,9 +137,8 @@ function CourseDetails() {
     } catch (error) {
       console.error("Error during enrollment:", error);
       if (error.response?.data?.code === 11000) {
-        setEnrollmentError('You are already enrolled in this course');
-      }
-      else {
+        setEnrollmentError("You are already enrolled in this course");
+      } else {
         setEnrollmentError(
           error.response?.data?.error || "Failed to enroll in the course"
         );
@@ -149,8 +153,8 @@ function CourseDetails() {
   };
 
   const handleLogin = () => {
-    navigate("/login-register", { 
-      state: { returnUrl: `/courses/course-details/${code}` } 
+    navigate("/login-register", {
+      state: { returnUrl: `/courses/course-details/${code}` },
     });
   };
 
@@ -191,7 +195,7 @@ function CourseDetails() {
 
       <div className="registration-section">
         <h2>Course Registration Form</h2>
-        
+
         {!isLoggedIn ? (
           <div className="login-prompt">
             <p>You need to be logged in to enroll in this course.</p>
@@ -260,11 +264,7 @@ function CourseDetails() {
             )}
 
             <div className="form-group submit-group">
-              <button 
-                type="submit" 
-                className="enroll-btn"
-                disabled={enrolling}
-              >
+              <button type="submit" className="enroll-btn" disabled={enrolling}>
                 {enrolling ? "Enrolling..." : "Enroll"}
               </button>
             </div>
