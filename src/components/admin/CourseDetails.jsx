@@ -140,7 +140,9 @@ export default function AdminCourseDetails() {
         // Update the course in state
           setCourse({ ...course, instructorId: instructorId || null });
           
-          setInstructorSelectDisabled(!!instructorId);
+        if (!!instructorId !== instructorSelectDisabled) {
+            setInstructorSelectDisabled(!!instructorId);
+        };
         success("Instructor assignment updated successfully");
       } else {
         throw new Error(

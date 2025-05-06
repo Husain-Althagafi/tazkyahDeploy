@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState } from "react";
+// In src/contexts/ToastContext.js
+import React, { createContext, useContext, useState, useRef } from "react";
 import Toast from "../components/common/Toast";
 import "../styles/toastContainer.css";
 
@@ -6,9 +7,11 @@ const ToastContext = createContext();
 
 export const ToastProvider = ({ children }) => {
   const [toasts, setToasts] = useState([]);
+  // Use a ref to track if we're in the process of removing toasts
+  const removingToast = useRef(false);
 
   // Add a toast
-  const addToast = (type, message, duration = 3000) => {
+  const addToast = (type, message, duration = 5000) => {
     const id = Date.now();
     setToasts((prevToasts) => [...prevToasts, { id, type, message, duration }]);
     return id;
@@ -16,7 +19,14 @@ export const ToastProvider = ({ children }) => {
 
   // Remove a toast
   const removeToast = (id) => {
-    setToasts((prevToasts) => prevToasts.filter((toast) => toast.id !== id));
+    // Prevent multiple removals at once
+    if (removingToast.current) return;
+    
+    removingToast.current = true;
+    setTimeout(() => {
+      setToasts((prevToasts) => prevToasts.filter((toast) => toast.id !== id));
+      removingToast.current = false;
+    }, 300); // Wait for animation to complete
   };
 
   // Helper functions for different toast types
