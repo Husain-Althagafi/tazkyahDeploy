@@ -1,3 +1,5 @@
+// Updated version of AdminCourses.jsx with instructor name lookup
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/admincourses.css";
@@ -7,9 +9,8 @@ import { useToast } from "../contexts/ToastContext";
 import { useNavigate, Link } from "react-router-dom";
 
 // CourseCard component for displaying individual courses
-function CourseCard({ course, onDelete, onEdit }) {
-  const { title, instructor, completion, image, category, lastAccessed, code } =
-    course;
+function CourseCard({ course, onDelete, onEdit, instructorName }) {
+  const { title, image, category, lastAccessed, code } = course;
 
   return (
     <div className="course-card">
@@ -30,7 +31,7 @@ function CourseCard({ course, onDelete, onEdit }) {
       <div className="course-content">
         <h3 className="course-title">{title}</h3>
         <p className="course-instructor">
-          Instructor: {instructor || "Not assigned"}
+          Instructor: {instructorName || "Not assigned"}
         </p>
         <div className="course-progress-container">
           <div className="progress-header">
@@ -77,6 +78,7 @@ function CourseCard({ course, onDelete, onEdit }) {
 
 export default function AdminCourses() {
   const [courses, setCourses] = useState([]);
+  const [instructors, setInstructors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -91,24 +93,47 @@ export default function AdminCourses() {
   // Available categories (status types)
   const categories = ["All", "active", "upcoming", "inactive"];
 
-  // Fetch all courses
+  // Fetch all courses and instructors
   useEffect(() => {
-    const fetchCourses = async () => {
+    const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await axios.get("http://localhost:5005/api/courses/", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        // Fetch all courses
+        const coursesResponse = await axios.get(
+          "http://localhost:5005/api/courses/",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-        if (response.data.success) {
-          setCourses(response.data.data);
-        } else {
-          throw new Error(response.data.error || "Failed to fetch courses");
+        if (!coursesResponse.data.success) {
+          throw new Error(
+            coursesResponse.data.error || "Failed to fetch courses"
+          );
         }
+
+        // Fetch all instructors to get their names
+        const instructorsResponse = await axios.get(
+          "http://localhost:5005/api/users/role/instructor",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!instructorsResponse.data.success) {
+          throw new Error(
+            instructorsResponse.data.error || "Failed to fetch instructors"
+          );
+        }
+
+        setCourses(coursesResponse.data.data);
+        setInstructors(instructorsResponse.data.data || []);
       } catch (err) {
-        console.error("Error fetching courses:", err);
+        console.error("Error fetching data:", err);
         setError(
           err.response?.data?.error || err.message || "Failed to load courses"
         );
@@ -118,8 +143,20 @@ export default function AdminCourses() {
       }
     };
 
-    fetchCourses();
+    fetchData();
   }, [token, toastError]);
+
+  // Helper function to get instructor name from ID
+  const getInstructorName = (instructorId) => {
+    if (!instructorId) return null;
+
+    const instructor = instructors.find((inst) => inst._id === instructorId);
+    if (!instructor || !instructor.person) return "Unknown Instructor";
+
+    return `${instructor.person.firstName || ""} ${
+      instructor.person.lastName || ""
+    }`;
+  };
 
   // Filter courses based on search term and category
   const filteredCourses = courses.filter((course) => {
@@ -340,6 +377,7 @@ export default function AdminCourses() {
               course={course}
               onDelete={handleDelete}
               onEdit={handleEdit}
+              instructorName={getInstructorName(course.instructorId)}
             />
           ))}
         </div>
