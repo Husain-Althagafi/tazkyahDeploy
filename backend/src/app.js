@@ -45,5 +45,6 @@ app.use((err, req, res, next) => {
     res.status(500).json({error: err.message || 'Something went wrong!'})
 })
 
+
 // Export the app instead of calling listen
 module.exports = app;
